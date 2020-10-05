@@ -1,8 +1,8 @@
-# {Project Name}
+# Full de Mango Platformer
 
 ## Description
 
-{project description}
+ Pretty good game, shouldn't be to hard to beat.
 
 ## Key Features
 
@@ -17,11 +17,9 @@
 
 ## Developers
 
- - {Dev01} - {Role(s)}
- - {Dev02} - {Role(s)}
- - {Dev03} - {Role(s)}
- - {Dev04} - {Role(s)}
- - {Dev05} - {Role(s)}
+ - {Quintana Griera, Miquel} - [GitHub account](https://github.com/Leukino)
+ - {Rami Rodríguez, David}   - [GitHub account](https://github.com/Paideieitor)
+ - {Robles Muñoz, Albert}    - [GitHub account](https://github.com/Albertito029)
 
 ## License
 
