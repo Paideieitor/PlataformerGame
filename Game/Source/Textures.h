@@ -3,8 +3,6 @@
 
 #include "Module.h"
 
-#include "List.h"
-
 struct SDL_Texture;
 struct SDL_Surface;
 
@@ -34,7 +32,7 @@ public:
 
 public:
 
-	List<SDL_Texture*> textures;
+	std::vector<SDL_Texture*> textures;
 };
 
 

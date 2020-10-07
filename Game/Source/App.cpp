@@ -17,6 +17,10 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 {
 	frames = 0;
 
+	saveFile = "savegame.xml";
+	toSave = true;
+	toLoad = false;
+
 	input = new Input();
 	win = new Window();
 	render = new Render();
@@ -40,15 +44,11 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 App::~App()
 {
 	// release modules
-	ListItem<Module*>* item = modules.end;
-
-	while(item != NULL)
+	while(modules.size() != 0)
 	{
-		RELEASE(item->data);
-		item = item->prev;
+		delete* modules.begin();
+		modules.erase(modules.begin());
 	}
-
-	modules.clear();
 
 	configFile.reset();
 }
@@ -56,32 +56,26 @@ App::~App()
 void App::AddModule(Module* module)
 {
 	module->Init();
-	modules.add(module);
+	modules.emplace_back(module);
 }
 
 // Called before render is available
 bool App::Awake()
 {
-	// TODO 3: Load config.xml file using load_file() method from the xml_document class.
 	bool ret = LoadConfig();
+	Module* pModule = NULL;
 
-	// TODO 4: Read the title from the config file
-	title.create(configApp.child("title").child_value());
-	win->SetTitle(title.GetString());
+	title = configApp.child("title").child_value();
+	win->SetTitle(title.c_str());
 
 	if(ret == true)
 	{
-		ListItem<Module*>* item;
-		item = modules.start;
-
-		while(item != NULL && ret == true)
+		for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 		{
-			// TODO 5: Add a new argument to the Awake method to receive a pointer to an xml node.
-			// If the section with the module name exists in config.xml, fill the pointer with the valid xml_node
-			// that can be used to read all variables for that module.
-			// Send nullptr if the node does not exist in config.xml
-			ret = item->data->Awake(config.child(item->data->name.GetString()));
-			item = item->next;
+			pModule = *m;
+
+			if(!pModule->Awake(config.child(pModule->name.c_str())))
+				ret = false;
 		}
 	}
 
@@ -92,13 +86,14 @@ bool App::Awake()
 bool App::Start()
 {
 	bool ret = true;
-	ListItem<Module*>* item;
-	item = modules.start;
+	Module* pModule = NULL;
 
-	while(item != NULL && ret == true)
+	for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
-		ret = item->data->Start();
-		item = item->next;
+		pModule = *m;
+
+		if(!pModule->Start())
+			ret = false;
 	}
 
 	return ret;
@@ -126,7 +121,6 @@ bool App::Update()
 	return ret;
 }
 
-// TODO 3: Load config from XML file
 bool App::LoadConfig()
 {
 	bool ret = true;
@@ -155,26 +149,79 @@ void App::PrepareUpdate()
 // ---------------------------------------------
 void App::FinishUpdate()
 {
-	// This is a good place to call Load / Save functions
+	if(toSave)
+	{
+		SaveGame();
+		toSave = false;
+	}
+
+	if(toLoad)
+	{
+		LoadGame();
+		toLoad = false;
+	}
+}
+
+// Call modules to save data in the save file
+bool App::SaveGame()
+{
+	bool ret = true;
+	Module* pModule = NULL;
+
+	pugi::xml_document saveDoc;
+	pugi::xml_parse_result result = saveDoc.load_file(saveFile.c_str());
+
+	for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
+	{
+		pModule = *m;
+
+		pugi::xml_node mNode = saveDoc.child("save").child(pModule->name.c_str());
+		if(mNode == NULL)
+			mNode = saveDoc.child("save").append_child(pModule->name.c_str());
+
+		if (!pModule->Save(mNode))
+		{
+			ret = false;
+			break;
+		}
+		saveDoc.save_file(saveFile.c_str());
+	}
+
+	return ret;
+}
+
+// Call modules to load data from the save file
+bool App::LoadGame()
+{
+	bool ret = true;
+	Module* pModule = NULL;
+
+	for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
+	{
+		pModule = *m;
+
+		if(!pModule->Load(config.child(pModule->name.c_str())))
+			ret = false;
+	}
+
+	return ret;
 }
 
 // Call modules before each loop iteration
 bool App::PreUpdate()
 {
 	bool ret = true;
-	ListItem<Module*>* item;
-	item = modules.start;
 	Module* pModule = NULL;
 
-	for(item = modules.start; item != NULL && ret == true; item = item->next)
+	for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
-		pModule = item->data;
+		pModule = *m;
 
-		if(pModule->active == false) {
+		if(pModule->active == false)
 			continue;
-		}
 
-		ret = item->data->PreUpdate();
+		if(!pModule->PreUpdate())
+			ret = false;
 	}
 
 	return ret;
@@ -184,19 +231,17 @@ bool App::PreUpdate()
 bool App::DoUpdate()
 {
 	bool ret = true;
-	ListItem<Module*>* item;
-	item = modules.start;
 	Module* pModule = NULL;
 
-	for(item = modules.start; item != NULL && ret == true; item = item->next)
+	for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
-		pModule = item->data;
+		pModule = *m;
 
-		if(pModule->active == false) {
+		if(pModule->active == false)
 			continue;
-		}
 
-		ret = item->data->Update(dt);
+		if(!pModule->Update(dt))
+			ret = false;
 	}
 
 	return ret;
@@ -206,18 +251,17 @@ bool App::DoUpdate()
 bool App::PostUpdate()
 {
 	bool ret = true;
-	ListItem<Module*>* item;
 	Module* pModule = NULL;
 
-	for(item = modules.start; item != NULL && ret == true; item = item->next)
+	for (std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
-		pModule = item->data;
+		pModule = *m;
 
-		if(pModule->active == false) {
+		if(pModule->active == false)
 			continue;
-		}
 
-		ret = item->data->PostUpdate();
+		if(!pModule->PostUpdate())
+			ret = false;
 	}
 
 	return ret;
@@ -227,13 +271,14 @@ bool App::PostUpdate()
 bool App::CleanUp()
 {
 	bool ret = true;
-	ListItem<Module*>* item;
-	item = modules.end;
+	Module* pModule = NULL;
 
-	while(item != NULL && ret == true)
+	for(std::vector<Module*>::iterator m = modules.end() - 1; m != modules.begin(); m--)
 	{
-		ret = item->data->CleanUp();
-		item = item->prev;
+		pModule = *m;
+
+		if (!pModule->CleanUp())
+			return false;
 	}
 
 	return ret;
@@ -257,13 +302,11 @@ const char* App::GetArgv(int index) const
 // ---------------------------------------
 const char* App::GetTitle() const
 {
-	return title.GetString();
+	return title.c_str();
 }
 
 // ---------------------------------------
 const char* App::GetOrganization() const
 {
-	return organization.GetString();
+	return organization.c_str();
 }
-
-

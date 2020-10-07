@@ -1,7 +1,8 @@
 #ifndef __MODULE_H__
 #define __MODULE_H__
 
-#include "SString.h"
+#include <string>
+#include "Defs.h"
 
 #include "PugiXml/src/pugixml.hpp"
 
@@ -20,7 +21,6 @@ public:
 	}
 
 	// Called before render is available
-	// TODO 5: Sending config file to all modules
 	virtual bool Awake(pugi::xml_node&)
 	{
 		return true;
@@ -50,6 +50,18 @@ public:
 		return true;
 	}
 
+	// Called to save data on the save file
+	virtual bool Save(pugi::xml_node&)
+	{
+		return true;
+	}
+
+	// Called to load data from the save file
+	virtual bool Load(pugi::xml_node&)
+	{
+		return true;
+	}
+
 	// Called before quitting
 	virtual bool CleanUp()
 	{
@@ -58,7 +70,7 @@ public:
 
 public:
 
-	SString name;
+	std::string name;
 	bool active;
 
 };

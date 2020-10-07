@@ -15,7 +15,7 @@
 Audio::Audio() : Module()
 {
 	music = NULL;
-	name.create("audio");
+	name = "audio";
 }
 
 // Destructor
@@ -71,9 +71,12 @@ bool Audio::CleanUp()
 		Mix_FreeMusic(music);
 	}
 
-	ListItem<Mix_Chunk*>* item;
-	for(item = fx.start; item != NULL; item = item->next)
-		Mix_FreeChunk(item->data);
+	while(fx.size() != 0)
+	{
+		Mix_FreeChunk(*fx.begin());
+		fx.erase(fx.begin());
+	}
+
 
 	fx.clear();
 
@@ -154,8 +157,8 @@ unsigned int Audio::LoadFx(const char* path)
 	}
 	else
 	{
-		fx.add(chunk);
-		ret = fx.count();
+		fx.emplace_back(chunk);
+		ret = fx.size();
 	}
 
 	return ret;
@@ -169,7 +172,7 @@ bool Audio::PlayFx(unsigned int id, int repeat)
 	if(!active)
 		return false;
 
-	if(id > 0 && id <= fx.count())
+	if(id > 0 && id <= fx.size())
 	{
 		Mix_PlayChannel(-1, fx[id - 1], repeat);
 	}
