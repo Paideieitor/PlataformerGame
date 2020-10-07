@@ -17,8 +17,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 {
 	frames = 0;
 
-	saveFile = "savegame.xml";
-	toSave = true;
+	configPath = "config.xml";
+	savePath = "savegame.xml";
+	toSave = false;
 	toLoad = false;
 
 	input = new Input();
@@ -62,30 +63,28 @@ void App::AddModule(Module* module)
 // Called before render is available
 bool App::Awake()
 {
-	bool ret = LoadConfig();
+	if (!LoadConfig())
+		return false;
+
 	Module* pModule = NULL;
 
 	title = configApp.child("title").child_value();
 	win->SetTitle(title.c_str());
 
-	if(ret == true)
+	for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
-		for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
-		{
-			pModule = *m;
+		pModule = *m;
 
-			if(!pModule->Awake(config.child(pModule->name.c_str())))
-				ret = false;
-		}
+		if(!pModule->Awake(config.child(pModule->name.c_str())))
+			return false;
 	}
 
-	return ret;
+	return true;
 }
 
 // Called before the first frame
 bool App::Start()
 {
-	bool ret = true;
 	Module* pModule = NULL;
 
 	for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
@@ -93,44 +92,41 @@ bool App::Start()
 		pModule = *m;
 
 		if(!pModule->Start())
-			ret = false;
+			return false;
 	}
 
-	return ret;
+	return true;
 }
 
 // Called each loop iteration
 bool App::Update()
 {
-	bool ret = true;
 	PrepareUpdate();
 
 	if(input->GetWindowEvent(WE_QUIT) == true)
-		ret = false;
+		return false;
 
-	if(ret == true)
-		ret = PreUpdate();
+	if(!PreUpdate())
+		return false;
 
-	if(ret == true)
-		ret = DoUpdate();
+	if(!DoUpdate())
+		return false;
 
-	if(ret == true)
-		ret = PostUpdate();
+	if(!PostUpdate())
+		return false;
 
 	FinishUpdate();
-	return ret;
+	return true;
 }
 
 bool App::LoadConfig()
 {
-	bool ret = true;
-
-	pugi::xml_parse_result result = configFile.load_file("config.xml");
+	pugi::xml_parse_result result = configFile.load_file(configPath.c_str());
 
 	if(result == NULL)
 	{
-		LOG("Could not load map xml file config.xml. pugi error: %s", result.description());
-		ret = false;
+		LOG("Could not load map xml file %s. pugi error: %s", configPath.c_str(), result.description());
+		return false;
 	}
 	else
 	{
@@ -138,7 +134,7 @@ bool App::LoadConfig()
 		configApp = config.child("app");
 	}
 
-	return ret;
+	return true;
 }
 
 // ---------------------------------------------
@@ -149,6 +145,11 @@ void App::PrepareUpdate()
 // ---------------------------------------------
 void App::FinishUpdate()
 {
+	if(input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+		toSave = true;
+	if(input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+		toLoad = true;
+
 	if(toSave)
 	{
 		SaveGame();
@@ -165,11 +166,10 @@ void App::FinishUpdate()
 // Call modules to save data in the save file
 bool App::SaveGame()
 {
-	bool ret = true;
 	Module* pModule = NULL;
 
 	pugi::xml_document saveDoc;
-	pugi::xml_parse_result result = saveDoc.load_file(saveFile.c_str());
+	pugi::xml_parse_result result = saveDoc.load_file(savePath.c_str());
 
 	for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
@@ -179,38 +179,46 @@ bool App::SaveGame()
 		if(mNode == NULL)
 			mNode = saveDoc.child("save").append_child(pModule->name.c_str());
 
-		if (!pModule->Save(mNode))
+		if(!pModule->Save(mNode))
 		{
-			ret = false;
-			break;
+			LOG("Saving Error in %s", pModule->name.c_str());
+			return false;
 		}
-		saveDoc.save_file(saveFile.c_str());
+		saveDoc.save_file(savePath.c_str());
 	}
 
-	return ret;
+	return true;
 }
 
 // Call modules to load data from the save file
 bool App::LoadGame()
 {
-	bool ret = true;
 	Module* pModule = NULL;
+
+	pugi::xml_document saveDoc;
+	pugi::xml_parse_result result = saveDoc.load_file(savePath.c_str());
 
 	for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
 		pModule = *m;
 
-		if(!pModule->Load(config.child(pModule->name.c_str())))
-			ret = false;
+		pugi::xml_node mNode = saveDoc.child("save").child(pModule->name.c_str());
+		if(mNode == NULL)
+			return false;
+
+		if(!pModule->Load(mNode))
+		{
+			LOG("Loading Error in %s", pModule->name.c_str());
+			return false;
+		}
 	}
 
-	return ret;
+	return true;
 }
 
 // Call modules before each loop iteration
 bool App::PreUpdate()
 {
-	bool ret = true;
 	Module* pModule = NULL;
 
 	for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
@@ -221,16 +229,15 @@ bool App::PreUpdate()
 			continue;
 
 		if(!pModule->PreUpdate())
-			ret = false;
+			return false;
 	}
 
-	return ret;
+	return true;
 }
 
 // Call modules on each loop iteration
 bool App::DoUpdate()
 {
-	bool ret = true;
 	Module* pModule = NULL;
 
 	for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
@@ -241,16 +248,15 @@ bool App::DoUpdate()
 			continue;
 
 		if(!pModule->Update(dt))
-			ret = false;
+			return false;
 	}
 
-	return ret;
+	return true;
 }
 
 // Call modules after each loop iteration
 bool App::PostUpdate()
 {
-	bool ret = true;
 	Module* pModule = NULL;
 
 	for (std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
@@ -261,16 +267,15 @@ bool App::PostUpdate()
 			continue;
 
 		if(!pModule->PostUpdate())
-			ret = false;
+			return false;
 	}
 
-	return ret;
+	return true;
 }
 
 // Called before quitting
 bool App::CleanUp()
 {
-	bool ret = true;
 	Module* pModule = NULL;
 
 	for(std::vector<Module*>::iterator m = modules.end() - 1; m != modules.begin(); m--)
@@ -281,7 +286,7 @@ bool App::CleanUp()
 			return false;
 	}
 
-	return ret;
+	return true;
 }
 
 // ---------------------------------------
@@ -309,4 +314,10 @@ const char* App::GetTitle() const
 const char* App::GetOrganization() const
 {
 	return organization.c_str();
+}
+
+pugi::xml_document* App::GetConfig(pugi::xml_node& node)
+{
+	node = config;
+	return &configFile;
 }

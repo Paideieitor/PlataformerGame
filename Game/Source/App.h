@@ -46,6 +46,8 @@ public:
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
 
+	pugi::xml_document* GetConfig(pugi::xml_node&);
+
 private:
 
 	// Load config file
@@ -83,7 +85,8 @@ public:
 	Scene* scene;
 
 	// Save & Load
-	std::string saveFile;
+	std::string configPath;
+	std::string savePath;
 	bool toSave;
 	bool toLoad;
 

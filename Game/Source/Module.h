@@ -1,10 +1,12 @@
 #ifndef __MODULE_H__
 #define __MODULE_H__
 
-#include <string>
 #include "Defs.h"
 
 #include "PugiXml/src/pugixml.hpp"
+
+#include <iostream>
+#include <string>
 
 class App;
 

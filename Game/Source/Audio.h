@@ -32,7 +32,16 @@ public:
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0);
 
+	void SetMusicVolume(int volume);
+	void SetFxVolume(int volume);
+
+	int GetMusicVolume();
+	int GetFxVolume();
+
 private:
+
+	int musicVolume;
+	int fxVolume;
 
 	_Mix_Music* music;
 	std::vector<Mix_Chunk*> fx;

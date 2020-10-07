@@ -24,7 +24,6 @@ Render::~Render()
 bool Render::Awake(pugi::xml_node& config)
 {
 	LOG("Create SDL rendering context");
-	bool ret = true;
 
 	Uint32 flags = SDL_RENDERER_ACCELERATED;
 
@@ -39,7 +38,7 @@ bool Render::Awake(pugi::xml_node& config)
 	if(renderer == NULL)
 	{
 		LOG("Could not create the renderer! SDL_Error: %s\n", SDL_GetError());
-		ret = false;
+		return false;
 	}
 	else
 	{
@@ -49,7 +48,7 @@ bool Render::Awake(pugi::xml_node& config)
 		camera.y = 0;
 	}
 
-	return ret;
+	return true;
 }
 
 // Called before the first frame
@@ -88,11 +87,36 @@ bool Render::CleanUp()
 	return true;
 }
 
-// TODO 6: Create a method to load the state
-// for now it will be camera's x and y
+bool Render::Save(pugi::xml_node& node)
+{
+	pugi::xml_node mNode = node.child("camera");
+	if(mNode == NULL)
+	{
+		mNode = node.append_child("camera");
+		mNode.append_attribute("x");
+		mNode.append_attribute("y");
+	}
 
-// TODO 8: Create a method to save the state of the renderer
-// using append_child and append_attribute
+	mNode.attribute("x").set_value(camera.x);
+	mNode.attribute("y").set_value(camera.y);
+
+	return true;
+}
+
+bool Render::Load(pugi::xml_node& node)
+{
+	pugi::xml_node mNode = node.child("camera");
+	if(mNode == NULL)
+	{
+		LOG("Camera Loading Error -> no camera node found");
+		return false;
+	}
+
+	camera.x = mNode.attribute("x").as_int();
+	camera.y = mNode.attribute("y").as_int();
+
+	return true;
+}
 
 void Render::SetBackgroundColor(SDL_Color color)
 {

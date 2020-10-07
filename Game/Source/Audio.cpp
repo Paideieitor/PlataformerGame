@@ -55,6 +55,12 @@ bool Audio::Awake(pugi::xml_node& config)
 		ret = true;
 	}
 
+	musicVolume = config.child("volume").attribute("music").as_int();
+	Mix_VolumeMusic(musicVolume);
+
+	fxVolume = config.child("volume").attribute("fx").as_int();
+	Mix_Volume(-1, fxVolume);
+
 	return ret;
 }
 
@@ -77,9 +83,6 @@ bool Audio::CleanUp()
 		fx.erase(fx.begin());
 	}
 
-
-	fx.clear();
-
 	Mix_CloseAudio();
 	Mix_Quit();
 	SDL_QuitSubSystem(SDL_INIT_AUDIO);
@@ -90,8 +93,6 @@ bool Audio::CleanUp()
 // Play a music file
 bool Audio::PlayMusic(const char* path, float fade_time)
 {
-	bool ret = true;
-
 	if(!active)
 		return false;
 
@@ -115,7 +116,7 @@ bool Audio::PlayMusic(const char* path, float fade_time)
 	if(music == NULL)
 	{
 		LOG("Cannot load music %s. Mix_GetError(): %s\n", path, Mix_GetError());
-		ret = false;
+		return false;
 	}
 	else
 	{
@@ -124,7 +125,7 @@ bool Audio::PlayMusic(const char* path, float fade_time)
 			if(Mix_FadeInMusic(music, -1, (int) (fade_time * 1000.0f)) < 0)
 			{
 				LOG("Cannot fade in music %s. Mix_GetError(): %s", path, Mix_GetError());
-				ret = false;
+				return false;
 			}
 		}
 		else
@@ -132,13 +133,13 @@ bool Audio::PlayMusic(const char* path, float fade_time)
 			if(Mix_PlayMusic(music, -1) < 0)
 			{
 				LOG("Cannot play in music %s. Mix_GetError(): %s", path, Mix_GetError());
-				ret = false;
+				return false;
 			}
 		}
 	}
 
 	LOG("Successfully playing %s", path);
-	return ret;
+	return true;
 }
 
 // Load WAV
@@ -178,4 +179,36 @@ bool Audio::PlayFx(unsigned int id, int repeat)
 	}
 
 	return ret;
+}
+
+void Audio::SetMusicVolume(int volume)
+{
+	musicVolume = volume;
+	Mix_VolumeMusic(musicVolume);
+
+	pugi::xml_node mNode;
+	pugi::xml_document* configFile = app->GetConfig(mNode);
+
+	mNode.child("audio").child("volume").attribute("music").set_value(musicVolume);
+	configFile->save_file(app->configPath.c_str());
+}
+void Audio::SetFxVolume(int volume)
+{
+	fxVolume = volume;
+	Mix_Volume(-1, fxVolume);
+
+	pugi::xml_node mNode;
+	pugi::xml_document* configFile = app->GetConfig(mNode);
+
+	mNode.child("audio").child("volume").attribute("fx").set_value(fxVolume);
+	configFile->save_file(app->configPath.c_str());
+}
+
+int Audio::GetMusicVolume()
+{
+	return musicVolume;
+}
+int Audio::GetFxVolume()
+{
+	return fxVolume;
 }

@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include <stdio.h>
+#include <iostream>
 
 void Log(const char file[], int line, const char* format, ...)
 {
@@ -15,5 +16,6 @@ void Log(const char file[], int line, const char* format, ...)
 	va_end(ap);
 	sprintf_s(tmp_string2, 4096, "\n%s(%d) : %s", file, line, tmp_string);
 
+	std::cout << tmp_string2 << std::endl;
 	OutputDebugString(tmp_string2);
 }
