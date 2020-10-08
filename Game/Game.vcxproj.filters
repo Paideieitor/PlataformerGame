@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\App.cpp" />
     <ClCompile Include="Source\Log.cpp">
@@ -25,9 +24,14 @@
     <ClCompile Include="Source\Audio.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainMenu.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\Module.h" />
     <ClInclude Include="Source\App.h" />
     <ClInclude Include="Source\Defs.h">
@@ -69,6 +73,12 @@
     <ClInclude Include="Source\Audio.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Scene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MainMenu.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -85,6 +95,9 @@
     </Filter>
     <Filter Include="XML">
       <UniqueIdentifier>{6948ee01-1d7c-49f4-b309-ab730396204f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{2bee06b9-671b-45d2-abf2-0b40e25a4a30}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

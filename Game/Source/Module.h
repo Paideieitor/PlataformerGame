@@ -3,7 +3,7 @@
 
 #include "Defs.h"
 
-#include "PugiXml/src/pugixml.hpp"
+#include "pugixml.hpp"
 
 #include <iostream>
 #include <string>

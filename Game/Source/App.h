@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 
-#include "PugiXml/src/pugixml.hpp"
+#include "pugixml.hpp"
 
 // Modules
 class Window;
