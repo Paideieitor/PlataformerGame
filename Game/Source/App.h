@@ -15,6 +15,7 @@ class Render;
 class Textures;
 class Audio;
 class Scene;
+class MainMenu;
 
 class App
 {
@@ -39,7 +40,7 @@ public:
 	bool CleanUp();
 
 	// Add a new module to handle
-	void AddModule(Module* module);
+	void AddModule(Module* module, bool active = true);
 
 	// Exposing some properties for reading
 	int GetArgc() const;
@@ -84,6 +85,7 @@ public:
 	Textures* tex;
 	Audio* audio;
 	Scene* scene;
+	MainMenu* mainmenu;
 
 	// Save & Load
 	std::string configPath;

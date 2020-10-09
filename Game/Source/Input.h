@@ -31,20 +31,13 @@ class Input : public Module
 public:
 
 	Input();
-
-	// Destructor
 	virtual ~Input();
 
-	// Called before render is available
 	bool Awake(pugi::xml_node&);
-
-	// Called before the first frame
 	bool Start();
 
-	// Called each loop iteration
 	bool PreUpdate();
 
-	// Called before quitting
 	bool CleanUp();
 
 	// Check key states (includes mouse and joy buttons)
@@ -66,6 +59,7 @@ public:
 	void GetMouseMotion(int& x, int& y);
 
 private:
+
 	bool windowEvents[WE_COUNT];
 	KeyState*	keyboard;
 	KeyState mouseButtons[NUM_MOUSE_BUTTONS];

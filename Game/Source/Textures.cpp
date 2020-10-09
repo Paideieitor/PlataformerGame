@@ -12,11 +12,9 @@ Textures::Textures() : Module()
 	name = "textures";
 }
 
-// Destructor
 Textures::~Textures()
 {}
 
-// Called before render is available
 bool Textures::Awake(pugi::xml_node& config)
 {
 	LOG("Init Image library");
@@ -35,7 +33,6 @@ bool Textures::Awake(pugi::xml_node& config)
 	return ret;
 }
 
-// Called before the first frame
 bool Textures::Start()
 {
 	LOG("start textures");
@@ -43,7 +40,6 @@ bool Textures::Start()
 	return ret;
 }
 
-// Called before quitting
 bool Textures::CleanUp()
 {
 	LOG("Freeing textures and Image library");

@@ -12,17 +12,11 @@ class Render : public Module
 public:
 
 	Render();
-
-	// Destructor
 	virtual ~Render();
 
-	// Called before render is available
 	bool Awake(pugi::xml_node&);
-
-	// Called before the first frame
 	bool Start();
 
-	// Called each loop iteration
 	bool PreUpdate();
 	bool Update(float dt);
 	bool PostUpdate();
@@ -30,7 +24,6 @@ public:
 	bool Save(pugi::xml_node&);
 	bool Load(pugi::xml_node&);
 
-	// Called before quitting
 	bool CleanUp();
 
 	void SetViewPort(const SDL_Rect& rect);

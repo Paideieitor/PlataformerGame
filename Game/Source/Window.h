@@ -11,14 +11,9 @@ class Window : public Module
 public:
 
 	Window();
-
-	// Destructor
 	virtual ~Window();
 
-	// Called before render is available
 	bool Awake(pugi::xml_node&);
-
-	// Called before quitting
 	bool CleanUp();
 
 	// Changae title

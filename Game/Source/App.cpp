@@ -5,6 +5,7 @@
 #include "Textures.h"
 #include "Audio.h"
 #include "Scene.h"
+#include "MainMenu.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -28,6 +29,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	tex = new Textures();
 	audio = new Audio();
 	scene = new Scene();
+	mainmenu = new MainMenu();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -36,6 +38,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(scene);
+	AddModule(mainmenu, false);
 
 	// render last to swap buffer
 	AddModule(render);
@@ -54,9 +57,11 @@ App::~App()
 	configFile.reset();
 }
 
-void App::AddModule(Module* module)
+// Add a new module to handle
+void App::AddModule(Module* module, bool active)
 {
-	module->Init();
+	if(active)
+		module->Init();
 	modules.emplace_back(module);
 }
 
@@ -75,8 +80,11 @@ bool App::Awake()
 	{
 		pModule = *m;
 
-		if(!pModule->Awake(config.child(pModule->name.c_str())))
+		if (!pModule->Awake(config.child(pModule->name.c_str())))
+		{
+			LOG("Awaking Error in %s", pModule->name.c_str());
 			return false;
+		}
 	}
 
 	return true;
@@ -91,8 +99,14 @@ bool App::Start()
 	{
 		pModule = *m;
 
-		if(!pModule->Start())
+		if (pModule->active == false)
+			continue;
+
+		if (!pModule->Start())
+		{
+			LOG("Starting Error in %s", pModule->name.c_str());
 			return false;
+		}
 	}
 
 	return true;
@@ -119,6 +133,7 @@ bool App::Update()
 	return true;
 }
 
+// Load config file
 bool App::LoadConfig()
 {
 	pugi::xml_parse_result result = configFile.load_file(configPath.c_str());
@@ -233,8 +248,11 @@ bool App::PreUpdate()
 		if(pModule->active == false)
 			continue;
 
-		if(!pModule->PreUpdate())
+		if (!pModule->PreUpdate())
+		{
+			LOG("PreUpdate Error in %s", pModule->name.c_str());
 			return false;
+		}
 	}
 
 	return true;
@@ -253,7 +271,10 @@ bool App::DoUpdate()
 			continue;
 
 		if(!pModule->Update(dt))
+		{
+			LOG("Update Error in %s", pModule->name.c_str());
 			return false;
+		}
 	}
 
 	return true;
@@ -272,7 +293,10 @@ bool App::PostUpdate()
 			continue;
 
 		if(!pModule->PostUpdate())
+		{
+			LOG("PostUpdate Error in %s", pModule->name.c_str());
 			return false;
+		}
 	}
 
 	return true;
@@ -288,7 +312,10 @@ bool App::CleanUp()
 		pModule = *m;
 
 		if (!pModule->CleanUp())
+		{
+			LOG("Clean Up Error in %s", pModule->name.c_str());
 			return false;
+		}
 	}
 
 	return true;

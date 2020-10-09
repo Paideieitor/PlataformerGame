@@ -11,17 +11,11 @@ class Textures : public Module
 public:
 
 	Textures();
-
-	// Destructor
 	virtual ~Textures();
 
-	// Called before render is available
 	bool Awake(pugi::xml_node&);
-
-	// Called before the first frame
 	bool Start();
 
-	// Called before quitting
 	bool CleanUp();
 
 	// Load Texture

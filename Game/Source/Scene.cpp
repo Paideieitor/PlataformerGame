@@ -14,12 +14,10 @@ Scene::Scene() : Module()
 	name = "scene";
 }
 
-// Destructor
 Scene::~Scene()
 {}
 
-// Called before render is available
-bool Scene::Awake()
+bool Scene::Awake(pugi::xml_node& node)
 {
 	LOG("Loading Scene");
 	bool ret = true;
@@ -27,7 +25,6 @@ bool Scene::Awake()
 	return ret;
 }
 
-// Called before the first frame
 bool Scene::Start()
 {
 	img = app->tex->Load("Assets/textures/test.png");
@@ -35,13 +32,11 @@ bool Scene::Start()
 	return true;
 }
 
-// Called each loop iteration
 bool Scene::PreUpdate()
 {
 	return true;
 }
 
-// Called each loop iteration
 bool Scene::Update(float dt)
 {
 	if(app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
@@ -61,7 +56,6 @@ bool Scene::Update(float dt)
 	return true;
 }
 
-// Called each loop iteration
 bool Scene::PostUpdate()
 {
 	bool ret = true;
@@ -72,7 +66,6 @@ bool Scene::PostUpdate()
 	return ret;
 }
 
-// Called before quitting
 bool Scene::CleanUp()
 {
 	LOG("Freeing scene");

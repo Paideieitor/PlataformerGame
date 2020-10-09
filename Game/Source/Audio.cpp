@@ -13,11 +13,9 @@ Audio::Audio() : Module()
 	name = "audio";
 }
 
-// Destructor
 Audio::~Audio()
 {}
 
-// Called before render is available
 bool Audio::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Audio Mixer");
@@ -59,7 +57,6 @@ bool Audio::Awake(pugi::xml_node& config)
 	return ret;
 }
 
-// Called before quitting
 bool Audio::CleanUp()
 {
 	if(!active)
@@ -202,7 +199,7 @@ void Audio::SetFxVolume(int volume)
 int Audio::GetMusicVolume()
 {
 	return musicVolume;
-}
+} 
 int Audio::GetFxVolume()
 {
 	return fxVolume;

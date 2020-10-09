@@ -18,13 +18,11 @@ Input::Input() : Module()
 	memset(mouseButtons, KEY_IDLE, sizeof(KeyState) * NUM_MOUSE_BUTTONS);
 }
 
-// Destructor
 Input::~Input()
 {
 	delete[] keyboard;
 }
 
-// Called before render is available
 bool Input::Awake(pugi::xml_node& config)
 {
 	LOG("Init SDL input event system");
@@ -40,14 +38,12 @@ bool Input::Awake(pugi::xml_node& config)
 	return ret;
 }
 
-// Called before the first frame
 bool Input::Start()
 {
 	SDL_StopTextInput();
 	return true;
 }
 
-// Called each loop iteration
 bool Input::PreUpdate()
 {
 	static SDL_Event event;
@@ -133,7 +129,6 @@ bool Input::PreUpdate()
 	return true;
 }
 
-// Called before quitting
 bool Input::CleanUp()
 {
 	LOG("Quitting SDL event subsystem");

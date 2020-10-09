@@ -14,12 +14,10 @@ Window::Window() : Module()
 	name = "window";
 }
 
-// Destructor
 Window::~Window()
 {
 }
 
-// Called before render is available
 bool Window::Awake(pugi::xml_node& config)
 {
 	LOG("Init SDL window & surface");
@@ -80,7 +78,6 @@ bool Window::Awake(pugi::xml_node& config)
 	return ret;
 }
 
-// Called before quitting
 bool Window::CleanUp()
 {
 	LOG("Destroying SDL window and quitting all SDL systems");
