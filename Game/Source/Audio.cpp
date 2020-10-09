@@ -150,7 +150,7 @@ unsigned int Audio::LoadFx(const char* path)
 	}
 	else
 	{
-		fx.emplace_back(chunk);
+		fx.push_back(chunk);
 		ret = fx.size();
 	}
 
@@ -160,8 +160,6 @@ unsigned int Audio::LoadFx(const char* path)
 // Play WAV
 bool Audio::PlayFx(unsigned int id, int repeat)
 {
-	bool ret = false;
-
 	if(!active)
 		return false;
 
@@ -170,7 +168,7 @@ bool Audio::PlayFx(unsigned int id, int repeat)
 		Mix_PlayChannel(-1, fx[id - 1], repeat);
 	}
 
-	return ret;
+	return true;
 }
 
 void Audio::SetMusicVolume(int volume)

@@ -38,12 +38,6 @@ bool Input::Awake(pugi::xml_node& config)
 	return ret;
 }
 
-bool Input::Start()
-{
-	SDL_StopTextInput();
-	return true;
-}
-
 bool Input::PreUpdate()
 {
 	static SDL_Event event;

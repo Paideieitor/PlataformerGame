@@ -30,6 +30,9 @@
     <ClCompile Include="Source\MainMenu.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\FadeToBlack.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h" />
@@ -78,6 +81,9 @@
     </ClInclude>
     <ClInclude Include="Source\MainMenu.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FadeToBlack.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

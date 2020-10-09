@@ -7,9 +7,9 @@
 	<audio>
 		<volume music="10" fx="80" />
 	</audio>
-	<renderer>
+	<render>
 		<vsync value="false" />
-	</renderer>
+	</render>
 	<window>
 		<resolution width="1280" height="720" scale="1" />
 		<fullscreen value="false" />

@@ -4,6 +4,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Audio.h"
+#include "FadeToBlack.h"
 #include "Scene.h"
 #include "MainMenu.h"
 
@@ -28,6 +29,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	render = new Render();
 	tex = new Textures();
 	audio = new Audio();
+	fade = new FadeToBlack();
 	scene = new Scene();
 	mainmenu = new MainMenu();
 
@@ -37,6 +39,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(win);
 	AddModule(tex);
 	AddModule(audio);
+	AddModule(fade, false);
 	AddModule(scene);
 	AddModule(mainmenu, false);
 

@@ -1,10 +1,13 @@
+#include "Scene.h"
+
 #include "App.h"
 #include "Input.h"
 #include "Textures.h"
 #include "Audio.h"
 #include "Render.h"
 #include "Window.h"
-#include "Scene.h"
+#include "MainMenu.h"
+#include "FadeToBlack.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -28,7 +31,7 @@ bool Scene::Awake(pugi::xml_node& node)
 bool Scene::Start()
 {
 	img = app->tex->Load("Assets/textures/test.png");
-	app->audio->PlayMusic("Assets/audio/music/music_spy.ogg");
+
 	return true;
 }
 
@@ -40,16 +43,19 @@ bool Scene::PreUpdate()
 bool Scene::Update(float dt)
 {
 	if(app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		app->render->camera.y -= 1;
-
-	if(app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 		app->render->camera.y += 1;
 
+	if(app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+		app->render->camera.y -= 1;
+
 	if(app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		app->render->camera.x -= 1;
+		app->render->camera.x += 1;
 
 	if(app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		app->render->camera.x += 1;
+		app->render->camera.x -= 1;
+
+	if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+		app->fade->ChangeScene(this, app->mainmenu);
 
 	app->render->DrawTexture(img, 380, 100);
 
@@ -69,6 +75,8 @@ bool Scene::PostUpdate()
 bool Scene::CleanUp()
 {
 	LOG("Freeing scene");
+
+	app->tex->UnLoad(img);
 
 	return true;
 }

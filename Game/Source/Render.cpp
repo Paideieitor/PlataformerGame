@@ -9,10 +9,10 @@
 
 Render::Render() : Module()
 {
-	name = "renderer";
-	background.r = 0;
-	background.g = 0;
-	background.b = 0;
+	name = "render";
+	background.r = 100;
+	background.g = 50;
+	background.b = 70;
 	background.a = 0;
 }
 

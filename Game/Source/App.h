@@ -14,6 +14,7 @@ class Input;
 class Render;
 class Textures;
 class Audio;
+class FadeToBlack;
 class Scene;
 class MainMenu;
 
@@ -84,6 +85,7 @@ public:
 	Render* render;
 	Textures* tex;
 	Audio* audio;
+	FadeToBlack* fade;
 	Scene* scene;
 	MainMenu* mainmenu;
 

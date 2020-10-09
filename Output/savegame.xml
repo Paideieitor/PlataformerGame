@@ -5,7 +5,9 @@
 	<textures />
 	<audio />
 	<scene />
-	<renderer>
-		<camera x="0" y="0" />
-	</renderer>
+	<mainmenu />
+	<render>
+		<camera x="160" y="0" />
+	</render>
+	<fadetoblack />
 </save>

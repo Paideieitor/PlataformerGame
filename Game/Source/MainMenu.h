@@ -1,4 +1,9 @@
+#ifndef __MAINMENU_H__
+#define __MAINMENU_H__
+
 #include "Module.h"
+
+struct SDL_Texture;
 
 class MainMenu : public Module
 {
@@ -17,4 +22,8 @@ public:
 	bool CleanUp();
 
 private:
+
+	SDL_Texture* bern;
 };
+
+#endif //__MAINMENU_H__

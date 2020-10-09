@@ -33,13 +33,6 @@ bool Textures::Awake(pugi::xml_node& config)
 	return ret;
 }
 
-bool Textures::Start()
-{
-	LOG("start textures");
-	bool ret = true;
-	return ret;
-}
-
 bool Textures::CleanUp()
 {
 	LOG("Freeing textures and Image library");
