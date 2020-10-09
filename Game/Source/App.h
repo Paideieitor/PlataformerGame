@@ -2,10 +2,11 @@
 #define __APP_H__
 
 #include "Module.h"
-#include <vector>
-#include <string>
 
 #include "pugixml.hpp"
+
+#include <vector>
+#include <string>
 
 // Modules
 class Window;

@@ -23,7 +23,7 @@
 *.lai
 *.la
 *.a
-*.lib
+# *.lib temporary (maybe not)
 
 # Executables
 *.exe

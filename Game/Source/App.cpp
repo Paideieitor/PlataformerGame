@@ -171,21 +171,26 @@ bool App::SaveGame()
 	pugi::xml_document saveDoc;
 	pugi::xml_parse_result result = saveDoc.load_file(savePath.c_str());
 
+	pugi::xml_node mainNode = saveDoc.child("save");
+	if (mainNode == NULL)
+		mainNode = saveDoc.append_child("save");
+
+	pugi::xml_node moduleNode;
 	for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
 		pModule = *m;
 
-		pugi::xml_node mNode = saveDoc.child("save").child(pModule->name.c_str());
-		if(mNode == NULL)
-			mNode = saveDoc.child("save").append_child(pModule->name.c_str());
+		moduleNode = mainNode.child(pModule->name.c_str());
+		if(moduleNode == NULL)
+			moduleNode = saveDoc.child("save").append_child(pModule->name.c_str());
 
-		if(!pModule->Save(mNode))
+		if(!pModule->Save(moduleNode))
 		{
-			LOG("Saving Error in %s", pModule->name.c_str());
+			LOG("Saving Error in %s. Saving aborted", pModule->name.c_str());
 			return false;
 		}
-		saveDoc.save_file(savePath.c_str());
 	}
+	saveDoc.save_file(savePath.c_str());
 
 	return true;
 }
