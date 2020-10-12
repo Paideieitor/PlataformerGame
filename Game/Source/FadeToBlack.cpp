@@ -53,8 +53,7 @@ bool FadeToBlack::Update(float dt)
 		}
 	}
 
-	SDL_Rect c = { 0,0,app->render->camera.w, app->render->camera.h };
-	app->render->DrawRectangle(c, 0, 0, 0, (int)alpha, true, false);
+	app->render->SetRectangleEvent(10, {0,0}, {app->render->camera.w, app->render->camera.h}, 0, 0, 0, (int)alpha, false);
 
 	return true;
 }

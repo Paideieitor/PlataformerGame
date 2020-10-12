@@ -65,6 +65,29 @@ bool Render::PreUpdate()
 
 bool Render::Update(float dt)
 {
+	for(std::map<int, DrawEvent>::iterator m = drawEvents.begin(); m != drawEvents.end(); m++)
+	{
+		DrawEvent event = m->second;
+		switch(event.type)
+		{
+		case DrawType::TEXTURE:
+			DrawTexture(event.texture, event.position.x, event.position.y, &event.rect, event.useCamera, event.speed, event.angle, event.pivotX, event.pivotY);
+			break;
+		case DrawType::RECTANGLE:
+			DrawRectangle(event.rect, event.color.r, event.color.g, event.color.b, event.color.a, event.useCamera, event.filled);
+			break;
+		case DrawType::LINE:
+			DrawLine(event.rect.x, event.rect.y, event.rect.w, event.rect.h, event.color.r, event.color.g, event.color.b, event.color.a, event.useCamera);
+			break;
+		case DrawType::CIRCLE:
+			DrawCircle(event.rect.x, event.rect.y, event.rect.w, event.color.r, event.color.g, event.color.b, event.color.a, event.useCamera);
+			break;
+		}
+	}
+
+	std::multimap<int, DrawEvent> trash;
+	trash.swap(drawEvents);
+
 	return true;
 }
 
@@ -118,6 +141,58 @@ void Render::SetBackgroundColor(SDL_Color color)
 	background = color;
 }
 
+void Render::SetTextureEvent(int layer, SDL_Texture* texture, fPoint position, SDL_Rect section, bool useCamera, float speed, double angle, int pivotX, int pivotY)
+{
+	DrawEvent event;
+
+	event.type = DrawType::TEXTURE;
+	event.texture = texture;
+	event.position = position;
+	event.rect = section;
+	event.useCamera = useCamera;
+	event.speed = speed;
+	event.angle = angle;
+	event.pivotX = pivotX;
+	event.pivotY = pivotY;
+
+	drawEvents.insert(std::make_pair(layer, event));
+}
+void Render::SetRectangleEvent(int layer, fPoint position, iPoint size, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool useCamera, bool filled)
+{
+	DrawEvent event;
+
+	event.type = DrawType::RECTANGLE;
+	event.rect = {(int)position.x, (int)position.y, size.x, size.y};
+	event.color = { r,g,b,a };
+	event.useCamera = useCamera;
+	event.filled = filled;
+
+	drawEvents.insert(std::make_pair(layer, event));
+}
+void Render::SetLineEvent(int layer, int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool useCamera) 
+{
+	DrawEvent event;
+
+	event.type = DrawType::LINE;
+	event.rect = { x1,y1,x2,y2 };
+	event.color = { r,g,b,a };
+	event.useCamera = useCamera;
+
+	drawEvents.insert(std::make_pair(layer, event));
+}
+
+void Render::SetCircleEvent(int layer, int x1, int y1, int redius, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool useCamera)
+{
+	DrawEvent event;
+
+	event.type = DrawType::LINE;
+	event.rect = { x1,y1,redius,0 };
+	event.color = { r,g,b,a };
+	event.useCamera = useCamera;
+
+	drawEvents.insert(std::make_pair(layer, event));
+}
+
 void Render::SetViewPort(const SDL_Rect& rect)
 {
 	SDL_RenderSetViewport(renderer, &rect);
@@ -129,14 +204,25 @@ void Render::ResetViewPort()
 }
 
 // Blit to screen
-bool Render::DrawTexture(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int pivotX, int pivotY) const
+bool Render::DrawTexture(SDL_Texture* texture, int x, int y, const SDL_Rect* section, bool useCamera, float speed, double angle, int pivotX, int pivotY) const
 {
 	bool ret = true;
 	uint scale = app->win->GetScale();
 
+	if(section->w == 0 || section->h == 0)
+		section = nullptr;
+
 	SDL_Rect rect;
-	rect.x = (int)(camera.x * speed) + x * scale;
-	rect.y = (int)(camera.y * speed) + y * scale;
+	if(useCamera)
+	{
+		rect.x = (int)(camera.x * speed) + x * scale;
+		rect.y = (int)(camera.y * speed) + y * scale;
+	}
+	else
+	{
+		rect.x = x;
+		rect.y = y;
+	}
 
 	if(section != NULL)
 	{
@@ -148,8 +234,11 @@ bool Render::DrawTexture(SDL_Texture* texture, int x, int y, const SDL_Rect* sec
 		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
 	}
 
-	rect.w *= scale;
-	rect.h *= scale;
+	if(useCamera)
+	{
+		rect.w *= scale;
+		rect.h *= scale;
+	}
 
 	SDL_Point* p = NULL;
 	SDL_Point pivot;
@@ -170,7 +259,7 @@ bool Render::DrawTexture(SDL_Texture* texture, int x, int y, const SDL_Rect* sec
 	return ret;
 }
 
-bool Render::DrawRectangle(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool filled, bool use_camera) const
+bool Render::DrawRectangle(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera, bool filled) const
 {
 	bool ret = true;
 	uint scale = app->win->GetScale();

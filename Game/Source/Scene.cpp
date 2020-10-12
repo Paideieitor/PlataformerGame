@@ -57,7 +57,7 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 		app->fade->ChangeScene(this, app->mainmenu);
 
-	app->render->DrawTexture(img, 380, 100);
+	app->render->SetTextureEvent(1, img, { 380, 100 });
 
 	return true;
 }
