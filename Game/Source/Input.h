@@ -27,7 +27,6 @@ enum KeyState
 
 class Input : public Module
 {
-
 public:
 
 	Input();

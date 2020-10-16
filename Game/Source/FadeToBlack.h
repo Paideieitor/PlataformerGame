@@ -5,7 +5,6 @@
 
 class FadeToBlack : public Module
 {
-
 public:
 
 	FadeToBlack();

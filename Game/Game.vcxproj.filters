@@ -42,6 +42,9 @@
     <ClCompile Include="Source\Player.cpp">
       <Filter>Modules\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Map.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h" />
@@ -100,6 +103,9 @@
     <ClInclude Include="Source\EntityManager.h">
       <Filter>Modules\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Map.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -123,6 +129,9 @@
     <Filter Include="Modules\Entities">
       <UniqueIdentifier>{6fb11c46-380e-4563-a3c8-55f70659ada4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="XML\Maps">
+      <UniqueIdentifier>{6b8c32a1-8be3-4422-a83c-399feeef2b66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Output\config.xml">
@@ -131,5 +140,10 @@
     <Xml Include="..\Output\savegame.xml">
       <Filter>XML</Filter>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Output\Assets\maps\hello2.tmx">
+      <Filter>XML\Maps</Filter>
+    </None>
   </ItemGroup>
 </Project>
