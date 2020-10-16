@@ -72,7 +72,7 @@ bool Textures::UnLoad(SDL_Texture* texture)
 {
 	SDL_Texture* pTexture = NULL;
 
-	for(std::vector<SDL_Texture*>::iterator t = textures.begin(); t != textures.end(); t++)
+	for(vector<SDL_Texture*>::iterator t = textures.begin(); t != textures.end(); t++)
 	{
 		pTexture = *t;
 

@@ -35,7 +35,7 @@ private:
 	int fxVolume;
 
 	_Mix_Music* music;
-	std::vector<Mix_Chunk*> fx;
+	vector<Mix_Chunk*> fx;
 };
 
 #endif // __AUDIO_H__

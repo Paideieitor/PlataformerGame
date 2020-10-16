@@ -65,7 +65,7 @@ bool Render::PreUpdate()
 
 bool Render::Update(float dt)
 {
-	for(std::map<int, DrawEvent>::iterator m = drawEvents.begin(); m != drawEvents.end(); m++)
+	for(map<int, DrawEvent>::iterator m = drawEvents.begin(); m != drawEvents.end(); m++)
 	{
 		DrawEvent event = m->second;
 		switch(event.type)
@@ -85,7 +85,7 @@ bool Render::Update(float dt)
 		}
 	}
 
-	std::multimap<int, DrawEvent> trash;
+	multimap<int, DrawEvent> trash;
 	trash.swap(drawEvents);
 
 	return true;

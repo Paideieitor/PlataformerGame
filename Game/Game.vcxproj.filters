@@ -33,6 +33,15 @@
     <ClCompile Include="Source\FadeToBlack.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Entity.cpp">
+      <Filter>Modules\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EntityManager.cpp">
+      <Filter>Modules\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>Modules\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h" />
@@ -85,6 +94,12 @@
     <ClInclude Include="Source\FadeToBlack.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Entities.h">
+      <Filter>Modules\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EntityManager.h">
+      <Filter>Modules\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -104,6 +119,9 @@
     </Filter>
     <Filter Include="Scenes">
       <UniqueIdentifier>{2bee06b9-671b-45d2-abf2-0b40e25a4a30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Entities">
+      <UniqueIdentifier>{6fb11c46-380e-4563-a3c8-55f70659ada4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

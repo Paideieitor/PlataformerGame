@@ -70,7 +70,7 @@ public:
 
 private:
 
-	std::multimap<int, DrawEvent> drawEvents;
+	multimap<int, DrawEvent> drawEvents;
 
 	// Drawing
 	bool DrawTexture(SDL_Texture* texture, int x, int y, const SDL_Rect* section = NULL, bool useCamera = true, float speed = 1.0f, double angle = 0, int pivotX = INT_MAX, int pivotY = INT_MAX) const;

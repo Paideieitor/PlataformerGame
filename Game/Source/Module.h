@@ -8,6 +8,8 @@
 #include <iostream>
 #include <string>
 
+using namespace std;
+
 class App;
 
 class Module
@@ -72,7 +74,7 @@ public:
 
 public:
 
-	std::string name;
+	string name;
 	bool active;
 
 };

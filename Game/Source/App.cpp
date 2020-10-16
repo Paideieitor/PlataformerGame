@@ -7,6 +7,7 @@
 #include "FadeToBlack.h"
 #include "Scene.h"
 #include "MainMenu.h"
+#include "EntityManager.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -32,6 +33,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	fade = new FadeToBlack();
 	scene = new Scene();
 	mainmenu = new MainMenu();
+	entitymanager = new EntityManager();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -39,6 +41,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(win);
 	AddModule(tex);
 	AddModule(audio);
+	AddModule(entitymanager, false);
 	AddModule(fade, false);
 	AddModule(scene);
 	AddModule(mainmenu, false);
@@ -79,7 +82,7 @@ bool App::Awake()
 	title = configApp.child("title").child_value();
 	win->SetTitle(title.c_str());
 
-	for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
+	for(vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
 		pModule = *m;
 
@@ -98,7 +101,7 @@ bool App::Start()
 {
 	Module* pModule = NULL;
 
-	for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
+	for(vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
 		pModule = *m;
 
@@ -194,7 +197,7 @@ bool App::SaveGame()
 		mainNode = saveDoc.append_child("save");
 
 	pugi::xml_node moduleNode;
-	for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
+	for(vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
 		pModule = *m;
 
@@ -221,7 +224,7 @@ bool App::LoadGame()
 	pugi::xml_document saveDoc;
 	pugi::xml_parse_result result = saveDoc.load_file(savePath.c_str());
 
-	for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
+	for(vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
 		pModule = *m;
 
@@ -244,7 +247,7 @@ bool App::PreUpdate()
 {
 	Module* pModule = NULL;
 
-	for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
+	for(vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
 		pModule = *m;
 
@@ -266,7 +269,7 @@ bool App::DoUpdate()
 {
 	Module* pModule = NULL;
 
-	for(std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
+	for(vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
 		pModule = *m;
 
@@ -288,7 +291,7 @@ bool App::PostUpdate()
 {
 	Module* pModule = NULL;
 
-	for (std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
+	for (vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
 		pModule = *m;
 
@@ -310,7 +313,7 @@ bool App::CleanUp()
 {
 	Module* pModule = NULL;
 
-	for(std::vector<Module*>::iterator m = modules.end() - 1; m != modules.begin(); m--)
+	for(vector<Module*>::iterator m = modules.end() - 1; m != modules.begin(); m--)
 	{
 		pModule = *m;
 

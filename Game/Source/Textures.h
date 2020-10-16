@@ -25,7 +25,7 @@ public:
 
 public:
 
-	std::vector<SDL_Texture*> textures;
+	vector<SDL_Texture*> textures;
 };
 
 

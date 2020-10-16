@@ -17,6 +17,7 @@ class Audio;
 class FadeToBlack;
 class Scene;
 class MainMenu;
+class EntityManager;
 
 class App
 {
@@ -88,10 +89,11 @@ public:
 	FadeToBlack* fade;
 	Scene* scene;
 	MainMenu* mainmenu;
+	EntityManager* entitymanager;
 
 	// Save & Load
-	std::string configPath;
-	std::string savePath;
+	string configPath;
+	string savePath;
 	bool toSave;
 	bool toLoad;
 
@@ -99,10 +101,10 @@ private:
 
 	int argc;
 	char** args;
-	std::string title;
-	std::string organization;
+	string title;
+	string organization;
 
-	std::vector<Module*> modules;
+	vector<Module*> modules;
 
 	pugi::xml_document configFile;
 	pugi::xml_node config;
