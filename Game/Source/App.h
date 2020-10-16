@@ -18,6 +18,7 @@ class FadeToBlack;
 class Scene;
 class MainMenu;
 class EntityManager;
+class Map;
 
 class App
 {
@@ -90,6 +91,7 @@ public:
 	Scene* scene;
 	MainMenu* mainmenu;
 	EntityManager* entitymanager;
+	Map* map;
 
 	// Save & Load
 	string configPath;

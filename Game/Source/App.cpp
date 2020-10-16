@@ -8,6 +8,7 @@
 #include "Scene.h"
 #include "MainMenu.h"
 #include "EntityManager.h"
+#include "Map.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -34,6 +35,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new Scene();
 	mainmenu = new MainMenu();
 	entitymanager = new EntityManager();
+	map = new Map();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -45,6 +47,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(fade, false);
 	AddModule(scene);
 	AddModule(mainmenu, false);
+	AddModule(map);
 
 	// render last to swap buffer
 	AddModule(render);

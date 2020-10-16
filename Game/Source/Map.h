@@ -3,9 +3,42 @@
 
 #include "Module.h"
 
+struct SDL_Texture;
+
+struct Tileset
+{
+	string name;
+
+	SDL_Texture* texture;
+
+	uint firstgid;
+	uint width;
+	uint height;
+};
+
+struct Tile
+{
+	uint id;
+
+	Tileset* tileset;
+	//layer->layerdata = new int* [layer_width];
+	//for (int i = 0; i < layer_width; ++i)
+	//	layer->layerdata[i] = new int[layer_height];
+};
+
+struct Layer
+{
+	string name;
+
+	uint width;
+	uint height;
+
+	Tile** tiles;
+};
+
 struct MapData
 {
-	string orientation; 
+	string orientation;
 	string renderOrder;
 
 	uint width;
@@ -13,18 +46,8 @@ struct MapData
 	uint tileWidth;
 	uint tileHeight;
 
-	TileSet* tilesets;
+	Tileset* tilesets;
 	Layer* layers;
-};
-
-struct TileSet
-{
-
-};
-
-struct Layer
-{
-
 };
 
 class Map : public Module
@@ -37,14 +60,12 @@ public:
 	bool Awake(pugi::xml_node&);
 	bool Start();
 
-	bool PreUpdate();
-	bool Update(float dt);
-	bool PostUpdate();
-
 	bool Save(pugi::xml_node&);
 	bool Load(pugi::xml_node&);
 
 	bool CleanUp();
+
+	bool LoadMap(char* path);
 
 private:
 

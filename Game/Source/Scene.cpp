@@ -8,6 +8,7 @@
 #include "Window.h"
 #include "MainMenu.h"
 #include "FadeToBlack.h"
+#include "Map.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -31,6 +32,7 @@ bool Scene::Awake(pugi::xml_node& node)
 bool Scene::Start()
 {
 	img = app->tex->Load("Assets/textures/test.png");
+	app->map->LoadMap("Assets/maps/hello2.tmx");
 
 	return true;
 }
