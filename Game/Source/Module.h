@@ -24,6 +24,12 @@ public:
 		active = true;
 	}
 
+	void Exit()
+	{
+		active = false;
+		CleanUp();
+	}
+
 	// Called before render is available
 	virtual bool Awake(pugi::xml_node&)
 	{

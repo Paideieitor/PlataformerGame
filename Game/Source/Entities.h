@@ -1,3 +1,6 @@
+#ifndef __ENTITIES_H__
+#define __ENTITIES_H__
+
 #include "App.h"
 #include "Textures.h"
 #include "Render.h"
@@ -43,3 +46,5 @@ public:
 
 	bool Update(float dt);
 };
+
+#endif

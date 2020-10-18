@@ -12,18 +12,14 @@ struct Tileset
 	SDL_Texture* texture;
 
 	uint firstgid;
-	uint width;
-	uint height;
-};
+	uint count;
+	uint columns;
 
-struct Tile
-{
-	uint id;
+	uint tileWidth;
+	uint tileHeight;
 
-	Tileset* tileset;
-	//layer->layerdata = new int* [layer_width];
-	//for (int i = 0; i < layer_width; ++i)
-	//	layer->layerdata[i] = new int[layer_height];
+	uint margin;
+	uint spacing;
 };
 
 struct Layer
@@ -33,7 +29,7 @@ struct Layer
 	uint width;
 	uint height;
 
-	Tile** tiles;
+	uint** tiles;
 };
 
 struct MapData
@@ -47,7 +43,9 @@ struct MapData
 	uint tileHeight;
 
 	Tileset* tilesets;
+	uint tSize;
 	Layer* layers;
+	uint lSize;
 };
 
 class Map : public Module
@@ -66,8 +64,11 @@ public:
 	bool CleanUp();
 
 	bool LoadMap(char* path);
+	void DrawMap();
 
 private:
+
+	Tileset* GetTileset(uint gid);
 
 	MapData* mapData;
 };

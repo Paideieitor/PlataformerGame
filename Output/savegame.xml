@@ -7,8 +7,9 @@
 	<scene />
 	<mainmenu />
 	<render>
-		<camera x="307" y="0" />
+		<camera x="0" y="0" />
 	</render>
 	<fadetoblack />
 	<entitymanager />
+	<map />
 </save>

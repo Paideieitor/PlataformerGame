@@ -1,3 +1,6 @@
+#ifndef __ENTITYMANAGER_H__
+#define __ENTITYMANAGER_H__
+
 #include "Module.h"
 #include "Entities.h"
 
@@ -34,3 +37,5 @@ private:
 	vector<Entity*> buffer;
 	vector <vector<Entity*>::iterator> toDelete;
 };
+
+#endif

@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "FadeToBlack.h"
 #include "Scene.h"
+#include "EntityManager.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -29,7 +30,10 @@ bool MainMenu::Awake(pugi::xml_node& node)
 
 bool MainMenu::Start()
 {
+	app->entitymanager->Init();
+
 	bern = app->tex->Load("Assets/textures/BERN.png");
+	app->entitymanager->CreateEntity(EntityType::PLAYER, { 0,0 });
 
 	return true;
 }
@@ -69,6 +73,8 @@ bool MainMenu::PostUpdate()
 bool MainMenu::CleanUp()
 {
 	app->tex->UnLoad(bern);
+
+	app->entitymanager->Exit();
 
 	return true;
 }

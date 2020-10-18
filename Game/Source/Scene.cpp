@@ -33,7 +33,7 @@ bool Scene::Start()
 {
 	img = app->tex->Load("Assets/textures/test.png");
 	app->map->LoadMap("Assets/maps/hello2.tmx");
-
+	
 	return true;
 }
 
