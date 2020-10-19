@@ -10,9 +10,9 @@
 Render::Render() : Module()
 {
 	name = "render";
-	background.r = 100;
-	background.g = 50;
-	background.b = 70;
+	background.r = 255;
+	background.g = 255;
+	background.b = 255;
 	background.a = 0;
 }
 
@@ -46,6 +46,8 @@ bool Render::Awake(pugi::xml_node& config)
 		camera.y = 0;
 	}
 
+	//SDL_RenderSetLogicalSize(renderer, 1920, 1080);
+
 	return true;
 }
 
@@ -71,7 +73,7 @@ bool Render::Update(float dt)
 		switch(event.type)
 		{
 		case DrawType::TEXTURE:
-			DrawTexture(event.texture, event.position.x, event.position.y, &event.rect, event.useCamera, event.speed, event.angle, event.pivotX, event.pivotY);
+			DrawTexture(event.texture, event.position.x, event.position.y, &event.rect, event.useCamera, event.speed, event.color.a, event.angle, event.pivotX, event.pivotY);
 			break;
 		case DrawType::RECTANGLE:
 			DrawRectangle(event.rect, event.color.r, event.color.g, event.color.b, event.color.a, event.useCamera, event.filled);
@@ -141,7 +143,7 @@ void Render::SetBackgroundColor(SDL_Color color)
 	background = color;
 }
 
-void Render::SetTextureEvent(int layer, SDL_Texture* texture, fPoint position, SDL_Rect section, bool useCamera, float speed, double angle, int pivotX, int pivotY)
+void Render::SetTextureEvent(int layer, SDL_Texture* texture, fPoint position, SDL_Rect section, bool useCamera, float speed, int alpha, double angle, int pivotX, int pivotY)
 {
 	DrawEvent event;
 
@@ -151,6 +153,7 @@ void Render::SetTextureEvent(int layer, SDL_Texture* texture, fPoint position, S
 	event.rect = section;
 	event.useCamera = useCamera;
 	event.speed = speed;
+	event.color.a = alpha;
 	event.angle = angle;
 	event.pivotX = pivotX;
 	event.pivotY = pivotY;
@@ -204,7 +207,7 @@ void Render::ResetViewPort()
 }
 
 // Blit to screen
-bool Render::DrawTexture(SDL_Texture* texture, int x, int y, const SDL_Rect* section, bool useCamera, float speed, double angle, int pivotX, int pivotY) const
+bool Render::DrawTexture(SDL_Texture* texture, int x, int y, const SDL_Rect* section, bool useCamera, float speed, int alpha, double angle, int pivotX, int pivotY) const
 {
 	bool ret = true;
 	uint scale = app->win->GetScale();
@@ -239,6 +242,8 @@ bool Render::DrawTexture(SDL_Texture* texture, int x, int y, const SDL_Rect* sec
 		rect.w *= scale;
 		rect.h *= scale;
 	}
+
+	SDL_SetTextureAlphaMod(texture, alpha);
 
 	SDL_Point* p = NULL;
 	SDL_Point pivot;

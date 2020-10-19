@@ -5,7 +5,7 @@
 #include "Render.h"
 #include "Input.h"
 #include "FadeToBlack.h"
-#include "Scene.h"
+#include "LogoScene.h"
 #include "EntityManager.h"
 
 #include "Defs.h"
@@ -58,7 +58,7 @@ bool MainMenu::Update(float dt)
 		app->render->camera.x -= 1;
 
 	if(app->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
-		app->fade->ChangeScene(this, app->scene);
+		app->fade->ChangeScene(this, app->logo);
 
 	app->render->SetTextureEvent(1, bern, { 100,100 });
 

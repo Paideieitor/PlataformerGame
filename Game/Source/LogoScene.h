@@ -1,16 +1,16 @@
-#ifndef __SCENE_H__
-#define __SCENE_H__
+#ifndef __LOGOSCENE_H__
+#define __LOGOSCENE_H__
 
 #include "Module.h"
 
 struct SDL_Texture;
 
-class Scene : public Module
+class LogoScene : public Module
 {
 public:
 
-	Scene();
-	virtual ~Scene();
+	LogoScene();
+	virtual ~LogoScene();
 
 	bool Awake(pugi::xml_node&);
 	bool Start();
@@ -23,7 +23,11 @@ public:
 
 private:
 
-	SDL_Texture* img;
+	SDL_Texture* logo;
+
+	float aTimer;
+	float timer;
+	bool stop;
 };
 
 #endif // __SCENE_H__

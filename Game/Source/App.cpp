@@ -5,7 +5,7 @@
 #include "Textures.h"
 #include "Audio.h"
 #include "FadeToBlack.h"
-#include "Scene.h"
+#include "LogoScene.h"
 #include "MainMenu.h"
 #include "EntityManager.h"
 #include "Map.h"
@@ -20,6 +20,10 @@
 App::App(int argc, char* args[]) : argc(argc), args(args)
 {
 	frames = 0;
+	dt = 0.0f;
+	fps = 0;
+	capped = true;
+	frameCap = 60;
 
 	configPath = "config.xml";
 	savePath = "savegame.xml";
@@ -32,7 +36,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	tex = new Textures();
 	audio = new Audio();
 	fade = new FadeToBlack();
-	scene = new Scene();
+	logo = new LogoScene();
 	mainmenu = new MainMenu();
 	entitymanager = new EntityManager();
 	map = new Map();
@@ -45,7 +49,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(entitymanager, false);
 	AddModule(fade, false);
-	AddModule(scene);
+	AddModule(logo);
 	AddModule(mainmenu, false);
 	AddModule(map);
 
@@ -164,6 +168,12 @@ bool App::LoadConfig()
 // ---------------------------------------------
 void App::PrepareUpdate()
 {
+	dt = timer.ReadSec();
+	frames++;
+	timer.Start();
+
+	if(frames == 1)
+		dt = 0;
 }
 
 // ---------------------------------------------
@@ -185,6 +195,18 @@ void App::FinishUpdate()
 		LoadGame();
 		toLoad = false;
 	}
+
+	int miliseconds = timer.Read();
+	fps = 1 / dt;
+
+	char title[256];
+	sprintf_s(title, 256, "PlatformGame || FPS: %d / Last Frame Ms: %d / Cap: %d / dt: %f", fps, miliseconds, frameCap, dt);
+	app->win->SetTitle(title);
+
+	if(capped)
+		if((miliseconds < (1000 / frameCap)))
+			SDL_Delay((1000 / frameCap) - miliseconds);
+
 }
 
 // Call modules to save data in the save file

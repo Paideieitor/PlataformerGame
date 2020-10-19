@@ -51,7 +51,7 @@ bool Map::CleanUp()
 		{
 			for(int x = 0; x != mapData->layers[i].width; x++)
 				delete[] mapData->layers[i].tiles[x];
-			delete[] mapData->layers->tiles;
+			delete[] mapData->layers[i].tiles;
 		}
 		delete[] mapData->layers;
 
@@ -166,15 +166,30 @@ void Map::DrawMap()
 {
 	for(int l = 0; l < mapData->lSize; l++)
 	{
-		for (int y = 0; y != mapData->layers[l].height; y++)
+		for(int y = 0; y != mapData->layers[l].height; y++)
 		{
-			for (int x = 0; x != mapData->layers[l].width; x++)
+			for(int x = 0; x != mapData->layers[l].width; x++)
 			{
 				uint gid = mapData->layers[l].tiles[x][y];
 				Tileset* tileset = GetTileset(gid);
+				if(!tileset)
+					continue;
 
 				uint id = gid - tileset->firstgid;
+				int ny = id / tileset->columns;
+				int nx = id - ny * tileset->columns;
 
+				SDL_Rect rect;
+				rect.w = tileset->tileWidth;
+				rect.h = tileset->tileHeight;
+				rect.x = rect.w * nx + tileset->margin * (nx+1);
+				rect.y = rect.h * ny + tileset->spacing * (ny+1);
+
+				fPoint position;
+				position.x = x * mapData->tileWidth;
+				position.y = y * mapData->tileHeight;
+
+				app->render->SetTextureEvent(0, tileset->texture, position, rect);
 			}
 		}
 	}
@@ -185,10 +200,12 @@ Tileset* Map::GetTileset(uint gid)
 	for(int i = 0; i < mapData->tSize; i++)
 	{
 		if (mapData->tSize >= i + 1)
+		{
 			if (gid < mapData->tilesets[i + 1].firstgid)
 				return &mapData->tilesets[i];
 			else
 				continue;
+		}
 		else
 			return &mapData->tilesets[i];
 	}

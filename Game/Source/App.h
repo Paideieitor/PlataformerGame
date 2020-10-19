@@ -2,6 +2,7 @@
 #define __APP_H__
 
 #include "Module.h"
+#include "Timer.h"
 
 #include "pugixml.hpp"
 
@@ -15,7 +16,7 @@ class Render;
 class Textures;
 class Audio;
 class FadeToBlack;
-class Scene;
+class LogoScene;
 class MainMenu;
 class EntityManager;
 class Map;
@@ -88,7 +89,7 @@ public:
 	Textures* tex;
 	Audio* audio;
 	FadeToBlack* fade;
-	Scene* scene;
+	LogoScene* logo;
 	MainMenu* mainmenu;
 	EntityManager* entitymanager;
 	Map* map;
@@ -114,6 +115,10 @@ private:
 
 	uint frames;
 	float dt;
+	int fps;
+	Timer timer;
+	bool capped;
+	int frameCap;
 };
 
 extern App* app;
