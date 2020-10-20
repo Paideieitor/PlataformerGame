@@ -34,7 +34,8 @@ Player::Player(fPoint position)
 
 	currentAnimation = idle;
 
-	body = app->collisions->CreateCollider(ColliderType::PLAYER, { 0,0,10,13 }, true, this);
+	body = app->collisions->CreateCollider(ColliderType::PLAYER, { 0,0,16,13 }, true, this);
+	feet = app->collisions->CreateCollider(ColliderType::PLAYER, { 0,0,4,4 }, true, this);
 }
 
 Player::~Player()
@@ -46,6 +47,7 @@ Player::~Player()
 	delete jump;
 
 	app->collisions->DeleteCollider(body);
+	app->collisions->DeleteCollider(feet);
 }
 
 bool Player::Update(float dt)
@@ -80,22 +82,23 @@ bool Player::Update(float dt)
 	else
 	{
 		velocity.y += timeOnAir;
-		timeOnAir += dt;
+		timeOnAir += dt * 1.5f;
 		currentAnimation = jump;
 	}
 
-	if(app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+	if(onGround && app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 	{
-		velocity.y = -4;
-		timeOnAir = 0;
+		velocity.y = dt * -250;
 	}
 
 	position.x += velocity.x;
 	position.y += velocity.y;
 
 	fPoint dPosition = GetDrawPosition(size);
-	body->rect.x = (int)dPosition.x + 4;
+	body->rect.x = (int)dPosition.x;
 	body->rect.y = (int)dPosition.y + 3;
+	feet->rect.x = (int)dPosition.x + 6;
+	feet->rect.y = (int)dPosition.y + 12;
 	app->render->SetTextureEvent(5, texture, dPosition, currentAnimation->GetFrame(dt), flip);
 
 	return true;
@@ -106,26 +109,29 @@ void Player::Collision(Collider* c1, Collider* c2)
 	if (c1 == body && c2->type == ColliderType::GROUND)
 	{
 		fPoint dPosition = GetDrawPosition(size);
-		if(dPosition.y < c2->rect.y)
-		{
-			grounded = true;
-			position.y = c2->rect.y - size.y / 2 + 1;
-			return;
-		}
-		if (dPosition.y + size.y / 2 > c2->rect.y + c2->rect.h)
+		if (dPosition.y + size.y - 3 < c2->rect.y){}
+		else if (dPosition.y + size.y / 2 > c2->rect.y + c2->rect.h)
 		{
 			position.y = c2->rect.y + c2->rect.h + size.y / 2;
 			velocity.y = 0;
-			return;
 		}
-		if(c2->rect.x > dPosition.x)
+		else if(c2->rect.x > dPosition.x)
 		{
 			wall = WallCollision::LEFT;
-			return;
 		}
-		if(c2->rect.x < dPosition.x)
+		else if(c2->rect.x < dPosition.x)
 		{
 			wall = WallCollision::RIGHT;
+		}
+		return;
+	}
+	if (c1 == feet && c2->type == ColliderType::GROUND)
+	{
+		fPoint dPosition = GetDrawPosition(size);
+		if (dPosition.y < c2->rect.y)
+		{
+			grounded = true;
+			position.y = c2->rect.y - size.y / 2 + 1;
 			return;
 		}
 	}

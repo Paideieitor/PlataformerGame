@@ -2,6 +2,7 @@
 #include "Map.h"
 #include "Textures.h"
 #include "Render.h"
+#include "Collisions.h"
 
 #include "Log.h"
 
@@ -126,16 +127,16 @@ bool Map::LoadMap(char* path)
 	{
 		Layer layer;
 
-		LOG("%s", node.name());
-
 		layer.name = node.attribute("name").as_string();
 		layer.width = node.attribute("width").as_uint();
 		layer.height = node.attribute("height").as_uint();
+		layer.toDraw = node.child("properties").child("property").attribute("value").as_bool();
 
 		LOG("Loading Layer Data---");
 		LOG("name: %s", layer.name.c_str());
 		LOG("width: %d", layer.width);
 		LOG("height: %d", layer.height);
+		LOG("toDraw: %d", layer.toDraw);
 
 		layer.tiles = new uint* [layer.width];
 		for(int i = 0; i < layer.width; ++i)

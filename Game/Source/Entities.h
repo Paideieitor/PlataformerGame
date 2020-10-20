@@ -69,6 +69,7 @@ private:
 	Animation* jump;
 
 	Collider* body;
+	Collider* feet;
 
 	bool flip;
 	fPoint velocity;

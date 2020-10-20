@@ -28,6 +28,7 @@ struct Layer
 
 	uint width;
 	uint height;
+	bool toDraw;
 
 	uint** tiles;
 };

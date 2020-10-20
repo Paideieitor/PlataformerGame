@@ -55,9 +55,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(collisions, false);
 	AddModule(map);
 	AddModule(fade, false);
-	AddModule(logo, true);
+	AddModule(logo, false);
 	AddModule(mainmenu, false);
-	AddModule(dungeonscene, false);
+	AddModule(dungeonscene, true);
 
 
 	// render last to swap buffer

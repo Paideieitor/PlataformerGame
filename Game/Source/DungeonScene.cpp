@@ -36,10 +36,7 @@ bool DungeonScene::Start()
 	app->collisions->Init();
 
 	app->map->LoadMap("Assets/maps/dungeon.tmx");
-	app->entitymanager->CreateEntity(EntityType::PLAYER, { 0,0 });
-	app->collisions->CreateCollider(ColliderType::GROUND, { 0,100,500,30 });
-	app->collisions->CreateCollider(ColliderType::GROUND, { 30,70,30,30 });
-	app->collisions->CreateCollider(ColliderType::GROUND, { 90,50,30,30 });
+	app->entitymanager->CreateEntity(EntityType::PLAYER, { 100,100 });
 
 	return true;
 }
