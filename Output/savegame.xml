@@ -12,4 +12,6 @@
 	<fadetoblack />
 	<entitymanager />
 	<map />
+	<dungeon />
+	<collisions />
 </save>

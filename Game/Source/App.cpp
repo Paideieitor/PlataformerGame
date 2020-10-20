@@ -7,8 +7,10 @@
 #include "FadeToBlack.h"
 #include "LogoScene.h"
 #include "MainMenu.h"
+#include "DungeonScene.h"
 #include "EntityManager.h"
 #include "Map.h"
+#include "Collisions.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -38,8 +40,10 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	fade = new FadeToBlack();
 	logo = new LogoScene();
 	mainmenu = new MainMenu();
+	dungeonscene = new DungeonScene();
 	entitymanager = new EntityManager();
 	map = new Map();
+	collisions = new Collisions();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -48,10 +52,13 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(entitymanager, false);
-	AddModule(fade, false);
-	AddModule(logo);
-	AddModule(mainmenu, false);
+	AddModule(collisions, false);
 	AddModule(map);
+	AddModule(fade, false);
+	AddModule(logo, true);
+	AddModule(mainmenu, false);
+	AddModule(dungeonscene, false);
+
 
 	// render last to swap buffer
 	AddModule(render);
@@ -81,7 +88,7 @@ void App::AddModule(Module* module, bool active)
 // Called before render is available
 bool App::Awake()
 {
-	if (!LoadConfig())
+	if(!LoadConfig())
 		return false;
 
 	Module* pModule = NULL;
@@ -93,7 +100,7 @@ bool App::Awake()
 	{
 		pModule = *m;
 
-		if (!pModule->Awake(config.child(pModule->name.c_str())))
+		if(!pModule->Awake(config.child(pModule->name.c_str())))
 		{
 			LOG("Awaking Error in %s", pModule->name.c_str());
 			return false;
@@ -112,10 +119,10 @@ bool App::Start()
 	{
 		pModule = *m;
 
-		if (pModule->active == false)
+		if(pModule->active == false)
 			continue;
 
-		if (!pModule->Start())
+		if(!pModule->Start())
 		{
 			LOG("Starting Error in %s", pModule->name.c_str());
 			return false;
@@ -218,7 +225,7 @@ bool App::SaveGame()
 	pugi::xml_parse_result result = saveDoc.load_file(savePath.c_str());
 
 	pugi::xml_node mainNode = saveDoc.child("save");
-	if (mainNode == NULL)
+	if(mainNode == NULL)
 		mainNode = saveDoc.append_child("save");
 
 	pugi::xml_node moduleNode;
@@ -279,7 +286,7 @@ bool App::PreUpdate()
 		if(pModule->active == false)
 			continue;
 
-		if (!pModule->PreUpdate())
+		if(!pModule->PreUpdate())
 		{
 			LOG("PreUpdate Error in %s", pModule->name.c_str());
 			return false;
@@ -342,7 +349,7 @@ bool App::CleanUp()
 	{
 		pModule = *m;
 
-		if (!pModule->CleanUp())
+		if(!pModule->CleanUp())
 		{
 			LOG("Clean Up Error in %s", pModule->name.c_str());
 			return false;

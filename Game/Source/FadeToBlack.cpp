@@ -11,7 +11,7 @@ FadeToBlack::FadeToBlack()
 	sceneIn = nullptr;
 	out = false;
 	in = false;
-	alpha = 0;
+	timer = 0;
 }
 
 FadeToBlack::~FadeToBlack()
@@ -23,10 +23,10 @@ bool FadeToBlack::Update(float dt)
 {
 	if(out)
 	{
-		alpha++;
-		if(alpha >= 255)
+		timer += dt;
+		if(timer >= 1)
 		{
-			alpha = 255;
+			timer = 1;
 
 			out = false;
 			in = true;
@@ -42,10 +42,10 @@ bool FadeToBlack::Update(float dt)
 	}
 	else if(in)
 	{
-		alpha--;
-		if(alpha <= 0)
+		timer -= dt;
+		if(timer <= 0)
 		{
-			alpha = 0;
+			timer = 0;
 
 			in = false;
 
@@ -53,7 +53,7 @@ bool FadeToBlack::Update(float dt)
 		}
 	}
 
-	app->render->SetRectangleEvent(10, {0,0}, {app->render->camera.w, app->render->camera.h}, 0, 0, 0, (int)alpha, false);
+	app->render->SetRectangleEvent(10, {0,0}, {app->render->camera.w, app->render->camera.h}, 0, 0, 0, timer * 255, false);
 
 	return true;
 }

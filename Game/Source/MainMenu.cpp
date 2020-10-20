@@ -5,8 +5,7 @@
 #include "Render.h"
 #include "Input.h"
 #include "FadeToBlack.h"
-#include "LogoScene.h"
-#include "EntityManager.h"
+#include "DungeonScene.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -30,10 +29,7 @@ bool MainMenu::Awake(pugi::xml_node& node)
 
 bool MainMenu::Start()
 {
-	app->entitymanager->Init();
-
 	bern = app->tex->Load("Assets/textures/BERN.png");
-	app->entitymanager->CreateEntity(EntityType::PLAYER, { 0,0 });
 
 	return true;
 }
@@ -45,22 +41,10 @@ bool MainMenu::PreUpdate()
 
 bool MainMenu::Update(float dt)
 {
-	if(app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		app->render->camera.y += 1;
+	if(app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		app->fade->ChangeScene(this, app->dungeonscene);
 
-	if(app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		app->render->camera.y -= 1;
-
-	if(app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		app->render->camera.x += 1;
-
-	if(app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		app->render->camera.x -= 1;
-
-	if(app->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
-		app->fade->ChangeScene(this, app->logo);
-
-	app->render->SetTextureEvent(1, bern, { 100,100 });
+	app->render->SetTextureEvent(2, bern, { 100,100 });
 
 	return true;
 }
@@ -73,8 +57,6 @@ bool MainMenu::PostUpdate()
 bool MainMenu::CleanUp()
 {
 	app->tex->UnLoad(bern);
-
-	app->entitymanager->Exit();
 
 	return true;
 }

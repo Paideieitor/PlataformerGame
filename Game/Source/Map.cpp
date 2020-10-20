@@ -199,15 +199,14 @@ Tileset* Map::GetTileset(uint gid)
 {
 	for(int i = 0; i < mapData->tSize; i++)
 	{
-		if (mapData->tSize >= i + 1)
-		{
+		if(i + 1 == mapData->tSize)
+			return &mapData->tilesets[i];
+		else
 			if (gid < mapData->tilesets[i + 1].firstgid)
 				return &mapData->tilesets[i];
 			else
 				continue;
-		}
-		else
-			return &mapData->tilesets[i];
+
 	}
 
 	return nullptr;

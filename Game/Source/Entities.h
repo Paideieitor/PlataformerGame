@@ -7,6 +7,9 @@
 
 #include "Point.h"
 
+struct Collider;
+class Animation;
+
 enum class EntityType
 {
 	ENTITY,
@@ -23,6 +26,8 @@ public:
 
 	virtual bool Update(float dt);
 
+	virtual void Collision(Collider* c1, Collider* c2);
+
 	bool toDelete;
 
 protected:
@@ -34,6 +39,15 @@ protected:
 
 	fPoint GetDrawPosition(iPoint size);
 	SDL_Texture* texture;
+
+	Animation* currentAnimation;
+};
+
+enum class WallCollision
+{
+	NONE,
+	RIGHT,
+	LEFT
 };
 
 class Player : public Entity
@@ -45,6 +59,22 @@ public:
 	virtual ~Player();
 
 	bool Update(float dt);
+
+	void Collision(Collider* c1, Collider* c2);
+
+private:
+
+	Animation* idle;
+	Animation* run;
+	Animation* jump;
+
+	Collider* body;
+
+	bool flip;
+	fPoint velocity;
+	WallCollision wall;
+	bool grounded;
+	float timeOnAir;
 };
 
 #endif

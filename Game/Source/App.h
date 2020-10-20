@@ -18,8 +18,10 @@ class Audio;
 class FadeToBlack;
 class LogoScene;
 class MainMenu;
+class DungeonScene;
 class EntityManager;
 class Map;
+class Collisions;
 
 class App
 {
@@ -91,8 +93,10 @@ public:
 	FadeToBlack* fade;
 	LogoScene* logo;
 	MainMenu* mainmenu;
+	DungeonScene* dungeonscene;
 	EntityManager* entitymanager;
 	Map* map;
+	Collisions* collisions;
 
 	// Save & Load
 	string configPath;

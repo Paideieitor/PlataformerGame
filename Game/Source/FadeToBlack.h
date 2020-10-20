@@ -16,7 +16,7 @@ public:
 
 private:
 
-	float alpha;
+	float timer;
 	bool out;
 	bool in;
 

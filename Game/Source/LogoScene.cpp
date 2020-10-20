@@ -81,7 +81,7 @@ bool LogoScene::Update(float dt)
 		}
 	}
 
-	app->render->SetTextureEvent(1, logo, { 380, 100 }, { 0,0,0,0 }, true, 1.0f, aTimer * 255);
+	app->render->SetTextureEvent(1, logo, { 380, 100 }, { 0,0,0,0 }, false, true, 1.0f, aTimer * 255);
 	
 	return true;
 }

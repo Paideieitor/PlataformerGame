@@ -73,7 +73,7 @@ bool Render::Update(float dt)
 		switch(event.type)
 		{
 		case DrawType::TEXTURE:
-			DrawTexture(event.texture, event.position.x, event.position.y, &event.rect, event.useCamera, event.speed, event.color.a, event.angle, event.pivotX, event.pivotY);
+			DrawTexture(event.texture, event.position.x, event.position.y, &event.rect, event.flip, event.useCamera, event.speed, event.color.a, event.angle, event.pivotX, event.pivotY);
 			break;
 		case DrawType::RECTANGLE:
 			DrawRectangle(event.rect, event.color.r, event.color.g, event.color.b, event.color.a, event.useCamera, event.filled);
@@ -143,7 +143,7 @@ void Render::SetBackgroundColor(SDL_Color color)
 	background = color;
 }
 
-void Render::SetTextureEvent(int layer, SDL_Texture* texture, fPoint position, SDL_Rect section, bool useCamera, float speed, int alpha, double angle, int pivotX, int pivotY)
+void Render::SetTextureEvent(int layer, SDL_Texture* texture, fPoint position, SDL_Rect section, bool flip, bool useCamera, float speed, int alpha, double angle, int pivotX, int pivotY)
 {
 	DrawEvent event;
 
@@ -151,6 +151,7 @@ void Render::SetTextureEvent(int layer, SDL_Texture* texture, fPoint position, S
 	event.texture = texture;
 	event.position = position;
 	event.rect = section;
+	event.flip = flip;
 	event.useCamera = useCamera;
 	event.speed = speed;
 	event.color.a = alpha;
@@ -207,7 +208,7 @@ void Render::ResetViewPort()
 }
 
 // Blit to screen
-bool Render::DrawTexture(SDL_Texture* texture, int x, int y, const SDL_Rect* section, bool useCamera, float speed, int alpha, double angle, int pivotX, int pivotY) const
+bool Render::DrawTexture(SDL_Texture* texture, int x, int y, const SDL_Rect* section, bool flip, bool useCamera, float speed, int alpha, double angle, int pivotX, int pivotY) const
 {
 	bool ret = true;
 	uint scale = app->win->GetScale();
@@ -255,7 +256,11 @@ bool Render::DrawTexture(SDL_Texture* texture, int x, int y, const SDL_Rect* sec
 		p = &pivot;
 	}
 
-	if(SDL_RenderCopyEx(renderer, texture, section, &rect, angle, p, SDL_FLIP_NONE) != 0)
+	SDL_RendererFlip flipType = SDL_FLIP_NONE;
+	if(flip)
+		flipType = SDL_FLIP_HORIZONTAL;
+
+	if(SDL_RenderCopyEx(renderer, texture, section, &rect, angle, p, flipType) != 0)
 	{
 		LOG("Cannot draw to screen. SDL_RenderCopy error: %s", SDL_GetError());
 		ret = false;

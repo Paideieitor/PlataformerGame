@@ -12,18 +12,6 @@
     <ClCompile Include="Source\Input.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Render.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Textures.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Window.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Audio.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
     <ClCompile Include="Source\MainMenu.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -47,6 +35,27 @@
     </ClCompile>
     <ClCompile Include="Source\Timer.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DungeonScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Animation.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Collisions.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Audio.cpp">
+      <Filter>Modules\Image &amp; Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Render.cpp">
+      <Filter>Modules\Image &amp; Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Textures.cpp">
+      <Filter>Modules\Image &amp; Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Window.cpp">
+      <Filter>Modules\Image &amp; Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -79,18 +88,6 @@
     <ClInclude Include="Source\Input.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Render.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Textures.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Window.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Audio.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
     <ClInclude Include="Source\MainMenu.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -111,6 +108,30 @@
     </ClInclude>
     <ClInclude Include="Source\Timer.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DungeonScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Animation.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Collisions.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Collider.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Audio.h">
+      <Filter>Modules\Image &amp; Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Render.h">
+      <Filter>Modules\Image &amp; Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Textures.h">
+      <Filter>Modules\Image &amp; Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Window.h">
+      <Filter>Modules\Image &amp; Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +159,9 @@
     <Filter Include="XML\Maps">
       <UniqueIdentifier>{6b8c32a1-8be3-4422-a83c-399feeef2b66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules\Image &amp; Sound">
+      <UniqueIdentifier>{da1ecbe5-107f-4dd7-9892-c6560ae4aa22}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Output\config.xml">
@@ -152,6 +176,9 @@
       <Filter>XML\Maps</Filter>
     </None>
     <None Include="..\Output\Assets\maps\test.tmx">
+      <Filter>XML\Maps</Filter>
+    </None>
+    <None Include="..\Output\Assets\maps\dungeon.tmx">
       <Filter>XML\Maps</Filter>
     </None>
   </ItemGroup>
