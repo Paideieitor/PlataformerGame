@@ -8,8 +8,6 @@ Entity::Entity()
 
 Entity::~Entity()
 {
-	if(texture)
-		app->tex->UnLoad(texture);
 }
 
 bool Entity::Update(float dt)

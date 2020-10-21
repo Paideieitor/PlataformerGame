@@ -9,6 +9,7 @@
 #include "EntityManager.h"
 #include "Map.h"
 #include "Collisions.h"
+#include "Checkpoints.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -34,9 +35,12 @@ bool DungeonScene::Start()
 {
 	app->entitymanager->Init();
 	app->collisions->Init();
+	
+	respawn = app->map->LoadMap("Assets/maps/dungeon.tmx");
 
-	app->map->LoadMap("Assets/maps/dungeon.tmx");
 	app->entitymanager->CreateEntity(EntityType::PLAYER, { 100,100 });
+
+	app->render->SetBackgroundColor({ 31,31,31,255 });
 
 	return true;
 }
@@ -66,5 +70,6 @@ bool DungeonScene::CleanUp()
 	app->entitymanager->Exit();
 	app->collisions->Exit();
 	app->map->CleanUp();
+
 	return true;
 }

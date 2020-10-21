@@ -109,7 +109,7 @@ void Player::Collision(Collider* c1, Collider* c2)
 	if (c1 == body && c2->type == ColliderType::GROUND)
 	{
 		fPoint dPosition = GetDrawPosition(size);
-		if (dPosition.y + size.y - 3 < c2->rect.y){}
+		if (dPosition.y + size.y - 3 < c2->rect.y) {}
 		else if (dPosition.y + size.y / 2 > c2->rect.y + c2->rect.h)
 		{
 			position.y = c2->rect.y + c2->rect.h + size.y / 2;

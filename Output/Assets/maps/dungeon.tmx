@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.5" orientation="orthogonal" renderorder="right-down" width="55" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="35">
+<map version="1.2" tiledversion="1.2.5" orientation="orthogonal" renderorder="right-down" width="55" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="47">
  <tileset firstgid="1" name="Dungeon" tilewidth="16" tileheight="16" tilecount="45" columns="9">
   <image source="dungeontileset.png" width="150" height="80"/>
  </tileset>
+ <objectgroup id="6" name="CheckPoints">
+  <properties>
+   <property name="size" value="4"/>
+  </properties>
+  <object id="35" type="1" x="96" y="16">
+   <point/>
+  </object>
+  <object id="36" type="2" x="352" y="128">
+   <point/>
+  </object>
+  <object id="38" type="2" x="592" y="192">
+   <point/>
+  </object>
+  <object id="45" type="3" x="784" y="192">
+   <point/>
+  </object>
+ </objectgroup>
  <objectgroup id="5" name="Colliders">
   <object id="4" type="GROUND" x="64" y="208" width="80" height="112"/>
   <object id="5" type="GROUND" x="0" y="96" width="64" height="224"/>
@@ -31,7 +48,7 @@
  </objectgroup>
  <layer id="3" name="Background" width="55" height="20">
   <properties>
-   <property name="ToDraw" value="true"/>
+   <property name="toDraw" value="true"/>
   </properties>
   <data>
    <tile gid="8"/>
@@ -1138,7 +1155,7 @@
  </layer>
  <layer id="4" name="Cave" width="55" height="20">
   <properties>
-   <property name="ToDraw" value="true"/>
+   <property name="toDraw" value="true"/>
   </properties>
   <data>
    <tile gid="17"/>

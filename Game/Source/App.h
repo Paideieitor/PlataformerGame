@@ -104,6 +104,9 @@ public:
 	bool toSave;
 	bool toLoad;
 
+	//Debug
+	bool drawColliders;
+
 private:
 
 	int argc;

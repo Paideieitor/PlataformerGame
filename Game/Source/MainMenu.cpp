@@ -31,6 +31,8 @@ bool MainMenu::Start()
 {
 	bern = app->tex->Load("Assets/textures/BERN.png");
 
+	app->render->SetBackgroundColor({ 255,255,255,255 });
+
 	return true;
 }
 

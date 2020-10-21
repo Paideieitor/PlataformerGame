@@ -3,6 +3,7 @@
 #include "Textures.h"
 #include "Render.h"
 #include "Collisions.h"
+#include "Checkpoints.h"
 
 #include "Log.h"
 
@@ -63,8 +64,10 @@ bool Map::CleanUp()
 	return true;
 }
 
-bool Map::LoadMap(char* path)
+WayPoints* Map::LoadMap(char* path)
 {
+	WayPoints* output = nullptr;
+
 	pugi::xml_document document;
 	pugi::xml_parse_result result = document.load_file(path);
 
@@ -86,81 +89,20 @@ bool Map::LoadMap(char* path)
 	LOG("tile width: %d", mapData->tileWidth);
 	LOG("tile height: %d", mapData->tileHeight);
 
-	vector<Tileset> tBuffer;
-	for(pugi::xml_node node = mNode.child("tileset"); node != NULL; node = node.next_sibling("tileset"))
+	LoadTilesets(mNode);
+
+	LoadLayers(mNode);
+
+	for (pugi::xml_node node = mNode.child("objectgroup"); node != NULL; node = node.next_sibling("objectgroup"))
 	{
-		Tileset tileset;
-
-		LOG("%s", node.name());
-
-		tileset.firstgid = node.attribute("firstgid").as_uint();
-		tileset.name = node.attribute("name").as_string();
-		tileset.tileWidth = node.attribute("tilewidth").as_uint();
-		tileset.tileHeight = node.attribute("tileheight").as_uint();
-		tileset.margin = node.attribute("margin").as_uint();
-		tileset.spacing = node.attribute("spacing").as_uint();
-		tileset.count = node.attribute("tilecount").as_uint();
-		tileset.columns = node.attribute("columns").as_uint();
-		string path = TILESETSPATH;
-		tileset.texture = app->tex->Load((path += node.child("image").attribute("source").as_string()).c_str());
-
-		LOG("Loading Tileset Data---");
-		LOG("name: %s", tileset.name.c_str());
-		LOG("path: %s", path.c_str());
-		LOG("first gid: %d", tileset.firstgid);
-		LOG("count: %d", tileset.count);
-		LOG("columns: %d", tileset.columns);
-		LOG("tile width: %d", tileset.tileWidth);
-		LOG("tile height: %d", tileset.tileHeight);
-		LOG("spacing: %d", tileset.spacing);
-		LOG("margin: %d", tileset.margin);
-
-		tBuffer.push_back(tileset);
+		string name = node.attribute("name").as_string();
+		if (name == "Colliders")
+			LoadColliders(node);
+		else if (name == "CheckPoints")
+			output = LoadCheckPoints(node);
 	}
-	mapData->tSize = tBuffer.size();
-	mapData->tilesets = new Tileset[mapData->tSize];
-	for(int i = 0; i < mapData->tSize; i++)
-		mapData->tilesets[i] = tBuffer[i];
-
-	vector<Layer> lBuffer;
-	for(pugi::xml_node node = mNode.child("layer"); node != NULL; node = node.next_sibling("layer"))
-	{
-		Layer layer;
-
-		layer.name = node.attribute("name").as_string();
-		layer.width = node.attribute("width").as_uint();
-		layer.height = node.attribute("height").as_uint();
-		layer.toDraw = node.child("properties").child("property").attribute("value").as_bool();
-
-		LOG("Loading Layer Data---");
-		LOG("name: %s", layer.name.c_str());
-		LOG("width: %d", layer.width);
-		LOG("height: %d", layer.height);
-		LOG("toDraw: %d", layer.toDraw);
-
-		layer.tiles = new uint* [layer.width];
-		for(int i = 0; i < layer.width; ++i)
-			layer.tiles[i] = new uint[layer.height];
-
-		pugi::xml_node lNode = node.child("data").child("tile");
-		for(int y = 0; y != layer.height; y++)
-		{
-			for(int x = 0; x != layer.width; x++)
-			{
-				int a = lNode.attribute("gid").as_uint();
-				layer.tiles[x][y] = a;
-				lNode = lNode.next_sibling("tile");
-			}
-		}
-
-		lBuffer.push_back(layer);
-	}
-	mapData->lSize = lBuffer.size();
-	mapData->layers = new Layer[mapData->lSize];
-	for(int i = 0; i < mapData->lSize; i++)
-		mapData->layers[i] = lBuffer[i];
-
-	return true;
+	
+	return output;
 }
 
 void Map::DrawMap()
@@ -211,4 +153,126 @@ Tileset* Map::GetTileset(uint gid)
 	}
 
 	return nullptr;
+}
+
+void Map::LoadTilesets(pugi::xml_node& mNode)
+{
+	vector<Tileset> tBuffer;
+	for (pugi::xml_node node = mNode.child("tileset"); node != NULL; node = node.next_sibling("tileset"))
+	{
+		Tileset tileset;
+
+		LOG("%s", node.name());
+
+		tileset.firstgid = node.attribute("firstgid").as_uint();
+		tileset.name = node.attribute("name").as_string();
+		tileset.tileWidth = node.attribute("tilewidth").as_uint();
+		tileset.tileHeight = node.attribute("tileheight").as_uint();
+		tileset.margin = node.attribute("margin").as_uint();
+		tileset.spacing = node.attribute("spacing").as_uint();
+		tileset.count = node.attribute("tilecount").as_uint();
+		tileset.columns = node.attribute("columns").as_uint();
+		string path = TILESETSPATH;
+		tileset.texture = app->tex->Load((path += node.child("image").attribute("source").as_string()).c_str());
+
+		LOG("Loading Tileset Data---");
+		LOG("name: %s", tileset.name.c_str());
+		LOG("path: %s", path.c_str());
+		LOG("first gid: %d", tileset.firstgid);
+		LOG("count: %d", tileset.count);
+		LOG("columns: %d", tileset.columns);
+		LOG("tile width: %d", tileset.tileWidth);
+		LOG("tile height: %d", tileset.tileHeight);
+		LOG("spacing: %d", tileset.spacing);
+		LOG("margin: %d", tileset.margin);
+
+		tBuffer.push_back(tileset);
+	}
+	mapData->tSize = tBuffer.size();
+	mapData->tilesets = new Tileset[mapData->tSize];
+	for (int i = 0; i < mapData->tSize; i++)
+		mapData->tilesets[i] = tBuffer[i];
+}
+
+void Map::LoadLayers(pugi::xml_node& mNode)
+{
+	vector<Layer> lBuffer;
+	for (pugi::xml_node node = mNode.child("layer"); node != NULL; node = node.next_sibling("layer"))
+	{
+		Layer layer;
+
+		layer.name = node.attribute("name").as_string();
+		layer.width = node.attribute("width").as_uint();
+		layer.height = node.attribute("height").as_uint();
+		layer.toDraw = node.child("properties").child("property").attribute("value").as_bool();
+
+		LOG("Loading Layer Data---");
+		LOG("name: %s", layer.name.c_str());
+		LOG("width: %d", layer.width);
+		LOG("height: %d", layer.height);
+		LOG("toDraw: %d", layer.toDraw);
+
+		layer.tiles = new uint * [layer.width];
+		for (int i = 0; i < layer.width; ++i)
+			layer.tiles[i] = new uint[layer.height];
+
+		pugi::xml_node lNode = node.child("data").child("tile");
+		for (int y = 0; y != layer.height; y++)
+		{
+			for (int x = 0; x != layer.width; x++)
+			{
+				int a = lNode.attribute("gid").as_uint();
+				layer.tiles[x][y] = a;
+				lNode = lNode.next_sibling("tile");
+			}
+		}
+
+		lBuffer.push_back(layer);
+	}
+	mapData->lSize = lBuffer.size();
+	mapData->layers = new Layer[mapData->lSize];
+	for (int i = 0; i < mapData->lSize; i++)
+		mapData->layers[i] = lBuffer[i];
+}
+
+void Map::LoadColliders(pugi::xml_node& node)
+{
+	for (pugi::xml_node oNode = node.child("object"); oNode != NULL; oNode = oNode.next_sibling("object"))
+	{
+		ColliderType type = ColliderType::WALL;
+		string collType = oNode.attribute("type").as_string();
+		if (collType == "GROUND")
+			type = ColliderType::GROUND;
+		if (collType == "ATTACK")
+			type = ColliderType::ATTACK;
+
+		int x = oNode.attribute("x").as_int();
+		int y = oNode.attribute("y").as_int();
+		int w = oNode.attribute("width").as_int();
+		int h = oNode.attribute("height").as_int();
+		SDL_Rect rect = { x,y,w,h };
+
+		app->collisions->CreateCollider(type, rect);
+	}
+}
+
+WayPoints* Map::LoadCheckPoints(pugi::xml_node& node)
+{
+	int size = node.child("properties").child("property").attribute("value").as_int();
+	WayPoints* wPoints = new WayPoints(size);
+
+	LOG("Loading CheckPoints ---");
+	for (pugi::xml_node oNode = node.child("object"); oNode != NULL; oNode = oNode.next_sibling("object"))
+	{
+		CheckType type = (CheckType)oNode.attribute("type").as_int();
+		int x = oNode.attribute("x").as_int();
+		int y = oNode.attribute("y").as_int();
+
+		LOG("type: %d | x: %d | y: %d", type, x, y);
+
+		wPoints->AddCheckPoint({ x,y }, type);
+	}
+	LOG("---");
+
+	return wPoints;
 }

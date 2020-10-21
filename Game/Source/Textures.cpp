@@ -40,7 +40,6 @@ bool Textures::CleanUp()
 	while(textures.size() != 0)
 	{
 		SDL_DestroyTexture(*textures.begin());
-
 		textures.erase(textures.begin());
 	}
 

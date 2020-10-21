@@ -38,6 +38,8 @@ bool LogoScene::Start()
 	app->render->camera.x = 0;
 	app->render->camera.y = 0;
 
+	app->render->SetBackgroundColor({ 255,255,255,255 });
+
 	return true;
 }
 

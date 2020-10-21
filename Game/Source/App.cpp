@@ -32,6 +32,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	toSave = false;
 	toLoad = false;
 
+	drawColliders = false;
+
 	input = new Input();
 	win = new Window();
 	render = new Render();
@@ -190,6 +192,8 @@ void App::FinishUpdate()
 		toSave = true;
 	if(input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 		toLoad = true;
+	if (input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		drawColliders = !drawColliders;
 
 	if(toSave)
 	{

@@ -4,6 +4,7 @@
 #include "Module.h"
 
 struct Collider;
+class WayPoints;
 
 class DungeonScene : public Module
 {
@@ -20,6 +21,10 @@ public:
 	bool PostUpdate();
 
 	bool CleanUp();
+
+private:
+
+	WayPoints* respawn;
 };
 
 #endif //__DUNGEONSCENE_H__

@@ -4,6 +4,7 @@
 #include "Module.h"
 
 struct SDL_Texture;
+class WayPoints;
 
 struct Tileset
 {
@@ -64,12 +65,16 @@ public:
 
 	bool CleanUp();
 
-	bool LoadMap(char* path);
+	WayPoints* LoadMap(char* path);
 	void DrawMap();
 
 private:
 
 	Tileset* GetTileset(uint gid);
+	void LoadTilesets(pugi::xml_node&);
+	void LoadLayers(pugi::xml_node&);
+	void LoadColliders(pugi::xml_node&);
+	WayPoints* LoadCheckPoints(pugi::xml_node&);
 
 	MapData* mapData;
 };

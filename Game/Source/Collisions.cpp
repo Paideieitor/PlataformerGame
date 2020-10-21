@@ -27,7 +27,7 @@ bool Collisions::PreUpdate()
 
 bool Collisions::Update(float dt)
 {
-	for(vector<Collider*>::iterator c = colliders.begin(); c != colliders.end(); c++)
+ 	for(vector<Collider*>::iterator c = colliders.begin(); c != colliders.end(); c++)
 	{
 		Collider* collider = *c;
 		for(vector<Collider*>::iterator ch = checkers.begin(); ch != checkers.end(); ch++)
@@ -37,11 +37,43 @@ bool Collisions::Update(float dt)
 				if(SDL_HasIntersection(&checker->rect, &collider->rect) == SDL_TRUE)
 					checker->callback->Collision(checker, collider);
 		}
-		app->render->SetRectangleEvent(5, { (float)collider->rect.x,(float)collider->rect.y }, { collider->rect.w,collider->rect.h }, 20, 255, 20, 50);
+		if(app->drawColliders)
+		{
+			SDL_Color color = { 255,255,255 };
+			switch (collider->type)
+			{
+			case ColliderType::PLAYER:
+				color = { 20,20,255 };
+				break;
+			case ColliderType::SHURIKEN:
+				color = { 255,255,20 };
+				break;
+			case ColliderType::ATTACK:
+				color = { 255,20,20 };
+				break;
+			case ColliderType::WALL:
+				color = { 255,20,255 };
+				break;
+			case ColliderType::GROUND:
+				color = { 20,255,20 };
+				break;
+			default:
+				break;
+			}
+			app->render->SetRectangleEvent(5, { (float)collider->rect.x,(float)collider->rect.y }, { collider->rect.w,collider->rect.h }, color.r, color.g, color.b, 50);
+		}
 	}
 
 	for(vector<vector<Collider*>::iterator>::iterator i = toDelete.begin(); i != toDelete.end(); i++)
 	{
+		if((**i)->checker)
+			for (vector<Collider*>::iterator c = checkers.begin(); c != checkers.end(); c++)
+				if (*c == **i)
+				{
+					checkers.erase(c);
+					break;
+				}
+
 		delete **i;
 		colliders.erase(*i);
 	}
@@ -51,11 +83,11 @@ bool Collisions::Update(float dt)
 }
 bool Collisions::PostUpdate()
 {
-	for(vector<Collider*>::iterator e = buffer.begin(); e != buffer.end(); e++)
+	for(vector<Collider*>::iterator c = buffer.begin(); c != buffer.end(); c++)
 	{
-		colliders.push_back(*e);
-		if((*e)->checker)
-			checkers.push_back(*e);
+		colliders.push_back(*c);
+		if((*c)->checker)
+			checkers.push_back(*c);
 	}
 	buffer.erase(buffer.begin(), buffer.end());
 
@@ -84,8 +116,8 @@ bool Collisions::CleanUp()
 		delete *buffer.begin();
 		buffer.erase(buffer.begin());
 	}
+	checkers.erase(checkers.begin(), checkers.end());
 	toDelete.erase(toDelete.begin(), toDelete.end());
-
 
 	return true;
 }
