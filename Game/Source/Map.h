@@ -76,6 +76,8 @@ private:
 	void LoadColliders(pugi::xml_node&);
 	WayPoints* LoadCheckPoints(pugi::xml_node&);
 
+	void CameraCull(Layer* layer, int& startX, int& startY, int& endX, int& endY);
+
 	MapData* mapData;
 };
 #endif

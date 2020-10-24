@@ -29,6 +29,9 @@ bool MainMenu::Awake(pugi::xml_node& node)
 
 bool MainMenu::Start()
 {
+	app->render->camera.x = 0;
+	app->render->camera.y = 0;
+
 	bern = app->tex->Load("Assets/textures/BERN.png");
 
 	app->render->SetBackgroundColor({ 255,255,255,255 });
@@ -43,10 +46,10 @@ bool MainMenu::PreUpdate()
 
 bool MainMenu::Update(float dt)
 {
-	if(app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	if(app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 		app->fade->ChangeScene(this, app->dungeonscene);
 
-	app->render->SetTextureEvent(2, bern, { 100,100 });
+	app->render->SetTextureEvent(2, bern, { 0,0 });
 
 	return true;
 }

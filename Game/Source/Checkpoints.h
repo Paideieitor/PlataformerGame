@@ -51,6 +51,10 @@ public:
 	{
 		return current;
 	}
+	void SetCurrent(int current)
+	{
+		this->current = current;
+	}
 	bool Iterate()
 	{
 		if (IsLast())

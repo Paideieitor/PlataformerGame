@@ -4,14 +4,16 @@
 	<window />
 	<textures />
 	<audio />
-	<scene />
-	<mainmenu />
-	<render>
-		<camera x="0" y="0" />
-	</render>
-	<fadetoblack />
-	<entitymanager />
 	<map />
-	<dungeon />
+	<fadetoblack />
+	<logo />
+	<mainmenu />
+	<dungeon>
+		<current level="1" checkpoint="0" />
+	</dungeon>
 	<collisions />
+	<entitymanager />
+	<render>
+		<camera x="-1137" y="-302" />
+	</render>
 </save>

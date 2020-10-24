@@ -37,6 +37,8 @@ private:
 	vector<Collider*> checkers;
 	vector<Collider*> buffer;
 	vector <vector<Collider*>::iterator> toDelete;
+
+	void DrawCollider(Collider*);
 };
 
 #endif // __COLLISION_H__

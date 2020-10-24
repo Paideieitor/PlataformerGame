@@ -17,4 +17,7 @@
 		<resizable value="false" />
 		<fullscreen_window value="false" />
 	</window>
+  <dungeon>
+    <levels amount="2"/>
+  </dungeon>
 </config>

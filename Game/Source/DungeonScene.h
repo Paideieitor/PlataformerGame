@@ -2,6 +2,7 @@
 #define __DUNGEONSCENE_H__
 
 #include "Module.h"
+#include "Point.h"
 
 struct Collider;
 class WayPoints;
@@ -21,6 +22,9 @@ public:
 	bool Update(float dt);
 	bool PostUpdate();
 
+	bool Save(pugi::xml_node&);
+	bool Load(pugi::xml_node&);
+
 	bool CleanUp();
 
 	void IterateCheckpoint();
@@ -34,6 +38,12 @@ private:
 
 	void UpdateCheckpoint();
 	void ResetCheckpoint();
+
+	int levels;
+	int currentLevel;
+	int currentCheckpoint;
+
+	void LoadCurrentMap();
 };
 
 #endif //__DUNGEONSCENE_H__

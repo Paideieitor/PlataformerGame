@@ -57,6 +57,9 @@
     <ClCompile Include="Source\Window.cpp">
       <Filter>Modules\Image &amp; Sound</Filter>
     </ClCompile>
+    <ClCompile Include="Source\WinScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h" />
@@ -135,6 +138,9 @@
     </ClInclude>
     <ClInclude Include="Source\Checkpoints.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WinScene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

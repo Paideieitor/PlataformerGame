@@ -37,35 +37,21 @@ bool Collisions::Update(float dt)
 			for(vector<Collider*>::iterator ch = checkers.begin(); ch != checkers.end(); ch++)
 			{
 				Collider* checker = *ch;
-				if(checker != collider)
-					if(SDL_HasIntersection(&checker->rect, &collider->rect) == SDL_TRUE)
-						checker->callback->Collision(checker, collider);
-			}
-			if(app->drawColliders)
-			{
-				SDL_Color color = { 255,255,255 };
-				switch (collider->type)
+				if (checker != collider && !checker->toDelete && !collider->toDelete)
 				{
-				case ColliderType::PLAYER:
-					color = { 20,20,255 };
-					break;
-				case ColliderType::SHURIKEN:
-					color = { 255,255,20 };
-					break;
-				case ColliderType::ATTACK:
-					color = { 255,20,20 };
-					break;
-				case ColliderType::CHECKPOINT:
-					color = { 255,20,255 };
-					break;
-				case ColliderType::GROUND:
-					color = { 20,255,20 };
-					break;
-				default:
-					break;
+					SDL_Rect r = checker->rect;
+					int a = (checker->rect.x - checker->pastPosition.x);
+					r.x = checker->pastPosition.x + ((checker->rect.x - checker->pastPosition.x) / 2);
+					r.y = checker->pastPosition.y + ((checker->rect.y - checker->pastPosition.y) / 2);
+					
+					if (SDL_HasIntersection(&r, &collider->rect) == SDL_TRUE)
+						checker->callback->Collision(checker, collider);
+					else if(SDL_HasIntersection(&checker->rect, &collider->rect) == SDL_TRUE)
+						checker->callback->Collision(checker, collider);
 				}
-				app->render->SetRectangleEvent(5, { (float)collider->rect.x,(float)collider->rect.y }, { collider->rect.w,collider->rect.h }, color.r, color.g, color.b, 50);
 			}
+			if (app->drawColliders)
+				DrawCollider(collider);
 		}
 	}
 
@@ -149,4 +135,30 @@ void Collisions::DeleteCollider(Collider* collider)
 void Collisions::FastDeleteCollider(vector<Collider*>::iterator itr)
 {
 	toDelete.push_back(itr);
+}
+
+void Collisions::DrawCollider(Collider* collider)
+{
+	SDL_Color color = { 255,255,255 };
+	switch (collider->type)
+	{
+	case ColliderType::PLAYER:
+		color = { 20,20,255 };
+		break;
+	case ColliderType::SHURIKEN:
+		color = { 255,255,20 };
+		break;
+	case ColliderType::ATTACK:
+		color = { 255,20,20 };
+		break;
+	case ColliderType::CHECKPOINT:
+		color = { 255,20,255 };
+		break;
+	case ColliderType::GROUND:
+		color = { 20,255,20 };
+		break;
+	default:
+		break;
+	}
+	app->render->SetRectangleEvent(5, { (float)collider->rect.x,(float)collider->rect.y }, { collider->rect.w,collider->rect.h }, color.r, color.g, color.b, 50);
 }

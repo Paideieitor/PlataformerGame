@@ -19,6 +19,7 @@ class FadeToBlack;
 class LogoScene;
 class MainMenu;
 class DungeonScene;
+class WinScene;
 class EntityManager;
 class Map;
 class Collisions;
@@ -94,6 +95,7 @@ public:
 	LogoScene* logo;
 	MainMenu* mainmenu;
 	DungeonScene* dungeonscene;
+	WinScene* winscene;
 	EntityManager* entitymanager;
 	Map* map;
 	Collisions* collisions;
@@ -105,7 +107,10 @@ public:
 	bool toLoad;
 
 	//Debug
+	bool startLevel1;
+	bool startLevel2;
 	bool drawColliders;
+	bool godMode;
 
 private:
 

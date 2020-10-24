@@ -69,6 +69,8 @@ public:
 	SDL_Rect viewport;
 	SDL_Color background;
 
+	iPoint resolution;
+
 private:
 
 	multimap<int, DrawEvent> drawEvents;

@@ -93,7 +93,7 @@ WayPoints* Map::LoadMap(char* path)
 
 	LoadLayers(mNode);
 
-	for (pugi::xml_node node = mNode.child("objectgroup"); node != NULL; node = node.next_sibling("objectgroup"))
+	for(pugi::xml_node node = mNode.child("objectgroup"); node != NULL; node = node.next_sibling("objectgroup"))
 	{
 		string name = node.attribute("name").as_string();
 		if (name == "Colliders")
@@ -109,9 +109,13 @@ void Map::DrawMap()
 {
 	for(int l = 0; l < mapData->lSize; l++)
 	{
-		for(int y = 0; y != mapData->layers[l].height; y++)
+		iPoint start;
+		iPoint end;
+		CameraCull(&mapData->layers[l], start.x, start.y, end.x, end.y);
+
+		for(int y = start.y; y != end.y; y++)
 		{
-			for(int x = 0; x != mapData->layers[l].width; x++)
+			for(int x = start.x; x != end.x; x++)
 			{
 				uint gid = mapData->layers[l].tiles[x][y];
 				Tileset* tileset = GetTileset(gid);
@@ -275,4 +279,31 @@ WayPoints* Map::LoadCheckPoints(pugi::xml_node& node)
 	LOG("---");
 
 	return wPoints;
+}
+
+void Map::CameraCull(Layer* layer, int& startX, int& startY, int& endX, int& endY)
+{
+	startX = (-app->render->camera.x) / (int)mapData->tileWidth;
+	if(startX < 0)
+		startX = 0;
+	else if(startX > layer->width - 1)
+		startX = layer->width - 1;
+
+	startY = (-app->render->camera.y) / (int)mapData->tileHeight;
+	if(startY < 0)
+		startY = 0;
+	else if(startY > layer->height - 1)
+		startY = layer->height - 1;
+
+	endX = (-app->render->camera.x + app->render->camera.w + (int)mapData->tileWidth) / (int)mapData->tileWidth;
+	if(endX < 0)
+		endX = 0;
+	else if(endX > layer->width - 1)
+		endX = layer->width - 1;
+
+	endY = (-app->render->camera.y + app->render->camera.w) / (int)mapData->tileHeight;
+	if(endY < 0)
+		endY = 0;
+	else if(endY > layer->height - 1)
+		endY = layer->height - 1;
 }

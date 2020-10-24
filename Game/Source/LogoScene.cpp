@@ -14,7 +14,7 @@
 
 LogoScene::LogoScene() : Module()
 {
-	name = "scene";
+	name = "logo";
 }
 
 LogoScene::~LogoScene()
@@ -50,12 +50,12 @@ bool LogoScene::PreUpdate()
 
 bool LogoScene::Update(float dt)
 {
-	if(!stop)
+	if (!stop)
 	{
-		if(aTimer == 0)
+		if (aTimer == 0)
 		{
 			timer += dt;
-			if(timer >= 1)
+			if (timer >= 1)
 			{
 				aTimer += dt;
 				timer = 0;
@@ -64,26 +64,22 @@ bool LogoScene::Update(float dt)
 		else
 		{
 			aTimer += dt;
-			if(aTimer >= 1)
+			if (aTimer >= 1)
 			{
 				aTimer = 1;
 				timer += dt;
-				if(timer >= 1)
+				if (timer >= 1)
 				{
 					stop = true;
 					app->fade->ChangeScene(this, app->mainmenu);
 				}
 			}
 		}
-
-		if(!stop && app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
-		{
-			stop = true;
-			app->fade->ChangeScene(this, app->mainmenu);
-		}
 	}
+	if(app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		app->fade->ChangeScene(this, app->mainmenu);
 
-	app->render->SetTextureEvent(1, logo, { 380, 100 }, { 0,0,0,0 }, false, true, 1.0f, aTimer * 255);
+	app->render->SetTextureEvent(1, logo, { 0, 0 }, { 0,0,0,0 }, false, true, 1.0f, aTimer * 255);
 	
 	return true;
 }

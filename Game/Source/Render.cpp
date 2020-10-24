@@ -40,13 +40,16 @@ bool Render::Awake(pugi::xml_node& config)
 	}
 	else
 	{
-		camera.w = app->win->screenSurface->w;
-		camera.h = app->win->screenSurface->h;
+		resolution = { 384, 216 };
+		camera.w = resolution.x;
+		camera.h = resolution.y;
 		camera.x = 0;
 		camera.y = 0;
+		SDL_RenderSetLogicalSize(renderer, resolution.x, resolution.y);
 	}
 
-	//SDL_RenderSetLogicalSize(renderer, 1920, 1080);
+
+
 
 	return true;
 }
@@ -109,31 +112,12 @@ bool Render::CleanUp()
 
 bool Render::Save(pugi::xml_node& node)
 {
-	pugi::xml_node mNode = node.child("camera");
-	if(mNode == NULL)
-	{
-		mNode = node.append_child("camera");
-		mNode.append_attribute("x");
-		mNode.append_attribute("y");
-	}
-
-	mNode.attribute("x").set_value(camera.x);
-	mNode.attribute("y").set_value(camera.y);
 
 	return true;
 }
 
 bool Render::Load(pugi::xml_node& node)
 {
-	pugi::xml_node mNode = node.child("camera");
-	if(mNode == NULL)
-	{
-		LOG("Camera Loading Error -> no camera node found");
-		return false;
-	}
-
-	camera.x = mNode.attribute("x").as_int();
-	camera.y = mNode.attribute("y").as_int();
 
 	return true;
 }

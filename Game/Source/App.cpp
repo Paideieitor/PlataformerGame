@@ -8,6 +8,7 @@
 #include "LogoScene.h"
 #include "MainMenu.h"
 #include "DungeonScene.h"
+#include "WinScene.h"
 #include "EntityManager.h"
 #include "Map.h"
 #include "Collisions.h"
@@ -43,6 +44,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	logo = new LogoScene();
 	mainmenu = new MainMenu();
 	dungeonscene = new DungeonScene();
+	winscene = new WinScene();
 	entitymanager = new EntityManager();
 	map = new Map();
 	collisions = new Collisions();
@@ -55,11 +57,12 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(map);
 	AddModule(fade, false);
-	AddModule(logo, false);
+	AddModule(logo, true);
 	AddModule(mainmenu, false);
-	AddModule(dungeonscene, true);
-	AddModule(entitymanager, false);
+	AddModule(dungeonscene, false);
+	AddModule(winscene, false);
 	AddModule(collisions, false);
+	AddModule(entitymanager, false);
 	// render last to swap buffer
 	AddModule(render);
 }
@@ -186,12 +189,20 @@ void App::PrepareUpdate()
 // ---------------------------------------------
 void App::FinishUpdate()
 {
-	if(input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	if (input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		startLevel1 = true;
+	if (input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+		startLevel2 = true;
+	if(input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		toSave = true;
-	if(input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	if(input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		toLoad = true;
 	if (input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 		drawColliders = !drawColliders;
+	if (input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+		godMode = !godMode;
+	if (input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+		capped = !capped;
 
 	if(toSave)
 	{
@@ -208,8 +219,12 @@ void App::FinishUpdate()
 	int miliseconds = timer.Read();
 	fps = 1 / dt;
 
+	int c = 0;
+	if(capped)
+		c = frameCap;
+
 	char title[256];
-	sprintf_s(title, 256, "PlatformGame || FPS: %d / Last Frame Ms: %d / Cap: %d / dt: %f", fps, miliseconds, frameCap, dt);
+	sprintf_s(title, 256, "PlatformGame || FPS: %d / Last Frame Ms: %d / Cap: %d / dt: %f", fps, miliseconds, c, dt);
 	app->win->SetTitle(title);
 
 	if(capped)

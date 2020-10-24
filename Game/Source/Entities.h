@@ -30,12 +30,12 @@ public:
 
 	bool toDelete;
 
-protected:
-
 	EntityType type;
 
 	fPoint position;
 	iPoint size;
+
+protected:
 
 	fPoint GetDrawPosition(iPoint size);
 	SDL_Texture* texture;

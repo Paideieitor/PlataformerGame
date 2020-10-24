@@ -19,13 +19,22 @@ struct Collider
 	{
 		this->type = type;
 		this->rect = rect;
+		pastPosition = { rect.x,rect.y };
 		this->checker = checker;
 		this->callback = callback;
 		toDelete = false;
 	}
 
+	void SetPosition(int x, int y)
+	{
+		pastPosition = { rect.x,rect.y };
+		rect.x = x;
+		rect.y = y;
+	}
+
 	ColliderType type;
 	SDL_Rect rect;
+	iPoint pastPosition;
 	bool checker;
 	Entity* callback;
 
