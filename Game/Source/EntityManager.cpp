@@ -42,12 +42,15 @@ bool EntityManager::Update(float dt)
 			FastDeleteEntity(e);
 	}
 
+	int updater = 0;
 	for(vector<vector<Entity*>::iterator>::iterator i = toDelete.begin(); i != toDelete.end(); i++)
 	{
-		delete** i;
-		entities.erase(*i);
+		vector<Entity*>::iterator eItr = *i - updater;
+		delete *eItr;
+		entities.erase(eItr);
+		updater++;
 	}
-	toDelete.erase(toDelete.begin(), toDelete.end());
+	toDelete.erase(toDelete.begin(), toDelete.end());	
 
 	return true;
 }

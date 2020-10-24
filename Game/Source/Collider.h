@@ -9,7 +9,7 @@ enum class ColliderType
 	PLAYER,
 	SHURIKEN,
 	ATTACK,
-	WALL,
+	CHECKPOINT,
 	GROUND
 };
 

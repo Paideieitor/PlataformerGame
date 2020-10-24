@@ -41,15 +41,35 @@ public:
 
 	void AddCheckPoint(iPoint position, CheckType type)
 	{
-		if (last != size)
+		if(last != size)
 		{
 			checkpoints[last] = { position, type };
 			last++;
 		}
 	}
+	int GetCurrent()
+	{
+		return current;
+	}
+	bool Iterate()
+	{
+		if (IsLast())
+		{
+			return false;
+		}
+		current++;
+		return true;
+	}
 	void Reset()
 	{
 		current = 0;
+	}
+
+	bool IsLast()
+	{
+		if(current + 2 == last)
+			return true;
+		return false;
 	}
 
 private:

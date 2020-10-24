@@ -2,8 +2,11 @@
 #include "EntityManager.h"
 #include "Animation.h"
 #include "Collisions.h"
+#include "DungeonScene.h"
 
 #include "Input.h"
+
+#define MAXJUMPS 2
 
 Player::Player(fPoint position)
 {
@@ -13,6 +16,7 @@ Player::Player(fPoint position)
 	velocity = { 0,0 };
 	wall = WallCollision::NONE;
 	grounded = false;
+	jumps = 0;
 
 	texture = app->tex->Load("Assets/textures/ninja.png");
 
@@ -77,6 +81,7 @@ bool Player::Update(float dt)
 		{
 			velocity.y = 0;
 			timeOnAir = 0;
+			jumps = 0;
 		}
 	}
 	else
@@ -86,9 +91,11 @@ bool Player::Update(float dt)
 		currentAnimation = jump;
 	}
 
-	if(onGround && app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+	if(jumps < MAXJUMPS && app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 	{
 		velocity.y = dt * -250;
+		jumps++;
+		timeOnAir = 0;
 	}
 
 	position.x += velocity.x;
@@ -134,5 +141,14 @@ void Player::Collision(Collider* c1, Collider* c2)
 			position.y = c2->rect.y - size.y / 2 + 1;
 			return;
 		}
+	}
+
+	if (c1 == body && c2->type == ColliderType::CHECKPOINT)
+	{
+		app->dungeonscene->IterateCheckpoint();
+	}
+	if (c1 == body && c2->type == ColliderType::ATTACK)
+	{
+		app->dungeonscene->RespawnPlayer();
 	}
 }

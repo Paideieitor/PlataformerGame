@@ -76,6 +76,8 @@ private:
 	WallCollision wall;
 	bool grounded;
 	float timeOnAir;
+
+	uint jumps;
 };
 
 #endif

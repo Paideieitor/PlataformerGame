@@ -53,15 +53,13 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(win);
 	AddModule(tex);
 	AddModule(audio);
-	AddModule(entitymanager, false);
-	AddModule(collisions, false);
 	AddModule(map);
 	AddModule(fade, false);
 	AddModule(logo, false);
 	AddModule(mainmenu, false);
 	AddModule(dungeonscene, true);
-
-
+	AddModule(entitymanager, false);
+	AddModule(collisions, false);
 	// render last to swap buffer
 	AddModule(render);
 }

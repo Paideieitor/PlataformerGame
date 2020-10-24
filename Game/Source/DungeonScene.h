@@ -5,6 +5,7 @@
 
 struct Collider;
 class WayPoints;
+class Entity;
 
 class DungeonScene : public Module
 {
@@ -22,9 +23,17 @@ public:
 
 	bool CleanUp();
 
+	void IterateCheckpoint();
+	void RespawnPlayer();
+
 private:
 
 	WayPoints* respawn;
+	Entity* player;
+	Collider* checkpoint;
+
+	void UpdateCheckpoint();
+	void ResetCheckpoint();
 };
 
 #endif //__DUNGEONSCENE_H__

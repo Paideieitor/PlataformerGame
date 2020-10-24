@@ -30,57 +30,66 @@ bool Collisions::Update(float dt)
  	for(vector<Collider*>::iterator c = colliders.begin(); c != colliders.end(); c++)
 	{
 		Collider* collider = *c;
-		for(vector<Collider*>::iterator ch = checkers.begin(); ch != checkers.end(); ch++)
+		if (collider->toDelete)
+			FastDeleteCollider(c);
+		else
 		{
-			Collider* checker = *ch;
-			if(checker != collider)
-				if(SDL_HasIntersection(&checker->rect, &collider->rect) == SDL_TRUE)
-					checker->callback->Collision(checker, collider);
-		}
-		if(app->drawColliders)
-		{
-			SDL_Color color = { 255,255,255 };
-			switch (collider->type)
+			for(vector<Collider*>::iterator ch = checkers.begin(); ch != checkers.end(); ch++)
 			{
-			case ColliderType::PLAYER:
-				color = { 20,20,255 };
-				break;
-			case ColliderType::SHURIKEN:
-				color = { 255,255,20 };
-				break;
-			case ColliderType::ATTACK:
-				color = { 255,20,20 };
-				break;
-			case ColliderType::WALL:
-				color = { 255,20,255 };
-				break;
-			case ColliderType::GROUND:
-				color = { 20,255,20 };
-				break;
-			default:
-				break;
+				Collider* checker = *ch;
+				if(checker != collider)
+					if(SDL_HasIntersection(&checker->rect, &collider->rect) == SDL_TRUE)
+						checker->callback->Collision(checker, collider);
 			}
-			app->render->SetRectangleEvent(5, { (float)collider->rect.x,(float)collider->rect.y }, { collider->rect.w,collider->rect.h }, color.r, color.g, color.b, 50);
+			if(app->drawColliders)
+			{
+				SDL_Color color = { 255,255,255 };
+				switch (collider->type)
+				{
+				case ColliderType::PLAYER:
+					color = { 20,20,255 };
+					break;
+				case ColliderType::SHURIKEN:
+					color = { 255,255,20 };
+					break;
+				case ColliderType::ATTACK:
+					color = { 255,20,20 };
+					break;
+				case ColliderType::CHECKPOINT:
+					color = { 255,20,255 };
+					break;
+				case ColliderType::GROUND:
+					color = { 20,255,20 };
+					break;
+				default:
+					break;
+				}
+				app->render->SetRectangleEvent(5, { (float)collider->rect.x,(float)collider->rect.y }, { collider->rect.w,collider->rect.h }, color.r, color.g, color.b, 50);
+			}
 		}
 	}
 
+	int updater = 0;
 	for(vector<vector<Collider*>::iterator>::iterator i = toDelete.begin(); i != toDelete.end(); i++)
 	{
-		if((**i)->checker)
+		vector<Collider*>::iterator cItr = *i - updater;
+		if((*cItr)->checker)
 			for (vector<Collider*>::iterator c = checkers.begin(); c != checkers.end(); c++)
-				if (*c == **i)
+				if (*c == *cItr)
 				{
 					checkers.erase(c);
 					break;
 				}
 
-		delete **i;
-		colliders.erase(*i);
+		delete *cItr;
+		colliders.erase(cItr);
+		updater++;
 	}
 	toDelete.erase(toDelete.begin(), toDelete.end());
 
 	return true;
 }
+
 bool Collisions::PostUpdate()
 {
 	for(vector<Collider*>::iterator c = buffer.begin(); c != buffer.end(); c++)

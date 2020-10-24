@@ -90,7 +90,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Animation.cpp" />
-    <ClCompile Include="Source\Checkpoints.cpp" />
     <ClCompile Include="Source\Collisions.cpp" />
     <ClCompile Include="Source\DungeonScene.cpp" />
     <ClCompile Include="Source\Entity.cpp" />

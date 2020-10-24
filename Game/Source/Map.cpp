@@ -239,7 +239,7 @@ void Map::LoadColliders(pugi::xml_node& node)
 {
 	for (pugi::xml_node oNode = node.child("object"); oNode != NULL; oNode = oNode.next_sibling("object"))
 	{
-		ColliderType type = ColliderType::WALL;
+		ColliderType type = ColliderType::GROUND;
 		string collType = oNode.attribute("type").as_string();
 		if (collType == "GROUND")
 			type = ColliderType::GROUND;
