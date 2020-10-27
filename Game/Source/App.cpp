@@ -61,9 +61,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(map);
 	AddModule(fade, false);
-	AddModule(logo, false);
+	AddModule(logo, true);
 	AddModule(mainmenu, false);
-	AddModule(dungeonscene, true);
+	AddModule(dungeonscene, false);
 	AddModule(winscene, false);
 	AddModule(collisions);
 	AddModule(entitymanager);
