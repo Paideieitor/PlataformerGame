@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Audio.h"
 #include "Textures.h"
 #include "Render.h"
 #include "Input.h"
@@ -31,7 +32,8 @@ bool MainMenu::Start()
 	app->render->camera.x = 0;
 	app->render->camera.y = 0;
 
-	bern = app->tex->Load("Assets/textures/BERN.png");
+	bern = app->tex->Load("Assets/textures/bern.png");
+	app->audio->PlayMusic("Assets/audio/music/righteous_juice_wrld_8bit_universe.ogg", 0.0f);
 
 	app->render->SetBackgroundColor({ 255,255,255,255 });
 

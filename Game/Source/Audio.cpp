@@ -69,11 +69,7 @@ bool Audio::CleanUp()
 		Mix_FreeMusic(music);
 	}
 
-	while(fx.size() != 0)
-	{
-		Mix_FreeChunk(*fx.begin());
-		fx.erase(fx.begin());
-	}
+	DeleteFx();
 
 	Mix_CloseAudio();
 	Mix_Quit();
@@ -169,6 +165,16 @@ bool Audio::PlayFx(unsigned int id, int repeat)
 	}
 
 	return true;
+}
+
+// Delete all fx
+void Audio::DeleteFx()
+{
+	while(fx.size() != 0)
+	{
+		Mix_FreeChunk(*fx.begin());
+		fx.erase(fx.begin());
+	}
 }
 
 void Audio::SetMusicVolume(int volume)

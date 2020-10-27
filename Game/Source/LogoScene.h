@@ -28,6 +28,8 @@ private:
 	float aTimer;
 	float timer;
 	bool stop;
+
+	uint logoSound;
 };
 
 #endif // __SCENE_H__

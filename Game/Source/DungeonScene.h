@@ -32,6 +32,9 @@ public:
 
 	bool iterate;
 
+	uint jumpSound;
+	uint deathSound;
+
 private:
 
 	WayPoints* respawn = nullptr;
@@ -41,11 +44,13 @@ private:
 	void UpdateCheckpoint();
 	void ResetCheckpoint();
 
+	void LoadCurrentMap();
+
 	int levels;
 	int currentLevel;
 	int currentCheckpoint;
 
-	void LoadCurrentMap();
+	bool keepMusic;
 };
 
 #endif //__DUNGEONSCENE_H__

@@ -1,5 +1,6 @@
 #include "EntityManager.h"
 #include "Animation.h"
+#include "Audio.h"
 #include "Collisions.h"
 #include "DungeonScene.h"
 #include "Input.h"
@@ -110,6 +111,7 @@ bool Player::Update(float dt)
 			velocity.y = -200;
 			jumps++;
 			timeOnAir = 0;
+			app->audio->PlayFx(app->dungeonscene->jumpSound);
 		}
 	}
 
@@ -177,6 +179,7 @@ void Player::Collision(Collider* c1, Collider* c2)
 	}
 	if(!app->godMode && c1 == body && c2->type == ColliderType::ATTACK)
 	{
+		app->audio->PlayFx(app->dungeonscene->deathSound);
 		app->dungeonscene->RespawnPlayer();
 	}
 }

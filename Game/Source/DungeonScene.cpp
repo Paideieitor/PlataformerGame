@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Audio.h"
 #include "Textures.h"
 #include "Render.h"
 #include "Input.h"
@@ -39,6 +40,8 @@ bool DungeonScene::Awake(pugi::xml_node& node)
 	player = nullptr;
 	checkpoint = nullptr;
 
+	keepMusic = false;
+
 	levels = node.child("levels").attribute("amount").as_int();
 	currentLevel = 1;
 	currentCheckpoint = 0;
@@ -48,6 +51,13 @@ bool DungeonScene::Awake(pugi::xml_node& node)
 
 bool DungeonScene::Start()
 {
+	jumpSound = app->audio->LoadFx("Assets/audio/fx/jump.wav");
+	deathSound = app->audio->LoadFx("Assets/audio/fx/oof.wav");
+
+	if(!keepMusic)
+		app->audio->PlayMusic("Assets/audio/music/mood_swings_pop_smoke_lil_tjay_8bit_universe.ogg", 0.0f);
+	keepMusic = false;
+
 	app->render->camera.x = 0;
 	app->render->camera.y = 0;
 
@@ -137,6 +147,10 @@ bool DungeonScene::Load(pugi::xml_node& node)
 
 bool DungeonScene::CleanUp()
 {
+	app->audio->DeleteFx();
+	jumpSound = NULL;
+	deathSound = NULL;
+
 	delete respawn;
 
 	app->entitymanager->CleanUp();
@@ -169,6 +183,7 @@ void DungeonScene::IterateCheckpoint()
 		else
 		{
 			this->CleanUp();
+			keepMusic = true;
 			this->Start();
 		}
 	}

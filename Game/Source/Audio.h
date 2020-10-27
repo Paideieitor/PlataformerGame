@@ -22,6 +22,7 @@ public:
 
 	unsigned int LoadFx(const char* path);
 	bool PlayFx(unsigned int fx, int repeat = 0);
+	void DeleteFx();
 
 	void SetMusicVolume(int volume);
 	void SetFxVolume(int volume);

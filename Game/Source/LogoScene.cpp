@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Audio.h"
 #include "Input.h"
 #include "Textures.h"
 #include "Audio.h"
@@ -29,7 +30,9 @@ bool LogoScene::Awake(pugi::xml_node& node)
 
 bool LogoScene::Start()
 {
-	logo = app->tex->Load("Assets/textures/Logo.png");
+	logo = app->tex->Load("Assets/textures/logo.png");
+	logoSound = app->audio->LoadFx("Assets/audio/fx/mango_shout.wav");
+
 	aTimer = 0;
 	timer = 0;
 	stop = false;
@@ -58,6 +61,7 @@ bool LogoScene::Update(float dt)
 			{
 				aTimer += dt;
 				timer = 0;
+				app->audio->PlayFx(logoSound);
 			}
 		}
 		else
@@ -91,6 +95,9 @@ bool LogoScene::PostUpdate()
 bool LogoScene::CleanUp()
 {
 	LOG("Freeing scene");
+
+	app->audio->DeleteFx();
+	logoSound = NULL;
 
 	aTimer = 0;
 	timer = 0;
