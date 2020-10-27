@@ -161,10 +161,10 @@ void DungeonScene::IterateCheckpoint()
 		currentLevel++;
 		if(currentLevel > levels)
 		{
-			currentLevel = 1;
 			currentCheckpoint = 0;
 			respawn->Reset();
 			app->fade->ChangeScene(this, app->winscene);
+			currentLevel = 1;
 		}
 		else
 		{

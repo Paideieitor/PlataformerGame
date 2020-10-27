@@ -15,9 +15,7 @@ WinScene::WinScene() : Module()
 }
 
 WinScene::~WinScene()
-{
-
-}
+{}
 
 bool WinScene::Awake(pugi::xml_node& node)
 {
@@ -46,7 +44,9 @@ bool WinScene::PreUpdate()
 bool WinScene::Update(float dt)
 {
 	if(app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+	{
 		app->fade->ChangeScene(this, app->mainmenu);
+	}
 
 	app->render->SetTextureEvent(2, win, { 0,0 });
 
