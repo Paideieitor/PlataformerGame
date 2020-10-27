@@ -27,10 +27,10 @@ public:
 
 public:
 	// The window we'll be rendering to
-	SDL_Window* window;
+	SDL_Window* window = nullptr;
 
 	// The surface contained by the window
-	SDL_Surface* screenSurface;
+	SDL_Surface* screenSurface = nullptr;
 
 private:
 	string title;

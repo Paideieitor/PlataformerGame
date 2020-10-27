@@ -64,7 +64,7 @@ public:
 	void SetLineEvent(int layer, int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool useCamera = true);
 	void SetCircleEvent(int layer, int x1, int y1, int redius, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool useCamera = true);
 
-	SDL_Renderer* renderer;
+	SDL_Renderer* renderer = nullptr;
 	SDL_Rect camera;
 	SDL_Rect viewport;
 	SDL_Color background;

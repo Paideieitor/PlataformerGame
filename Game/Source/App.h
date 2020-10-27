@@ -86,19 +86,19 @@ private:
 public:
 
 	// Modules
-	Window* win;
-	Input* input;
-	Render* render;
-	Textures* tex;
-	Audio* audio;
-	FadeToBlack* fade;
-	LogoScene* logo;
-	MainMenu* mainmenu;
-	DungeonScene* dungeonscene;
-	WinScene* winscene;
-	EntityManager* entitymanager;
-	Map* map;
-	Collisions* collisions;
+	Window* win = nullptr;
+	Input* input = nullptr;
+	Render* render = nullptr;
+	Textures* tex = nullptr;
+	Audio* audio = nullptr;
+	FadeToBlack* fade = nullptr;
+	LogoScene* logo = nullptr;
+	MainMenu* mainmenu = nullptr;
+	DungeonScene* dungeonscene = nullptr;
+	WinScene* winscene = nullptr;
+	EntityManager* entitymanager = nullptr;
+	Map* map = nullptr;
+	Collisions* collisions = nullptr;
 
 	// Save & Load
 	string configPath;

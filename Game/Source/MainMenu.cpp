@@ -1,11 +1,10 @@
-#include "MainMenu.h"
-
 #include "App.h"
 #include "Textures.h"
 #include "Render.h"
 #include "Input.h"
 #include "FadeToBlack.h"
 #include "DungeonScene.h"
+#include "MainMenu.h"
 
 #include "Defs.h"
 #include "Log.h"

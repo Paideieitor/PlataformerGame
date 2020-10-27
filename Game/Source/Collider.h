@@ -1,8 +1,9 @@
 #ifndef __COLLIDER_H__
 #define __COLLIDER_H__
 
-#include "SDL.h"
 #include "Entities.h"
+
+#include "SDL.h"
 
 enum class ColliderType
 {
@@ -36,7 +37,7 @@ struct Collider
 	SDL_Rect rect;
 	iPoint pastPosition;
 	bool checker;
-	Entity* callback;
+	Entity* callback = nullptr;
 
 	bool toDelete;
 };

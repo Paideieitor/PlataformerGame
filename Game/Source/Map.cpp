@@ -1,15 +1,15 @@
 #include "App.h"
-#include "Map.h"
 #include "Textures.h"
 #include "Render.h"
 #include "Collisions.h"
 #include "Checkpoints.h"
+#include "Map.h"
 
 #include "Log.h"
 
 #include <vector>
 
-#define TILESETSPATH "Assets/maps/"
+#define TILESETS_PATH "Assets/maps/"
 
 Map::Map()
 {
@@ -109,8 +109,8 @@ void Map::DrawMap()
 {
 	for(int l = 0; l < mapData->lSize; l++)
 	{
-		iPoint start;
-		iPoint end;
+		start = { 0,0 };
+		end = { 0,0 };
 		CameraCull(&mapData->layers[l], start.x, start.y, end.x, end.y);
 
 		for(int y = start.y; y != end.y; y++)
@@ -153,7 +153,6 @@ Tileset* Map::GetTileset(uint gid)
 				return &mapData->tilesets[i];
 			else
 				continue;
-
 	}
 
 	return nullptr;
@@ -162,7 +161,7 @@ Tileset* Map::GetTileset(uint gid)
 void Map::LoadTilesets(pugi::xml_node& mNode)
 {
 	vector<Tileset> tBuffer;
-	for (pugi::xml_node node = mNode.child("tileset"); node != NULL; node = node.next_sibling("tileset"))
+	for(pugi::xml_node node = mNode.child("tileset"); node != NULL; node = node.next_sibling("tileset"))
 	{
 		Tileset tileset;
 
@@ -176,7 +175,7 @@ void Map::LoadTilesets(pugi::xml_node& mNode)
 		tileset.spacing = node.attribute("spacing").as_uint();
 		tileset.count = node.attribute("tilecount").as_uint();
 		tileset.columns = node.attribute("columns").as_uint();
-		string path = TILESETSPATH;
+		string path = TILESETS_PATH;
 		tileset.texture = app->tex->Load((path += node.child("image").attribute("source").as_string()).c_str());
 
 		LOG("Loading Tileset Data---");
@@ -194,14 +193,14 @@ void Map::LoadTilesets(pugi::xml_node& mNode)
 	}
 	mapData->tSize = tBuffer.size();
 	mapData->tilesets = new Tileset[mapData->tSize];
-	for (int i = 0; i < mapData->tSize; i++)
+	for(int i = 0; i < mapData->tSize; i++)
 		mapData->tilesets[i] = tBuffer[i];
 }
 
 void Map::LoadLayers(pugi::xml_node& mNode)
 {
 	vector<Layer> lBuffer;
-	for (pugi::xml_node node = mNode.child("layer"); node != NULL; node = node.next_sibling("layer"))
+	for(pugi::xml_node node = mNode.child("layer"); node != NULL; node = node.next_sibling("layer"))
 	{
 		Layer layer;
 
@@ -217,13 +216,13 @@ void Map::LoadLayers(pugi::xml_node& mNode)
 		LOG("toDraw: %d", layer.toDraw);
 
 		layer.tiles = new uint * [layer.width];
-		for (int i = 0; i < layer.width; ++i)
+		for(int i = 0; i < layer.width; ++i)
 			layer.tiles[i] = new uint[layer.height];
 
 		pugi::xml_node lNode = node.child("data").child("tile");
-		for (int y = 0; y != layer.height; y++)
+		for(int y = 0; y != layer.height; y++)
 		{
-			for (int x = 0; x != layer.width; x++)
+			for(int x = 0; x != layer.width; x++)
 			{
 				int a = lNode.attribute("gid").as_uint();
 				layer.tiles[x][y] = a;
@@ -235,19 +234,19 @@ void Map::LoadLayers(pugi::xml_node& mNode)
 	}
 	mapData->lSize = lBuffer.size();
 	mapData->layers = new Layer[mapData->lSize];
-	for (int i = 0; i < mapData->lSize; i++)
+	for(int i = 0; i < mapData->lSize; i++)
 		mapData->layers[i] = lBuffer[i];
 }
 
 void Map::LoadColliders(pugi::xml_node& node)
 {
-	for (pugi::xml_node oNode = node.child("object"); oNode != NULL; oNode = oNode.next_sibling("object"))
+	for(pugi::xml_node oNode = node.child("object"); oNode != NULL; oNode = oNode.next_sibling("object"))
 	{
 		ColliderType type = ColliderType::GROUND;
 		string collType = oNode.attribute("type").as_string();
-		if (collType == "GROUND")
+		if(collType == "GROUND")
 			type = ColliderType::GROUND;
-		if (collType == "ATTACK")
+		if(collType == "ATTACK")
 			type = ColliderType::ATTACK;
 
 		int x = oNode.attribute("x").as_int();
@@ -266,7 +265,8 @@ WayPoints* Map::LoadCheckPoints(pugi::xml_node& node)
 	WayPoints* wPoints = new WayPoints(size);
 
 	LOG("Loading CheckPoints ---");
-	for (pugi::xml_node oNode = node.child("object"); oNode != NULL; oNode = oNode.next_sibling("object"))
+	LOG("current: %d", wPoints->GetCurrent());
+	for(pugi::xml_node oNode = node.child("object"); oNode != NULL; oNode = oNode.next_sibling("object"))
 	{
 		CheckType type = (CheckType)oNode.attribute("type").as_int();
 		int x = oNode.attribute("x").as_int();
@@ -301,7 +301,7 @@ void Map::CameraCull(Layer* layer, int& startX, int& startY, int& endX, int& end
 	else if(endX > layer->width - 1)
 		endX = layer->width - 1;
 
-	endY = (-app->render->camera.y + app->render->camera.w) / (int)mapData->tileHeight;
+	endY = (-app->render->camera.y + app->render->camera.h + (int)mapData->tileHeight) / (int)mapData->tileHeight;
 	if(endY < 0)
 		endY = 0;
 	else if(endY > layer->height - 1)

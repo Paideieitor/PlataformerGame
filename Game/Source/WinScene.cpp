@@ -1,11 +1,10 @@
-#include "WinScene.h"
-
 #include "App.h"
 #include "Textures.h"
 #include "Render.h"
 #include "Input.h"
 #include "FadeToBlack.h"
 #include "MainMenu.h"
+#include "WinScene.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -46,7 +45,7 @@ bool WinScene::PreUpdate()
 
 bool WinScene::Update(float dt)
 {
-	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+	if(app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 		app->fade->ChangeScene(this, app->mainmenu);
 
 	app->render->SetTextureEvent(2, win, { 0,0 });

@@ -25,7 +25,7 @@ Animation::~Animation()
 
 bool Animation::PushBack(int x, int y, int w, int h)
 {
-	if (last < size)
+	if(last < size)
 	{
 		frames[last] = { x,y,w,h };
 		last++;

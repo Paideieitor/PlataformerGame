@@ -30,10 +30,14 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 
 	configPath = "config.xml";
 	savePath = "savegame.xml";
+
+	startLevel1 = false;
+	startLevel2 = false;
 	toSave = false;
 	toLoad = false;
-
 	drawColliders = false;
+	godMode = false;
+
 
 	input = new Input();
 	win = new Window();
@@ -57,14 +61,16 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(map);
 	AddModule(fade, false);
-	AddModule(logo, true);
+	AddModule(logo, false);
 	AddModule(mainmenu, false);
-	AddModule(dungeonscene, false);
+	AddModule(dungeonscene, true);
 	AddModule(winscene, false);
-	AddModule(collisions, false);
-	AddModule(entitymanager, false);
+	AddModule(collisions);
+	AddModule(entitymanager);
 	// render last to swap buffer
 	AddModule(render);
+
+	fade->current = logo;
 }
 
 // Destructor
@@ -189,19 +195,19 @@ void App::PrepareUpdate()
 // ---------------------------------------------
 void App::FinishUpdate()
 {
-	if (input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	if(input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		startLevel1 = true;
-	if (input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	if(input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		startLevel2 = true;
 	if(input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		toSave = true;
 	if(input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		toLoad = true;
-	if (input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+	if(input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 		drawColliders = !drawColliders;
-	if (input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	if(input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 		godMode = !godMode;
-	if (input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+	if(input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 		capped = !capped;
 
 	if(toSave)

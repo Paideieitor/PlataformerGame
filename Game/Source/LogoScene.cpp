@@ -1,13 +1,12 @@
-#include "LogoScene.h"
-
 #include "App.h"
 #include "Input.h"
 #include "Textures.h"
 #include "Audio.h"
 #include "Render.h"
 #include "Window.h"
-#include "MainMenu.h"
 #include "FadeToBlack.h"
+#include "MainMenu.h"
+#include "LogoScene.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -50,12 +49,12 @@ bool LogoScene::PreUpdate()
 
 bool LogoScene::Update(float dt)
 {
-	if (!stop)
+	if(!stop)
 	{
-		if (aTimer == 0)
+		if(aTimer == 0)
 		{
 			timer += dt;
-			if (timer >= 1)
+			if(timer >= 1)
 			{
 				aTimer += dt;
 				timer = 0;
@@ -64,11 +63,11 @@ bool LogoScene::Update(float dt)
 		else
 		{
 			aTimer += dt;
-			if (aTimer >= 1)
+			if(aTimer >= 1)
 			{
 				aTimer = 1;
 				timer += dt;
-				if (timer >= 1)
+				if(timer >= 1)
 				{
 					stop = true;
 					app->fade->ChangeScene(this, app->mainmenu);

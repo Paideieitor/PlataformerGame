@@ -1,5 +1,3 @@
-#include "DungeonScene.h"
-
 #include "App.h"
 #include "Textures.h"
 #include "Render.h"
@@ -11,15 +9,15 @@
 #include "Map.h"
 #include "Collisions.h"
 #include "Checkpoints.h"
-#include "Entities.h"
+#include "DungeonScene.h"
 
 #include "Defs.h"
 #include "Log.h"
 
-#define MAPPATH "Assets/maps/dungeon"
-#define MAPFILETYPE ".tmx"
-#define CHECKPOINTSIZE 16
-#define CAMERASPEED 150
+#define MAP_PATH "Assets/maps/dungeon"
+#define MAP_FILETYPE ".tmx"
+#define CHECKPOINT_SIZE 16
+#define CAMERA_SPEED 150
 
 DungeonScene::DungeonScene() : Module()
 {
@@ -35,12 +33,15 @@ bool DungeonScene::Awake(pugi::xml_node& node)
 {
 	LOG("Loading Dungeon scene");
 
+	iterate = false;
+
 	respawn = nullptr;
 	player = nullptr;
 	checkpoint = nullptr;
 
 	levels = node.child("levels").attribute("amount").as_int();
 	currentLevel = 1;
+	currentCheckpoint = 0;
 
 	return true;
 }
@@ -49,10 +50,6 @@ bool DungeonScene::Start()
 {
 	app->render->camera.x = 0;
 	app->render->camera.y = 0;
-
-	app->entitymanager->Init();
-	app->collisions->Init();
-	
 
 	LoadCurrentMap();
 
@@ -72,8 +69,11 @@ bool DungeonScene::PreUpdate()
 
 bool DungeonScene::Update(float dt)
 {
-	if(app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+	if(iterate || app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+	{
+		iterate = false;
 		IterateCheckpoint();
+	}
 	if(app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 		ResetCheckpoint();
 
@@ -93,13 +93,13 @@ bool DungeonScene::PostUpdate()
 		currentLevel = 1;
 		app->fade->ChangeScene(this, this);
 	}
-	if (app->startLevel2)
+	if(app->startLevel2)
 	{
 		app->startLevel2 = false;
 		currentLevel = 2;
 		app->fade->ChangeScene(this, this);
 	}
-	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	if(app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		app->toSave = true;
 		app->fade->ChangeScene(this, app->mainmenu);
@@ -130,7 +130,7 @@ bool DungeonScene::Load(pugi::xml_node& node)
 	currentLevel = node.child("current").attribute("level").as_int();
 	currentCheckpoint = node.child("current").attribute("checkpoint").as_int();
 
-	app->fade->ChangeScene(this, this);
+	app->fade->ChangeScene(app->fade->current, this);
 
 	return true;
 }
@@ -158,19 +158,18 @@ void DungeonScene::IterateCheckpoint()
 	}
 	else
 	{
-		LOG("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		currentLevel++;
 		if(currentLevel > levels)
 		{
 			currentLevel = 1;
 			currentCheckpoint = 0;
 			respawn->Reset();
-			app->toSave = true;
 			app->fade->ChangeScene(this, app->winscene);
 		}
 		else
 		{
-			app->fade->ChangeScene(this, this);
+			this->CleanUp();
+			this->Start();
 		}
 	}
 }
@@ -186,12 +185,12 @@ void DungeonScene::RespawnPlayer()
 
 void DungeonScene::UpdateCheckpoint()
 {
-	if (checkpoint)
+	if(checkpoint)
 		app->collisions->DeleteCollider(checkpoint);
 	iPoint cPosition = respawn->checkpoints[respawn->GetCurrent() + 1].position;
-	int cX = cPosition.x - CHECKPOINTSIZE / 2;
-	int cY = cPosition.y - CHECKPOINTSIZE / 2;
-	checkpoint = app->collisions->CreateCollider(ColliderType::CHECKPOINT, { cX,cY,CHECKPOINTSIZE ,CHECKPOINTSIZE });
+	int cX = cPosition.x - CHECKPOINT_SIZE / 2;
+	int cY = cPosition.y - CHECKPOINT_SIZE / 2;
+	checkpoint = app->collisions->CreateCollider(ColliderType::CHECKPOINT, { cX,cY,CHECKPOINT_SIZE ,CHECKPOINT_SIZE });
 }
 
 void DungeonScene::ResetCheckpoint()
@@ -203,11 +202,12 @@ void DungeonScene::ResetCheckpoint()
 void DungeonScene::LoadCurrentMap()
 {
 	char path[64];
-	sprintf_s(path, "%s%d%s", MAPPATH, currentLevel, MAPFILETYPE);
+	sprintf_s(path, "%s%d%s", MAP_PATH, currentLevel, MAP_FILETYPE);
 
 	app->map->CleanUp();
-	if (respawn)
+	if(respawn)
 		delete respawn;
 	respawn = app->map->LoadMap(path);
 	respawn->SetCurrent(currentCheckpoint);
+	currentCheckpoint = 0;
 }

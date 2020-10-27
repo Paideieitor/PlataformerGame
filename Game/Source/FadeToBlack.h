@@ -14,14 +14,16 @@ public:
 
 	void ChangeScene(Module* sceneOut, Module* sceneIn);
 
+	Module* current = nullptr;
+
 private:
 
 	float timer;
 	bool out;
 	bool in;
 
-	Module* sceneOut;
-	Module* sceneIn;
+	Module* sceneOut = nullptr;
+	Module* sceneIn = nullptr;
 };
 
 #endif //__FADETOBLACK_H__

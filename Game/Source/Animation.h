@@ -18,7 +18,7 @@ public:
 
 private:
 
-	SDL_Rect* frames;
+	SDL_Rect* frames = nullptr;
 	int size;
 
 	int current;

@@ -2,8 +2,8 @@
 #define __ENTITIES_H__
 
 #include "App.h"
-#include "Textures.h"
 #include "Render.h"
+#include "Textures.h"
 
 #include "Point.h"
 
@@ -38,9 +38,9 @@ public:
 protected:
 
 	fPoint GetDrawPosition(iPoint size);
-	SDL_Texture* texture;
+	SDL_Texture* texture = nullptr;
 
-	Animation* currentAnimation;
+	Animation* currentAnimation = nullptr;
 };
 
 enum class WallCollision
@@ -64,12 +64,12 @@ public:
 
 private:
 
-	Animation* idle;
-	Animation* run;
-	Animation* jump;
+	Animation* idle = nullptr;
+	Animation* run = nullptr;
+	Animation* jump = nullptr;
 
-	Collider* body;
-	Collider* feet;
+	Collider* body = nullptr;
+	Collider* feet = nullptr;
 
 	bool flip;
 	fPoint velocity;

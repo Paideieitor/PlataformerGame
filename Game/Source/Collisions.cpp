@@ -114,6 +114,11 @@ bool Collisions::CleanUp()
 	checkers.erase(checkers.begin(), checkers.end());
 	toDelete.erase(toDelete.begin(), toDelete.end());
 
+	colliders.shrink_to_fit();
+	checkers.shrink_to_fit();
+	buffer.shrink_to_fit();
+	toDelete.shrink_to_fit();
+
 	return true;
 }
 

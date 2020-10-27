@@ -30,11 +30,13 @@ public:
 	void IterateCheckpoint();
 	void RespawnPlayer();
 
+	bool iterate;
+
 private:
 
-	WayPoints* respawn;
-	Entity* player;
-	Collider* checkpoint;
+	WayPoints* respawn = nullptr;
+	Entity* player = nullptr;
+	Collider* checkpoint = nullptr;
 
 	void UpdateCheckpoint();
 	void ResetCheckpoint();

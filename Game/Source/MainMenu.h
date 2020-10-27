@@ -23,7 +23,7 @@ public:
 
 private:
 
-	SDL_Texture* bern;
+	SDL_Texture* bern = nullptr;
 };
 
 #endif //__MAINMENU_H__

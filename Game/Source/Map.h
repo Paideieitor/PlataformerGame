@@ -3,6 +3,8 @@
 
 #include "Module.h"
 
+#include "Point.h"
+
 struct SDL_Texture;
 class WayPoints;
 
@@ -10,7 +12,7 @@ struct Tileset
 {
 	string name;
 
-	SDL_Texture* texture;
+	SDL_Texture* texture = nullptr;
 
 	uint firstgid;
 	uint count;
@@ -31,7 +33,7 @@ struct Layer
 	uint height;
 	bool toDraw;
 
-	uint** tiles;
+	uint** tiles = nullptr;
 };
 
 struct MapData
@@ -44,9 +46,9 @@ struct MapData
 	uint tileWidth;
 	uint tileHeight;
 
-	Tileset* tilesets;
+	Tileset* tilesets = nullptr;
 	uint tSize;
-	Layer* layers;
+	Layer* layers = nullptr;
 	uint lSize;
 };
 
@@ -78,6 +80,10 @@ private:
 
 	void CameraCull(Layer* layer, int& startX, int& startY, int& endX, int& endY);
 
-	MapData* mapData;
+	MapData* mapData = nullptr;
+
+	iPoint start;
+	iPoint end;
+	int rc;
 };
 #endif

@@ -1,86 +1,88 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\App.cpp" />
     <ClCompile Include="Source\Log.cpp">
-      <Filter>Utils</Filter>
+      <Filter>Game\Useful</Filter>
     </ClCompile>
     <ClCompile Include="Source\External\PugiXml\src\pugixml.cpp">
       <Filter>External\PuguiXml</Filter>
     </ClCompile>
     <ClCompile Include="Source\Input.cpp">
-      <Filter>Modules</Filter>
+      <Filter>Game\Modules</Filter>
     </ClCompile>
     <ClCompile Include="Source\MainMenu.cpp">
-      <Filter>Scenes</Filter>
+      <Filter>Game\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\FadeToBlack.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Entity.cpp">
-      <Filter>Modules\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\EntityManager.cpp">
-      <Filter>Modules\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Player.cpp">
-      <Filter>Modules\Entities</Filter>
+      <Filter>Game\Modules</Filter>
     </ClCompile>
     <ClCompile Include="Source\Map.cpp">
-      <Filter>Modules</Filter>
+      <Filter>Game\Modules</Filter>
     </ClCompile>
     <ClCompile Include="Source\LogoScene.cpp">
-      <Filter>Scenes</Filter>
+      <Filter>Game\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\Timer.cpp">
-      <Filter>Utils</Filter>
+      <Filter>Game\Useful</Filter>
     </ClCompile>
     <ClCompile Include="Source\DungeonScene.cpp">
-      <Filter>Scenes</Filter>
+      <Filter>Game\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\Animation.cpp">
-      <Filter>Utils</Filter>
+      <Filter>Game\Useful</Filter>
     </ClCompile>
     <ClCompile Include="Source\Collisions.cpp">
-      <Filter>Modules</Filter>
+      <Filter>Game\Modules</Filter>
     </ClCompile>
     <ClCompile Include="Source\Audio.cpp">
-      <Filter>Modules\Image &amp; Sound</Filter>
+      <Filter>Game\Modules\Image &amp; Sound</Filter>
     </ClCompile>
     <ClCompile Include="Source\Render.cpp">
-      <Filter>Modules\Image &amp; Sound</Filter>
+      <Filter>Game\Modules\Image &amp; Sound</Filter>
     </ClCompile>
     <ClCompile Include="Source\Textures.cpp">
-      <Filter>Modules\Image &amp; Sound</Filter>
+      <Filter>Game\Modules\Image &amp; Sound</Filter>
     </ClCompile>
     <ClCompile Include="Source\Window.cpp">
-      <Filter>Modules\Image &amp; Sound</Filter>
+      <Filter>Game\Modules\Image &amp; Sound</Filter>
     </ClCompile>
     <ClCompile Include="Source\WinScene.cpp">
-      <Filter>Scenes</Filter>
+      <Filter>Game\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EntityManager.cpp">
+      <Filter>Game\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>Game\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity.cpp">
+      <Filter>Game\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\App.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Main.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Module.h" />
-    <ClInclude Include="Source\App.h" />
     <ClInclude Include="Source\Defs.h">
-      <Filter>Utils</Filter>
+      <Filter>Game\Useful</Filter>
     </ClInclude>
     <ClInclude Include="Source\DynArray.h">
-      <Filter>Utils</Filter>
+      <Filter>Game\Useful</Filter>
     </ClInclude>
     <ClInclude Include="Source\List.h">
-      <Filter>Utils</Filter>
+      <Filter>Game\Useful</Filter>
     </ClInclude>
     <ClInclude Include="Source\Log.h">
-      <Filter>Utils</Filter>
+      <Filter>Game\Useful</Filter>
     </ClInclude>
     <ClInclude Include="Source\Point.h">
-      <Filter>Utils</Filter>
+      <Filter>Game\Useful</Filter>
     </ClInclude>
     <ClInclude Include="Source\SString.h">
-      <Filter>Utils</Filter>
+      <Filter>Game\Useful</Filter>
     </ClInclude>
     <ClInclude Include="Source\External\PugiXml\src\pugiconfig.hpp">
       <Filter>External\PuguiXml</Filter>
@@ -89,106 +91,109 @@
       <Filter>External\PuguiXml</Filter>
     </ClInclude>
     <ClInclude Include="Source\Input.h">
-      <Filter>Modules</Filter>
+      <Filter>Game\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Source\MainMenu.h">
-      <Filter>Scenes</Filter>
+      <Filter>Game\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\FadeToBlack.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Entities.h">
-      <Filter>Modules\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\EntityManager.h">
-      <Filter>Modules\Entities</Filter>
+      <Filter>Game\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Source\Map.h">
-      <Filter>Modules</Filter>
+      <Filter>Game\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Source\LogoScene.h">
-      <Filter>Scenes</Filter>
+      <Filter>Game\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Timer.h">
-      <Filter>Utils</Filter>
+      <Filter>Game\Useful</Filter>
     </ClInclude>
     <ClInclude Include="Source\DungeonScene.h">
-      <Filter>Scenes</Filter>
+      <Filter>Game\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Animation.h">
-      <Filter>Utils</Filter>
+      <Filter>Game\Useful</Filter>
     </ClInclude>
     <ClInclude Include="Source\Collisions.h">
-      <Filter>Modules</Filter>
+      <Filter>Game\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Source\Collider.h">
-      <Filter>Utils</Filter>
+      <Filter>Game\Useful</Filter>
     </ClInclude>
     <ClInclude Include="Source\Audio.h">
-      <Filter>Modules\Image &amp; Sound</Filter>
+      <Filter>Game\Modules\Image &amp; Sound</Filter>
     </ClInclude>
     <ClInclude Include="Source\Render.h">
-      <Filter>Modules\Image &amp; Sound</Filter>
+      <Filter>Game\Modules\Image &amp; Sound</Filter>
     </ClInclude>
     <ClInclude Include="Source\Textures.h">
-      <Filter>Modules\Image &amp; Sound</Filter>
+      <Filter>Game\Modules\Image &amp; Sound</Filter>
     </ClInclude>
     <ClInclude Include="Source\Window.h">
-      <Filter>Modules\Image &amp; Sound</Filter>
+      <Filter>Game\Modules\Image &amp; Sound</Filter>
     </ClInclude>
     <ClInclude Include="Source\Checkpoints.h">
-      <Filter>Utils</Filter>
+      <Filter>Game\Useful</Filter>
     </ClInclude>
     <ClInclude Include="Source\WinScene.h">
-      <Filter>Scenes</Filter>
+      <Filter>Game\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EntityManager.h">
+      <Filter>Game\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entities.h">
+      <Filter>Game\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\App.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Module.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
       <UniqueIdentifier>{83a966c7-b4bb-4eff-9c2c-3ff3c7b55a60}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utils">
-      <UniqueIdentifier>{2cad778a-d356-48b0-9fee-587f1bbb187e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="External\PuguiXml">
       <UniqueIdentifier>{2855ff7f-53a1-413d-a75b-18b4ade921dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Modules">
-      <UniqueIdentifier>{108ea5a3-af34-46a6-bac0-672ef6bb8654}</UniqueIdentifier>
+    <Filter Include="Game">
+      <UniqueIdentifier>{96277ccb-82ca-4f57-b6f3-f0b64b1302aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="XML">
-      <UniqueIdentifier>{6948ee01-1d7c-49f4-b309-ab730396204f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scenes">
+    <Filter Include="Game\Scenes">
       <UniqueIdentifier>{2bee06b9-671b-45d2-abf2-0b40e25a4a30}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Modules\Entities">
-      <UniqueIdentifier>{6fb11c46-380e-4563-a3c8-55f70659ada4}</UniqueIdentifier>
+    <Filter Include="Game\Useful">
+      <UniqueIdentifier>{2cad778a-d356-48b0-9fee-587f1bbb187e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="XML\Maps">
+    <Filter Include="Game\XML">
+      <UniqueIdentifier>{6948ee01-1d7c-49f4-b309-ab730396204f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\XML\Maps">
       <UniqueIdentifier>{6b8c32a1-8be3-4422-a83c-399feeef2b66}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Modules\Image &amp; Sound">
+    <Filter Include="Game\Entities">
+      <UniqueIdentifier>{0dd8ab61-9d97-4433-b9a4-35d72f88ad21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Modules">
+      <UniqueIdentifier>{108ea5a3-af34-46a6-bac0-672ef6bb8654}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Modules\Image &amp; Sound">
       <UniqueIdentifier>{da1ecbe5-107f-4dd7-9892-c6560ae4aa22}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Output\config.xml">
-      <Filter>XML</Filter>
+      <Filter>Game\XML</Filter>
     </Xml>
     <Xml Include="..\Output\savegame.xml">
-      <Filter>XML</Filter>
+      <Filter>Game\XML</Filter>
     </Xml>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Output\Assets\maps\hello2.tmx">
-      <Filter>XML\Maps</Filter>
-    </None>
-    <None Include="..\Output\Assets\maps\test.tmx">
-      <Filter>XML\Maps</Filter>
-    </None>
     <None Include="..\Output\Assets\maps\dungeon.tmx">
-      <Filter>XML\Maps</Filter>
+      <Filter>Game\XML\Maps</Filter>
     </None>
   </ItemGroup>
 </Project>

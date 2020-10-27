@@ -2,6 +2,7 @@
 #define __CHECKPOINTS_H__
 
 #include "Point.h"
+
 #include <iostream>
 
 enum class CheckType
@@ -36,7 +37,7 @@ public:
 		delete[] checkpoints;
 	}
 
-	CheckPoint* checkpoints;
+	CheckPoint* checkpoints = nullptr;
 	int size;
 
 	void AddCheckPoint(iPoint position, CheckType type)
@@ -57,7 +58,7 @@ public:
 	}
 	bool Iterate()
 	{
-		if (IsLast())
+		if(IsLast())
 		{
 			return false;
 		}
@@ -78,8 +79,8 @@ public:
 
 private:
 
-	int current;
-	int last;
+	int current = 0;
+	int last = 0;
 };
 
 #endif //__CHECKPOINTS_H__

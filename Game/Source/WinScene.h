@@ -23,7 +23,7 @@ public:
 
 private:
 
-	SDL_Texture* win;
+	SDL_Texture* win = nullptr;
 };
 
 #endif //__WINSCENE_H__

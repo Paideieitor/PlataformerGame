@@ -1,12 +1,13 @@
-#include "Entities.h"
 #include "EntityManager.h"
 #include "Animation.h"
 #include "Collisions.h"
 #include "DungeonScene.h"
-
 #include "Input.h"
+#include "Entities.h"
 
-#define MAXJUMPS 2
+#include "Log.h"
+
+#define MAX_JUMPS 2
 
 Player::Player(fPoint position)
 {
@@ -17,6 +18,8 @@ Player::Player(fPoint position)
 	wall = WallCollision::NONE;
 	grounded = false;
 	jumps = 0;
+	velocity = { 0,0 };
+	timeOnAir = 0;
 
 	texture = app->tex->Load("Assets/textures/ninja.png");
 
@@ -44,6 +47,7 @@ Player::Player(fPoint position)
 
 Player::~Player()
 {
+
 	app->tex->UnLoad(texture);
 
 	delete idle;
@@ -73,29 +77,40 @@ bool Player::Update(float dt)
 	}
 	wall = WallCollision::NONE;
 
-	bool onGround = grounded;
-	grounded = false;
-	if(onGround)
+	if(app->godMode)
 	{
-		if(velocity.y > 0)
-		{
-			velocity.y = 0;
-			timeOnAir = 0;
-			jumps = 0;
-		}
+		velocity.y = 0;
+		if(app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+			velocity.y = -dt * 100;
+		if(app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+			velocity.y = dt * 100;
 	}
 	else
 	{
-		velocity.y += timeOnAir * dt;
-		timeOnAir += 5000.0f * dt;
-		currentAnimation = jump;
-	}
+		bool onGround = grounded;
+		grounded = false;
+		if(onGround)
+		{
+			if(velocity.y > 0)
+			{
+				velocity.y = 0;
+				timeOnAir = 0;
+				jumps = 0;
+			}
+		}
+		else
+		{
+			velocity.y += timeOnAir * dt;
+			timeOnAir += 5000.0f * dt;
+			currentAnimation = jump;
+		}
 
-	if(jumps < MAXJUMPS && app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
-	{
-		velocity.y = -200;
-		jumps++;
-		timeOnAir = 0;
+		if(jumps < MAX_JUMPS && app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+		{
+			velocity.y = -200;
+			jumps++;
+			timeOnAir = 0;
+		}
 	}
 
 	fPoint dPosition = GetDrawPosition(size);
@@ -108,7 +123,10 @@ bool Player::Update(float dt)
 	app->render->camera.y = -cameraOnPlayer.y;
 
 	position.x += velocity.x;
-	position.y += velocity.y * dt;
+	if(!app->godMode)
+		position.y += velocity.y * dt;
+	else
+		position.y += velocity.y;
 
 	dPosition = GetDrawPosition(size);
 	body->SetPosition((int)dPosition.x, (int)dPosition.y + 3);
@@ -119,7 +137,7 @@ bool Player::Update(float dt)
 
 void Player::Collision(Collider* c1, Collider* c2)
 {
-	if (c1 == body && c2->type == ColliderType::GROUND)
+	if(c1 == body && c2->type == ColliderType::GROUND)
 	{
 		if(feet->rect.y + feet->rect.h * 0.8 < c2->rect.y) {}
 		else if(c2->rect.x > body->rect.x)
@@ -132,7 +150,7 @@ void Player::Collision(Collider* c1, Collider* c2)
 		}
 		return;
 	}
-	if (c1 == feet && c2->type == ColliderType::GROUND)
+	if(c1 == feet && c2->type == ColliderType::GROUND)
 	{
 		if(feet->rect.y < c2->rect.y || (feet->rect.y > c2->rect.y && feet->rect.y + feet->rect.h < c2->rect.y + c2->rect.h))
 		{
@@ -153,11 +171,11 @@ void Player::Collision(Collider* c1, Collider* c2)
 		}
 	}
 
-	if (c1 == body && c2->type == ColliderType::CHECKPOINT)
+	if(c1 == body && c2->type == ColliderType::CHECKPOINT)
 	{
-		app->dungeonscene->IterateCheckpoint();
+		app->dungeonscene->iterate = true;
 	}
-	if (c1 == body && c2->type == ColliderType::ATTACK)
+	if(!app->godMode && c1 == body && c2->type == ColliderType::ATTACK)
 	{
 		app->dungeonscene->RespawnPlayer();
 	}

@@ -1,7 +1,6 @@
-#include "FadeToBlack.h"
-
 #include "App.h"
 #include "Render.h"
+#include "FadeToBlack.h"
 
 FadeToBlack::FadeToBlack()
 {
@@ -37,6 +36,7 @@ bool FadeToBlack::Update(float dt)
 
 			sceneIn->Start();
 			sceneIn->active = true;
+			current = sceneIn;
 			sceneIn = nullptr;
 		}
 	}
@@ -60,7 +60,7 @@ bool FadeToBlack::Update(float dt)
 
 void FadeToBlack::ChangeScene(Module* sceneOut, Module* sceneIn)
 {
-	if (!active)
+	if(!active)
 	{
 		active = true;
 

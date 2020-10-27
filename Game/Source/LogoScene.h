@@ -23,7 +23,7 @@ public:
 
 private:
 
-	SDL_Texture* logo;
+	SDL_Texture* logo = nullptr;
 
 	float aTimer;
 	float timer;

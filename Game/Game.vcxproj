@@ -145,8 +145,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Output\Assets\maps\dungeon.tmx" />
-    <None Include="..\Output\Assets\maps\hello2.tmx" />
-    <None Include="..\Output\Assets\maps\test.tmx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

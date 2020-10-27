@@ -34,7 +34,7 @@ private:
 	int musicVolume;
 	int fxVolume;
 
-	_Mix_Music* music;
+	_Mix_Music* music = nullptr;
 	vector<Mix_Chunk*> fx;
 };
 

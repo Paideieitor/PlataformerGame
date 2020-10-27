@@ -14,6 +14,9 @@ Render::Render() : Module()
 	background.g = 255;
 	background.b = 255;
 	background.a = 0;
+
+	camera.x = 0;
+	camera.y = 0;
 }
 
 Render::~Render()
