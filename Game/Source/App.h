@@ -20,6 +20,7 @@ class LogoScene;
 class MainMenu;
 class DungeonScene;
 class WinScene;
+class LoseScene;
 class EntityManager;
 class Map;
 class Collisions;
@@ -96,6 +97,7 @@ public:
 	MainMenu* mainmenu = nullptr;
 	DungeonScene* dungeonscene = nullptr;
 	WinScene* winscene = nullptr;
+	LoseScene* losescene = nullptr;
 	EntityManager* entitymanager = nullptr;
 	Map* map = nullptr;
 	Collisions* collisions = nullptr;

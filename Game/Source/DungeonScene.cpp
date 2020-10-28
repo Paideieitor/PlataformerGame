@@ -6,6 +6,7 @@
 #include "FadeToBlack.h"
 #include "MainMenu.h"
 #include "WinScene.h"
+#include "LoseScene.h"
 #include "EntityManager.h"
 #include "Map.h"
 #include "Collisions.h"

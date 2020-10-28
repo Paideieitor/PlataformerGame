@@ -64,6 +64,9 @@
     <ClCompile Include="Source\Main.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Source\LoseScene.cpp">
+      <Filter>Game\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -149,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="Source\Module.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="LoseScene.h">
+      <Filter>Game\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
