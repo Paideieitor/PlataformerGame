@@ -9,7 +9,7 @@
 	<logo />
 	<mainmenu />
 	<dungeon>
-		<current level="1" checkpoint="2" />
+		<current level="2" checkpoint="1" />
 	</dungeon>
 	<collisions />
 	<entitymanager />
