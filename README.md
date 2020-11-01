@@ -23,6 +23,7 @@
 													F10(god mode)
 													Right arrow(advance to next checkpoint)
 													Left arrow(reset checkpoint to the start of the level)
+													
 ## Developers
 
  - {Quintana Griera, Miquel} - [GitHub account](https://github.com/Leukino)
