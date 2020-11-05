@@ -101,12 +101,9 @@ bool Player::Update(float dt)
 		}
 		else
 		{
-			if (velocity.y < 400) {
-
-				velocity.y += timeOnAir * dt;
-				timeOnAir += 5000.0f * dt;
-				currentAnimation = jump;
-			}
+			velocity.y += timeOnAir * dt;
+			timeOnAir += 5000.0f * dt;
+			currentAnimation = jump;
 		}
 
 		if(jumps < MAX_JUMPS && app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
