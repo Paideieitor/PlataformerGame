@@ -13,7 +13,8 @@ class Animation;
 enum class EntityType
 {
 	ENTITY,
-	PLAYER
+	PLAYER,
+	SHURIKEN
 };
 
 class Entity
@@ -21,7 +22,7 @@ class Entity
 
 public:
 
-	Entity();
+	Entity(EntityType type, fPoint position, bool flip);
 	virtual ~Entity();
 
 	virtual bool Update(float dt);
@@ -29,13 +30,18 @@ public:
 	virtual void Collision(Collider* c1, Collider* c2);
 
 	bool toDelete;
+	bool toRemove;
 
 	EntityType type;
 
 	fPoint position;
 	iPoint size;
 
+	Collider* body = nullptr;
+
 protected:
+
+	bool flip;
 
 	fPoint GetDrawPosition(iPoint size);
 	SDL_Texture* texture = nullptr;
@@ -55,7 +61,7 @@ class Player : public Entity
 
 public:
 
-	Player(fPoint position);
+	Player(fPoint position, bool flip);
 	virtual ~Player();
 
 	bool Update(float dt);
@@ -64,20 +70,41 @@ public:
 
 private:
 
+	std::vector<Entity*> shurikens;
+	float shurikenColdown;
+	float shurikenTimer;
+
 	Animation* idle = nullptr;
 	Animation* run = nullptr;
 	Animation* jump = nullptr;
 
-	Collider* body = nullptr;
 	Collider* feet = nullptr;
 
-	bool flip;
 	fPoint velocity;
 	WallCollision wall;
 	bool grounded;
 	float timeOnAir;
 
 	uint jumps;
+};
+
+class Shuriken : public Entity
+{
+public:
+
+	Shuriken(fPoint position, bool flip);
+	virtual ~Shuriken();
+
+	bool Update(float dt);
+
+	void Collision(Collider* c1, Collider* c2);
+
+private:
+
+	Collider* ground = nullptr;
+
+	float velocity;
+	bool hit;
 };
 
 #endif

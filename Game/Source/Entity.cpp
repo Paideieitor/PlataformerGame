@@ -1,9 +1,15 @@
 #include "Collisions.h"
 #include "Entities.h"
 
-Entity::Entity() 
+Entity::Entity(EntityType type, fPoint position, bool flip)
 {
+	this->type = type;
+	this->position = position;
+	this->flip = flip;
+
 	toDelete = false;
+	toRemove = false;
+	flip = false;
 }
 
 Entity::~Entity()

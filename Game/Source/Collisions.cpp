@@ -33,26 +33,7 @@ bool Collisions::Update(float dt)
 		if (collider->toDelete)
 			FastDeleteCollider(c);
 		else
-		{
-			for(vector<Collider*>::iterator ch = checkers.begin(); ch != checkers.end(); ch++)
-			{
-				Collider* checker = *ch;
-				if (checker != collider && !checker->toDelete && !collider->toDelete)
-				{
-					SDL_Rect r = checker->rect;
-					int a = (checker->rect.x - checker->pastPosition.x);
-					r.x = checker->pastPosition.x + ((checker->rect.x - checker->pastPosition.x) / 2);
-					r.y = checker->pastPosition.y + ((checker->rect.y - checker->pastPosition.y) / 2);
-					
-					if (SDL_HasIntersection(&r, &collider->rect) == SDL_TRUE)
-						checker->callback->Collision(checker, collider);
-					else if(SDL_HasIntersection(&checker->rect, &collider->rect) == SDL_TRUE)
-						checker->callback->Collision(checker, collider);
-				}
-			}
-			if (app->drawColliders)
-				DrawCollider(collider);
-		}
+			IterateCollider(collider);
 	}
 
 	int updater = 0;
@@ -142,10 +123,49 @@ void Collisions::FastDeleteCollider(vector<Collider*>::iterator itr)
 	toDelete.push_back(itr);
 }
 
+void Collisions::IterateCollider(Collider* collider)
+{
+	bool end = false;
+	int current = 0;
+	while(!end)
+	{
+		for(vector<Collider*>::iterator ch = checkers.begin(); ch != checkers.end(); ch++)
+		{
+			Collider* checker = *ch;
+
+			if(checker->checker)
+			{
+				if(checker != collider && !checker->toDelete && !collider->toDelete)
+				{
+					SDL_Rect r = checker->rect;
+					int a = (checker->rect.x - checker->pastPosition.x);
+					r.x = checker->pastPosition.x + ((checker->rect.x - checker->pastPosition.x) / 2);
+					r.y = checker->pastPosition.y + ((checker->rect.y - checker->pastPosition.y) / 2);
+
+					if (SDL_HasIntersection(&r, &collider->rect) == SDL_TRUE)
+						checker->callback->Collision(checker, collider);
+					else if (SDL_HasIntersection(&checker->rect, &collider->rect) == SDL_TRUE)
+						checker->callback->Collision(checker, collider);
+				}
+				current++;
+			}
+			else
+			{
+				checkers.erase(ch);
+				break;
+			}
+		}
+		if(current == checkers.size())
+			end = true;
+	}
+	if(app->drawColliders)
+		DrawCollider(collider);
+}
+
 void Collisions::DrawCollider(Collider* collider)
 {
 	SDL_Color color = { 255,255,255 };
-	switch (collider->type)
+	switch(collider->type)
 	{
 	case ColliderType::PLAYER:
 		color = { 20,20,255 };

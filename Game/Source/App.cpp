@@ -63,9 +63,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(map);
 	AddModule(fade, false);
-	AddModule(logo, true);
+	AddModule(logo, false);
 	AddModule(mainmenu, false);
-	AddModule(dungeonscene, false);
+	AddModule(dungeonscene, true);
 	AddModule(winscene, false);
 	AddModule(losescene, false);
 	AddModule(collisions);
@@ -73,7 +73,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	// render last to swap buffer
 	AddModule(render);
 
-	fade->current = logo;
+	fade->current = dungeonscene;
 }
 
 // Destructor

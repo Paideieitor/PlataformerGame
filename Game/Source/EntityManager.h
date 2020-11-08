@@ -26,14 +26,15 @@ public:
 
 	bool CleanUp();
 
-	Entity* CreateEntity(EntityType type, fPoint position);
+	Entity* CreateEntity(EntityType type, fPoint position, bool flip = false);
 	void DeleteEntity(Entity*);
+
+	vector<Entity*> entities;
 
 private:
 
 	void FastDeleteEntity(vector<Entity*>::iterator);
 
-	vector<Entity*> entities;
 	vector<Entity*> buffer;
 	vector <vector<Entity*>::iterator> toDelete;
 };

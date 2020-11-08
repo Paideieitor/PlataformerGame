@@ -32,6 +32,7 @@ public:
 private:
 
 	void FastDeleteCollider(vector<Collider*>::iterator);
+	void IterateCollider(Collider* collider);
 
 	vector<Collider*> colliders;
 	vector<Collider*> checkers;

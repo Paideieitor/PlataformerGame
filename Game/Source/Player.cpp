@@ -8,24 +8,25 @@
 
 #include "Log.h"
 
-#define MAX_JUMPS 2
+#define MAX_JUMPS 1
 
-Player::Player(fPoint position)
+Player::Player(fPoint position, bool flip) : Entity(EntityType::PLAYER, position, flip)
 {
-	type = EntityType::PLAYER;
-	this->position = position;
-	flip = false;
-	velocity = { 0,0 };
 	wall = WallCollision::NONE;
+
 	grounded = false;
+
 	jumps = 0;
 	velocity = { 0,0 };
 	timeOnAir = 0;
 
-	texture = app->tex->Load("Assets/textures/ninja.png");
+	shurikenColdown = 0.5f;
+	shurikenTimer = 0.0f;
 
 	size.x = 16;
 	size.y = 16;
+
+	texture = app->tex->Load("Assets/textures/ninja.png");
 
 	idle = new Animation(2, true, 0.25f);
 	idle->PushBack(0, 0, 16, 16);
@@ -48,6 +49,8 @@ Player::Player(fPoint position)
 
 Player::~Player()
 {
+	for(uint i = 0; i < shurikens.size(); i++)
+		shurikens[i]->toDelete = true;
 
 	app->tex->UnLoad(texture);
 
@@ -62,6 +65,19 @@ Player::~Player()
 bool Player::Update(float dt)
 {
 	currentAnimation = idle;
+
+	if(shurikenTimer != 0.0f)
+	{
+		shurikenTimer += dt;
+		if(shurikenTimer >= shurikenColdown)
+			shurikenTimer = 0.0f;
+	}
+
+	if(shurikenTimer == 0.0f && app->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN)
+	{
+		shurikens.push_back(app->entitymanager->CreateEntity(EntityType::SHURIKEN, position, flip));
+		shurikenTimer += dt;
+	}
 
 	velocity.x = 0;
 	if(wall != WallCollision::RIGHT && app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
