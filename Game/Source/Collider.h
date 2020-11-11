@@ -9,6 +9,7 @@ enum class ColliderType
 {
 	PLAYER,
 	SHURIKEN,
+	STATIC_SHURIKEN,
 	ATTACK,
 	CHECKPOINT,
 	GROUND

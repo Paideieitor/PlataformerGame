@@ -27,32 +27,31 @@ bool Collisions::PreUpdate()
 
 bool Collisions::Update(float dt)
 {
- 	for(vector<Collider*>::iterator c = colliders.begin(); c != colliders.end(); c++)
-	{
-		Collider* collider = *c;
-		if (collider->toDelete)
-			FastDeleteCollider(c);
-		else
-			IterateCollider(collider);
-	}
+	CleanCheckers();
 
-	int updater = 0;
-	for(vector<vector<Collider*>::iterator>::iterator i = toDelete.begin(); i != toDelete.end(); i++)
-	{
-		vector<Collider*>::iterator cItr = *i - updater;
-		if((*cItr)->checker)
-			for (vector<Collider*>::iterator c = checkers.begin(); c != checkers.end(); c++)
-				if (*c == *cItr)
-				{
-					checkers.erase(c);
-					break;
-				}
+	int current = 0;
 
-		delete *cItr;
-		colliders.erase(cItr);
-		updater++;
+	bool loop = true;
+	while(loop)
+	{
+		vector<Collider*>::iterator c = colliders.begin() + current;
+		for(c; c != colliders.end(); c++)
+		{
+			Collider* collider = *c;
+			if(collider->toDelete)
+			{
+				FastDeleteCollider(c);
+				break;
+			}
+			else
+				IterateCollider(collider);
+
+			current++;
+		}
+
+		if(current == colliders.size())
+			loop = false;
 	}
-	toDelete.erase(toDelete.begin(), toDelete.end());
 
 	return true;
 }
@@ -93,12 +92,10 @@ bool Collisions::CleanUp()
 		buffer.erase(buffer.begin());
 	}
 	checkers.erase(checkers.begin(), checkers.end());
-	toDelete.erase(toDelete.begin(), toDelete.end());
 
 	colliders.shrink_to_fit();
 	checkers.shrink_to_fit();
 	buffer.shrink_to_fit();
-	toDelete.shrink_to_fit();
 
 	return true;
 }
@@ -118,18 +115,26 @@ void Collisions::DeleteCollider(Collider* collider)
 	collider = nullptr;
 }
 
-void Collisions::FastDeleteCollider(vector<Collider*>::iterator itr)
+void Collisions::FastDeleteCollider(vector<Collider*>::iterator coll)
 {
-	toDelete.push_back(itr);
+	if ((*coll)->checker)
+		for (vector<Collider*>::iterator ch = checkers.begin(); ch != checkers.end(); ch++)
+			if (*ch == *coll)
+				checkers.erase(ch);
+
+	delete* coll;
+	colliders.erase(coll);
 }
 
 void Collisions::IterateCollider(Collider* collider)
 {
-	bool end = false;
+	bool loop = true;
+
 	int current = 0;
-	while(!end)
+	while(loop)
 	{
-		for(vector<Collider*>::iterator ch = checkers.begin(); ch != checkers.end(); ch++)
+		vector<Collider*>::iterator ch = checkers.begin() + current;
+		for(ch; ch != checkers.end(); ch++)
 		{
 			Collider* checker = *ch;
 
@@ -147,19 +152,44 @@ void Collisions::IterateCollider(Collider* collider)
 					else if (SDL_HasIntersection(&checker->rect, &collider->rect) == SDL_TRUE)
 						checker->callback->Collision(checker, collider);
 				}
-				current++;
 			}
 			else
 			{
 				checkers.erase(ch);
 				break;
 			}
+			current++;
 		}
 		if(current == checkers.size())
-			end = true;
+			loop = false;
 	}
 	if(app->drawColliders)
 		DrawCollider(collider);
+}
+
+void Collisions::CleanCheckers()
+{
+	int current = 0;
+
+	bool loop = true;
+	while (loop)
+	{
+		vector<Collider*>::iterator ch = checkers.begin() + current;
+		for (ch; ch != checkers.end(); ch++)
+		{
+			Collider* check = *ch;
+			if (!check->checker || check->toDelete)
+			{
+				checkers.erase(ch);
+				break;
+			}
+
+			current++;
+		}
+
+		if (current == checkers.size())
+			loop = false;
+	}
 }
 
 void Collisions::DrawCollider(Collider* collider)
@@ -172,6 +202,9 @@ void Collisions::DrawCollider(Collider* collider)
 		break;
 	case ColliderType::SHURIKEN:
 		color = { 255,255,20 };
+		break;
+	case ColliderType::STATIC_SHURIKEN:
+		color = { 100,255,20 };
 		break;
 	case ColliderType::ATTACK:
 		color = { 255,20,20 };

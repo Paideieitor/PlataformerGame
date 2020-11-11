@@ -33,11 +33,11 @@ private:
 
 	void FastDeleteCollider(vector<Collider*>::iterator);
 	void IterateCollider(Collider* collider);
+	void CleanCheckers();
 
 	vector<Collider*> colliders;
 	vector<Collider*> checkers;
 	vector<Collider*> buffer;
-	vector <vector<Collider*>::iterator> toDelete;
 
 	void DrawCollider(Collider*);
 };

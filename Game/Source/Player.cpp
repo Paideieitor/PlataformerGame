@@ -75,7 +75,7 @@ bool Player::Update(float dt)
 
 	if(shurikenTimer == 0.0f && app->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN)
 	{
-		shurikens.push_back(app->entitymanager->CreateEntity(EntityType::SHURIKEN, position, flip));
+		shurikens.push_back(app->entitymanager->CreateEntity(EntityType::SHURIKEN, position, flip, this));
 		shurikenTimer += dt;
 	}
 
@@ -108,12 +108,12 @@ bool Player::Update(float dt)
 		grounded = false;
 		if(onGround)
 		{
-			if(velocity.y > 0)
+			if (velocity.y >= 0)
 			{
 				velocity.y = 0;
 				timeOnAir = 0;
-				jumps = 0;
 			}
+			jumps = 0;
 		}
 		else
 		{
@@ -153,12 +153,21 @@ bool Player::Update(float dt)
 	return true;
 }
 
+bool WalkableCollider(ColliderType type)
+{
+	if (type == ColliderType::GROUND || type == ColliderType::STATIC_SHURIKEN)
+		return true;
+	return false;
+}
+
 void Player::Collision(Collider* c1, Collider* c2)
 {
-	if(c1 == body && c2->type == ColliderType::GROUND)
+	if(c1 == body && WalkableCollider(c2->type))
 	{
-		if(feet->rect.y + feet->rect.h * 0.8 < c2->rect.y) {}
-		else if(c2->rect.x > body->rect.x)
+		if (feet->rect.y + feet->rect.h * 0.8 < c2->rect.y)	//for the body to collide with a ground collider it must a certain height
+		{													//respect to the feet to avoid colliding with the floor as a wall
+		}																											
+		else if(c2->rect.x > body->rect.x)						
 		{
 			wall = WallCollision::LEFT;
 		}
@@ -168,24 +177,18 @@ void Player::Collision(Collider* c1, Collider* c2)
 		}
 		return;
 	}
-	if(c1 == feet && c2->type == ColliderType::GROUND)
+	if(c1 == feet && WalkableCollider(c2->type))
 	{
-		if(feet->rect.y < c2->rect.y || (feet->rect.y > c2->rect.y && feet->rect.y + feet->rect.h < c2->rect.y + c2->rect.h))
+		if(feet->rect.y < c2->rect.y /*head over the ground*/ || (feet->rect.y > c2->rect.y && feet->rect.y + feet->rect.h < c2->rect.y + c2->rect.h)/*body inside a collider*/)
 		{
 			grounded = true;
 			position.y = c2->rect.y - feet->rect.h / 2;
 			return;
 		}
-		else if(feet->rect.y + feet->rect.h > c2->rect.y + c2->rect.h)
+		else if(feet->rect.y + feet->rect.h > c2->rect.y + c2->rect.h /*head under the entire collider, hitting the celing*/)
 		{
 			position.y = c2->rect.y + c2->rect.h + size.y / 2;
 			velocity.y = 0;
-		}
-		else
-		{
-			grounded = true;
-			position.y = c2->rect.y - feet->rect.h / 2;
-			return;
 		}
 	}
 

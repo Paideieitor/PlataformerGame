@@ -68,9 +68,10 @@ public:
 
 	void Collision(Collider* c1, Collider* c2);
 
+	std::vector<Entity*> shurikens;
+
 private:
 
-	std::vector<Entity*> shurikens;
 	float shurikenColdown;
 	float shurikenTimer;
 
@@ -92,7 +93,7 @@ class Shuriken : public Entity
 {
 public:
 
-	Shuriken(fPoint position, bool flip);
+	Shuriken(fPoint position, bool flip, Player* parent);
 	virtual ~Shuriken();
 
 	bool Update(float dt);
@@ -103,8 +104,11 @@ private:
 
 	Collider* ground = nullptr;
 
+	Player* parent = nullptr;
+
 	float velocity;
 	bool hit;
+	bool wait;
 };
 
 #endif

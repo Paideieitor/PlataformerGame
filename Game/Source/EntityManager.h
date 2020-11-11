@@ -26,7 +26,7 @@ public:
 
 	bool CleanUp();
 
-	Entity* CreateEntity(EntityType type, fPoint position, bool flip = false);
+	Entity* CreateEntity(EntityType type, fPoint position, bool flip = false, Player* parent = nullptr);
 	void DeleteEntity(Entity*);
 
 	vector<Entity*> entities;

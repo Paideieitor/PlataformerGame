@@ -91,7 +91,7 @@ bool EntityManager::CleanUp()
 	return true;
 }
 
-Entity* EntityManager::CreateEntity(EntityType type, fPoint position, bool flip)
+Entity* EntityManager::CreateEntity(EntityType type, fPoint position, bool flip, Player* parent)
 {
 	Entity* entity = nullptr;
 
@@ -104,7 +104,7 @@ Entity* EntityManager::CreateEntity(EntityType type, fPoint position, bool flip)
 		entity = new Player(position, flip);
 		break;
 	case EntityType::SHURIKEN:
-		entity = new Shuriken(position, flip);
+		entity = new Shuriken(position, flip, parent);
 		break;
 	}
 
