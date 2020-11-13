@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.5" orientation="orthogonal" renderorder="right-down" width="90" height="35" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="60">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="90" height="35" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="60">
  <tileset firstgid="1" name="Dungeon" tilewidth="16" tileheight="16" tilecount="45" columns="9">
   <image source="dungeontileset.png" width="150" height="80"/>
  </tileset>
@@ -53,16 +53,16 @@
   <object id="35" type="GROUND" x="1184" y="496" width="48" height="112"/>
   <object id="36" type="GROUND" x="960" y="512" width="224" height="96"/>
   <object id="37" type="GROUND" x="976" y="432" width="48" height="64"/>
-  <object id="38" type="GROUND" x="1056" y="480" width="32" height="16"/>
+  <object id="38" type="GROUND" x="1040" y="480" width="48" height="16"/>
   <object id="39" type="GROUND" x="1152" y="448" width="32" height="16"/>
   <object id="40" type="ATTACK" x="304" y="185" width="32" height="7"/>
   <object id="42" type="ATTACK" x="448" y="121" width="32" height="7"/>
   <object id="44" type="ATTACK" x="608" y="32" width="16" height="7"/>
   <object id="45" type="ATTACK" x="768" y="137" width="16" height="7"/>
   <object id="47" type="ATTACK" x="864" y="105" width="16" height="7"/>
-  <object id="48" type="ATTACK" x="624" y="208" width="304" height="16"/>
-  <object id="49" type="ATTACK" x="1008" y="425" width="16" height="7"/>
-  <object id="50" type="ATTACK" x="960" y="496" width="224" height="16"/>
+  <object id="48" type="ATTACK" x="624" y="217" width="304" height="7"/>
+  <object id="49" type="ATTACK" x="1009" y="426" width="14" height="6"/>
+  <object id="50" type="ATTACK" x="960" y="505" width="224" height="7"/>
   <object id="51" type="ATTACK" x="1184" y="480" width="48" height="16"/>
   <object id="56" type="ATTACK" x="546" y="58" width="12" height="6"/>
   <object id="58" type="GROUND" x="1136" y="448" width="16" height="32"/>
@@ -2299,10 +2299,10 @@
    <tile gid="8"/>
    <tile gid="8"/>
    <tile gid="8"/>
-   <tile gid="17"/>
-   <tile gid="17"/>
-   <tile gid="17"/>
-   <tile gid="17"/>
+   <tile gid="8"/>
+   <tile gid="8"/>
+   <tile gid="8"/>
+   <tile gid="8"/>
    <tile gid="8"/>
    <tile gid="8"/>
    <tile gid="8"/>
@@ -2924,13 +2924,13 @@
    <tile gid="17"/>
    <tile gid="17"/>
    <tile gid="8"/>
-   <tile gid="19"/>
-   <tile gid="19"/>
-   <tile gid="22"/>
+   <tile gid="41"/>
+   <tile gid="41"/>
+   <tile gid="41"/>
    <tile gid="8"/>
-   <tile gid="8"/>
-   <tile gid="19"/>
-   <tile gid="19"/>
+   <tile gid="40"/>
+   <tile gid="40"/>
+   <tile gid="40"/>
    <tile gid="8"/>
    <tile gid="8"/>
    <tile gid="8"/>
@@ -5456,10 +5456,10 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="8"/>
-   <tile gid="8"/>
-   <tile gid="8"/>
-   <tile gid="8"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -5811,9 +5811,9 @@
    <tile/>
    <tile gid="14"/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="41"/>
+   <tile gid="41"/>
+   <tile gid="41"/>
    <tile/>
    <tile/>
    <tile/>
@@ -5901,9 +5901,9 @@
    <tile/>
    <tile gid="14"/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="41"/>
+   <tile gid="41"/>
+   <tile gid="41"/>
    <tile/>
    <tile/>
    <tile/>
@@ -5991,11 +5991,11 @@
    <tile/>
    <tile gid="14"/>
    <tile/>
+   <tile gid="41"/>
+   <tile gid="41"/>
+   <tile gid="41"/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="41"/>
    <tile gid="41"/>
    <tile gid="41"/>
    <tile/>
