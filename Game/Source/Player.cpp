@@ -10,7 +10,7 @@
 
 #define MAX_JUMPS 1
 
-Player::Player(fPoint position, bool flip) : Entity(EntityType::PLAYER, position, flip)
+Player::Player(fPoint position, bool flip) : Entity(EntityType::PLAYER, position, flip, nullptr)
 {
 	wall = WallCollision::NONE;
 
@@ -159,6 +159,12 @@ bool WalkableCollider(ColliderType type)
 		return true;
 	return false;
 }
+bool DangerousCollider(ColliderType type)
+{
+	if (type == ColliderType::ATTACK || type == ColliderType::ENEMY)
+		return true;
+	return false;
+}
 
 void Player::Collision(Collider* c1, Collider* c2)
 {
@@ -196,7 +202,7 @@ void Player::Collision(Collider* c1, Collider* c2)
 	{
 		app->dungeonscene->iterate = true;
 	}
-	if(!app->godMode && c1 == body && c2->type == ColliderType::ATTACK)
+	if(!app->godMode && c1 == body && DangerousCollider(c2->type))
 	{
 		app->audio->PlayFx(app->dungeonscene->deathSound);
 		app->dungeonscene->RespawnPlayer();

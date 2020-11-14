@@ -64,10 +64,16 @@
     <ClCompile Include="Source\Main.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Source\LoseScene.cpp">
-      <Filter>Game\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Shuriken.cpp">
+      <Filter>Game\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Pathfinding.cpp">
+      <Filter>Game\Useful</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy.cpp">
+      <Filter>Game\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Bat.cpp">
       <Filter>Game\Entities</Filter>
     </ClCompile>
   </ItemGroup>
@@ -156,8 +162,8 @@
     <ClInclude Include="Source\Module.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="LoseScene.h">
-      <Filter>Game\Scenes</Filter>
+    <ClInclude Include="Source\Pathfinding.h">
+      <Filter>Game\Useful</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -201,7 +207,10 @@
     </Xml>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Output\Assets\maps\dungeon.tmx">
+    <None Include="..\Output\Assets\maps\dungeon1.tmx">
+      <Filter>Game\XML\Maps</Filter>
+    </None>
+    <None Include="..\Output\Assets\maps\dungeon2.tmx">
       <Filter>Game\XML\Maps</Filter>
     </None>
   </ItemGroup>

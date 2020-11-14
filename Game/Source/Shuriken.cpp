@@ -6,14 +6,12 @@
 
 #include "Log.h"
 
-Shuriken::Shuriken(fPoint position, bool flip, Player* parent) : Entity(EntityType::SHURIKEN, position, flip)
+Shuriken::Shuriken(fPoint position, bool flip, Player* parent) : Entity(EntityType::SHURIKEN, position, flip, parent)
 {
 	if(flip)
 		velocity = -3;
 	else
 		velocity = 3;
-
-	this->parent = parent;
 
 	hit = false;
 	wait = false;
@@ -23,8 +21,9 @@ Shuriken::Shuriken(fPoint position, bool flip, Player* parent) : Entity(EntityTy
 
 	texture = app->tex->Load("Assets/textures/shuriken.png");
 
-	currentAnimation = new Animation(1, true, 0.25f);
+	currentAnimation = new Animation(2, true, 0.10f);
 	currentAnimation->PushBack(0, 0, 16, 16);
+	currentAnimation->PushBack(16, 0, 16, 16);
 
 	fPoint dPosition = GetDrawPosition(size);
 	body = app->collisions->CreateCollider(ColliderType::SHURIKEN, { (int)dPosition.x, (int)dPosition.y, size.x, size.y }, true, this);
@@ -38,8 +37,6 @@ Shuriken::~Shuriken()
 
 	if(body)
 		app->collisions->DeleteCollider(body);
-	if(ground)
-		app->collisions->DeleteCollider(ground);
 }
 
 bool Shuriken::Update(float dt)
@@ -47,6 +44,7 @@ bool Shuriken::Update(float dt)
 	if(hit)
 	{
 		velocity = 0;
+		currentAnimation->Pause();
 		if(!wait)
 		{
 			body->type = ColliderType::STATIC_SHURIKEN;
@@ -62,10 +60,15 @@ bool Shuriken::Update(float dt)
 
 	dPosition = GetDrawPosition(size);
 	body->SetPosition((int)dPosition.x, (int)dPosition.y);
-	//if(ground)
-	//	ground->SetPosition((int)dPosition.x, (int)dPosition.y);
 
 	return true;
+}
+
+bool InteractCollider(ColliderType type)
+{
+	if (type == ColliderType::STATIC_SHURIKEN || type == ColliderType::ENEMY)
+		return true;
+	return false;
 }
 
 void Shuriken::Collision(Collider* c1, Collider* c2)
@@ -85,18 +88,30 @@ void Shuriken::Collision(Collider* c1, Collider* c2)
 		return;
 	}
 
-	if(c2->type == ColliderType::STATIC_SHURIKEN)
+	if(InteractCollider(c2->type))
 	{
 		toDelete = true;
-		for(vector<Entity*>::iterator e = parent->shurikens.begin(); e != parent->shurikens.end(); e++)
-			if((*e)->body == c2)
-			{
-				(*e)->toDelete = true;
-				parent->shurikens.erase(e);
-				break;
-			}
 
-		return;
+		switch (c2->type)
+		{
+		case ColliderType::STATIC_SHURIKEN:
+			for (vector<Entity*>::iterator e = parent->shurikens.begin(); e != parent->shurikens.end(); e++)
+				if ((*e)->body == c2)
+				{
+					(*e)->toDelete = true;
+					parent->shurikens.erase(e);
+					break;
+				}
+			break;
+		case ColliderType::ENEMY:
+			for (vector<Entity*>::iterator e = app->entitymanager->entities.begin(); e != app->entitymanager->entities.end(); e++)
+				if ((*e)->body == c2)
+				{
+					(*e)->toDelete = true;
+					break;
+				}
+			break;
+		}
 	}
 
 	if (c2->type == ColliderType::PLAYER)

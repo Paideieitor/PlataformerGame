@@ -1,11 +1,12 @@
 #include "Collisions.h"
 #include "Entities.h"
 
-Entity::Entity(EntityType type, fPoint position, bool flip)
+Entity::Entity(EntityType type, fPoint position, bool flip, Player* parent)
 {
 	this->type = type;
 	this->position = position;
 	this->flip = flip;
+	this->parent = parent;
 
 	toDelete = false;
 	toRemove = false;

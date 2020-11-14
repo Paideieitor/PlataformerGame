@@ -9,7 +9,6 @@
 #include "MainMenu.h"
 #include "DungeonScene.h"
 #include "WinScene.h"
-#include "LoseScene.h"
 #include "EntityManager.h"
 #include "Map.h"
 #include "Collisions.h"
@@ -50,7 +49,6 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	mainmenu = new MainMenu();
 	dungeonscene = new DungeonScene();
 	winscene = new WinScene();
-	losescene = new LoseScene();
 	entitymanager = new EntityManager();
 	map = new Map();
 	collisions = new Collisions();
@@ -67,7 +65,6 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(mainmenu, false);
 	AddModule(dungeonscene, true);
 	AddModule(winscene, false);
-	AddModule(losescene, false);
 	AddModule(collisions);
 	AddModule(entitymanager);
 	// render last to swap buffer

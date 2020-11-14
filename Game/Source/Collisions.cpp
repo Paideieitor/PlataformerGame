@@ -215,7 +215,8 @@ void Collisions::DrawCollider(Collider* collider)
 	case ColliderType::GROUND:
 		color = { 20,255,20 };
 		break;
-	default:
+	case ColliderType::ENEMY:
+		color = { 255,100,20 };
 		break;
 	}
 	app->render->SetRectangleEvent(5, { (float)collider->rect.x,(float)collider->rect.y }, { collider->rect.w,collider->rect.h }, color.r, color.g, color.b, 50);

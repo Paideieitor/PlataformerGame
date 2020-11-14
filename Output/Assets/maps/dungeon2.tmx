@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="90" height="35" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="60">
+<map version="1.2" tiledversion="1.2.5" orientation="orthogonal" renderorder="right-down" width="90" height="35" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="60">
  <tileset firstgid="1" name="Dungeon" tilewidth="16" tileheight="16" tilecount="45" columns="9">
-  <image source="dungeontileset.png" width="150" height="80"/>
+  <image source="dungeon_tileset.png" width="150" height="80"/>
  </tileset>
  <objectgroup id="4" name="CheckPoints">
   <properties>
@@ -38,7 +38,7 @@
   <object id="16" type="GROUND" x="448" y="0" width="128" height="16"/>
   <object id="19" type="GROUND" x="576" y="0" width="464" height="32"/>
   <object id="20" type="GROUND" x="624" y="224" width="288" height="48"/>
-  <object id="22" type="GROUND" x="624" y="80" width="48" height="16"/>
+  <object id="22" type="GROUND" x="624" y="80" width="64" height="16"/>
   <object id="23" type="GROUND" x="704" y="144" width="80" height="16"/>
   <object id="24" type="GROUND" x="784" y="112" width="96" height="16"/>
   <object id="25" type="GROUND" x="912" y="112" width="48" height="400"/>
@@ -59,9 +59,8 @@
   <object id="42" type="ATTACK" x="448" y="121" width="32" height="7"/>
   <object id="44" type="ATTACK" x="608" y="32" width="16" height="7"/>
   <object id="45" type="ATTACK" x="768" y="137" width="16" height="7"/>
-  <object id="47" type="ATTACK" x="864" y="105" width="16" height="7"/>
+  <object id="47" type="ATTACK" x="866" y="106" width="14" height="6"/>
   <object id="48" type="ATTACK" x="624" y="217" width="304" height="7"/>
-  <object id="49" type="ATTACK" x="1009" y="426" width="14" height="6"/>
   <object id="50" type="ATTACK" x="960" y="505" width="224" height="7"/>
   <object id="51" type="ATTACK" x="1184" y="480" width="48" height="16"/>
   <object id="56" type="ATTACK" x="546" y="58" width="12" height="6"/>
@@ -655,7 +654,7 @@
    <tile gid="19"/>
    <tile gid="19"/>
    <tile gid="19"/>
-   <tile gid="8"/>
+   <tile gid="22"/>
    <tile gid="8"/>
    <tile gid="8"/>
    <tile gid="8"/>
@@ -745,7 +744,7 @@
    <tile gid="19"/>
    <tile gid="19"/>
    <tile gid="19"/>
-   <tile gid="8"/>
+   <tile gid="22"/>
    <tile gid="8"/>
    <tile gid="8"/>
    <tile gid="8"/>
@@ -835,7 +834,7 @@
    <tile gid="19"/>
    <tile gid="19"/>
    <tile gid="19"/>
-   <tile gid="8"/>
+   <tile gid="22"/>
    <tile gid="8"/>
    <tile gid="8"/>
    <tile gid="8"/>
@@ -925,7 +924,7 @@
    <tile gid="19"/>
    <tile gid="19"/>
    <tile gid="19"/>
-   <tile gid="8"/>
+   <tile gid="22"/>
    <tile gid="8"/>
    <tile gid="8"/>
    <tile gid="8"/>
@@ -1015,7 +1014,7 @@
    <tile gid="19"/>
    <tile gid="19"/>
    <tile gid="19"/>
-   <tile gid="8"/>
+   <tile gid="22"/>
    <tile gid="8"/>
    <tile gid="19"/>
    <tile gid="19"/>
@@ -1105,7 +1104,7 @@
    <tile gid="19"/>
    <tile gid="19"/>
    <tile gid="19"/>
-   <tile gid="8"/>
+   <tile gid="22"/>
    <tile gid="8"/>
    <tile gid="19"/>
    <tile gid="19"/>
@@ -1195,7 +1194,7 @@
    <tile gid="19"/>
    <tile gid="19"/>
    <tile gid="19"/>
-   <tile gid="8"/>
+   <tile gid="22"/>
    <tile gid="8"/>
    <tile gid="19"/>
    <tile gid="19"/>
@@ -1285,7 +1284,7 @@
    <tile gid="19"/>
    <tile gid="19"/>
    <tile gid="19"/>
-   <tile gid="8"/>
+   <tile gid="22"/>
    <tile gid="8"/>
    <tile gid="19"/>
    <tile gid="19"/>
@@ -3722,7 +3721,7 @@
    <tile gid="41"/>
    <tile gid="41"/>
    <tile gid="41"/>
-   <tile/>
+   <tile gid="41"/>
    <tile/>
    <tile/>
    <tile/>
@@ -5633,7 +5632,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="33"/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>

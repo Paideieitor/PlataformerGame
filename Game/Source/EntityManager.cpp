@@ -98,13 +98,19 @@ Entity* EntityManager::CreateEntity(EntityType type, fPoint position, bool flip,
 	switch(type)
 	{
 	case EntityType::ENTITY:
-		entity = new Entity(type, position, flip);
+		entity = new Entity(type, position, flip, parent);
 		break;
 	case EntityType::PLAYER:
 		entity = new Player(position, flip);
 		break;
 	case EntityType::SHURIKEN:
 		entity = new Shuriken(position, flip, parent);
+		break;
+	case EntityType::ENEMY:
+		entity = new Enemy(type, position, flip, parent);
+		break;
+	case EntityType::BAT:
+		entity = new Bat(position, flip, parent);
 		break;
 	}
 

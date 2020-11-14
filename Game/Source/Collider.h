@@ -12,7 +12,8 @@ enum class ColliderType
 	STATIC_SHURIKEN,
 	ATTACK,
 	CHECKPOINT,
-	GROUND
+	GROUND,
+	ENEMY
 };
 
 struct Collider

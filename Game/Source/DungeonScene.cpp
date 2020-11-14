@@ -70,6 +70,8 @@ bool DungeonScene::Start()
 
 	app->render->SetBackgroundColor({ 31,31,31,255 });
 
+	app->entitymanager->CreateEntity(EntityType::BAT, { 150, 150});
+
 	return true;
 }
 

@@ -14,15 +14,18 @@ enum class EntityType
 {
 	ENTITY,
 	PLAYER,
-	SHURIKEN
+	SHURIKEN,
+	ENEMY,
+	BAT
 };
 
+class Player;
 class Entity
 {
 
 public:
 
-	Entity(EntityType type, fPoint position, bool flip);
+	Entity(EntityType type, fPoint position, bool flip, Player* parent);
 	virtual ~Entity();
 
 	virtual bool Update(float dt);
@@ -38,6 +41,8 @@ public:
 	iPoint size;
 
 	Collider* body = nullptr;
+
+	Player* parent = nullptr;
 
 protected:
 
@@ -102,13 +107,33 @@ public:
 
 private:
 
-	Collider* ground = nullptr;
-
-	Player* parent = nullptr;
-
 	float velocity;
 	bool hit;
 	bool wait;
+};
+
+class Enemy : public Entity
+{
+public:
+	Enemy(EntityType type, fPoint position, bool flip, Player* parent);
+	virtual ~Enemy();
+
+	bool Update(float dt);
+};
+
+class Bat : public Enemy
+{
+public:
+
+	Bat(fPoint position, bool flip, Player* parent);
+	~Bat();
+
+	bool Update(float dt);
+
+private:
+
+	Animation* idle = nullptr;
+	Animation* fly = nullptr;
 };
 
 #endif

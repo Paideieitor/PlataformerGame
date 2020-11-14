@@ -13,6 +13,9 @@ public:
 	bool PushBack(int x, int y, int w, int h);
 	SDL_Rect GetFrame(float dt);
 
+	void Play();
+	void Pause();
+
 	float speed;
 	bool loop;
 
@@ -24,6 +27,8 @@ private:
 	int current;
 	float counter;
 	int last;
+
+	bool paused;
 };
 
 #endif //__ANIMATION_H__

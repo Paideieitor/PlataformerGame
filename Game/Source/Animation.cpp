@@ -14,6 +14,8 @@ Animation::Animation(int size, bool loop, float speed)
 	current = 0;
 	last = 0;
 
+	paused = false;
+
 	frames = new SDL_Rect[size];
 	memset(frames, 0, sizeof(SDL_Rect) * size);
 }
@@ -38,17 +40,30 @@ bool Animation::PushBack(int x, int y, int w, int h)
 
 SDL_Rect Animation::GetFrame(float dt)
 {
-	counter += dt;
-	if(counter >= speed)
+	if(!paused)
 	{
-		current++;
-		if(current == size)
-			if(loop)
-				current = 0;
-			else
-				current = size - 1;
-		counter = 0;
+		counter += dt;
+		if(counter >= speed)
+		{
+			current++;
+			if (current == size)
+				if (loop)
+					current = 0;
+				else
+					current = size - 1;
+			counter = 0;
+		}
 	}
 
 	return frames[current];
+}
+
+void Animation::Play()
+{
+	paused = false;
+}
+
+void Animation::Pause()
+{
+	paused = true;
 }
