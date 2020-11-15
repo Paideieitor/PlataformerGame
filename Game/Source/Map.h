@@ -70,9 +70,13 @@ public:
 	WayPoints* LoadMap(char* path);
 	void DrawMap();
 
-private:
+	iPoint WorldToTile(fPoint position);
+	fPoint TileToWorld(iPoint tile);
 
 	Tileset* GetTileset(uint gid);
+
+private:
+
 	void LoadTilesets(pugi::xml_node&);
 	void LoadLayers(pugi::xml_node&);
 	void LoadColliders(pugi::xml_node&);
@@ -84,6 +88,5 @@ private:
 
 	iPoint start;
 	iPoint end;
-	int rc;
 };
 #endif

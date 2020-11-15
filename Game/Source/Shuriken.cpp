@@ -2,16 +2,15 @@
 #include "Animation.h"
 #include "Collisions.h"
 #include "EntityManager.h"
-#include "Entities.h"
-
-#include "Log.h"
+#include "Player.h"
+#include "Shuriken.h"
 
 Shuriken::Shuriken(fPoint position, bool flip, Player* parent) : Entity(EntityType::SHURIKEN, position, flip, parent)
 {
 	if(flip)
-		velocity = -3;
+		velocity = -250;
 	else
-		velocity = 3;
+		velocity = 250;
 
 	hit = false;
 	wait = false;
@@ -56,7 +55,7 @@ bool Shuriken::Update(float dt)
 	fPoint dPosition = GetDrawPosition(size);
 	app->render->SetTextureEvent(5, texture, dPosition, currentAnimation->GetFrame(dt), flip);
 
-	position.x += velocity;
+	position.x += velocity * dt;
 
 	dPosition = GetDrawPosition(size);
 	body->SetPosition((int)dPosition.x, (int)dPosition.y);

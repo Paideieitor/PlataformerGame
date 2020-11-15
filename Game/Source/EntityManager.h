@@ -2,9 +2,13 @@
 #define __ENTITYMANAGER_H__
 
 #include "Module.h"
-#include "Entities.h"
+#include "Entity.h"
+
+#include "Point.h"
 
 #include <vector>
+
+class Player;
 
 class EntityManager : public Module
 {

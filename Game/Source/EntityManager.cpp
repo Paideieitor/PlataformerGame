@@ -1,4 +1,7 @@
 #include "EntityManager.h"
+#include "Player.h"
+#include "Shuriken.h"
+#include "Bat.h"
 
 EntityManager::EntityManager()
 {

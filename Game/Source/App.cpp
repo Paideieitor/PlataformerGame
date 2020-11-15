@@ -12,6 +12,7 @@
 #include "EntityManager.h"
 #include "Map.h"
 #include "Collisions.h"
+#include "Pathfinding.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -52,6 +53,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	entitymanager = new EntityManager();
 	map = new Map();
 	collisions = new Collisions();
+
+	paths = new Pathfinding();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -378,6 +381,8 @@ bool App::CleanUp()
 			return false;
 		}
 	}
+
+	delete paths;
 
 	return true;
 }

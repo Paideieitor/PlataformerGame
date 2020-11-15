@@ -35,10 +35,11 @@ public:
 	uint jumpSound;
 	uint deathSound;
 
+	Entity* player = nullptr;
+
 private:
 
 	WayPoints* respawn = nullptr;
-	Entity* player = nullptr;
 	Collider* checkpoint = nullptr;
 
 	void UpdateCheckpoint();

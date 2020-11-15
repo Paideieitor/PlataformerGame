@@ -56,7 +56,7 @@ bool DungeonScene::Start()
 	deathSound = app->audio->LoadFx("Assets/audio/fx/oof.wav");
 
 	if(!keepMusic)
-		app->audio->PlayMusic("Assets/audio/music/mood_swings_pop_smoke_lil_tjay_8bit_universe.ogg", 0.0f);
+		app->audio->PlayMusic("Assets/audio/music/dungeon_song.ogg", 0.0f);
 	keepMusic = false;
 
 	app->render->camera.x = 0;
@@ -69,8 +69,6 @@ bool DungeonScene::Start()
 	UpdateCheckpoint();
 
 	app->render->SetBackgroundColor({ 31,31,31,255 });
-
-	app->entitymanager->CreateEntity(EntityType::BAT, { 150, 150});
 
 	return true;
 }

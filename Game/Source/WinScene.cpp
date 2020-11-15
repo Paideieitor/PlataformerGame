@@ -31,7 +31,7 @@ bool WinScene::Start()
 	app->render->camera.y = 0;
 
 	win = app->tex->Load("Assets/textures/bern_win.png");
-	app->audio->PlayMusic("Assets/audio/music/congratulations_post_malone_8bit_universe.ogg", 0.0f);
+	app->audio->PlayMusic("Assets/audio/music/win_song.ogg", 0.0f);
 
 	app->render->SetBackgroundColor({ 255,255,255,255 });
 

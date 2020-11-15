@@ -1,5 +1,5 @@
 #include "Collisions.h"
-#include "Entities.h"
+#include "Entity.h"
 
 Entity::Entity(EntityType type, fPoint position, bool flip, Player* parent)
 {

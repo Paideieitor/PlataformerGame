@@ -1,7 +1,7 @@
 #ifndef __COLLIDER_H__
 #define __COLLIDER_H__
 
-#include "Entities.h"
+#include "Entity.h"
 
 #include "SDL.h"
 

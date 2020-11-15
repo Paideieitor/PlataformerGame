@@ -113,11 +113,13 @@
     <ClCompile Include="Source\Window.cpp" />
     <ClCompile Include="Source\WinScene.cpp" />
     <ClInclude Include="Source\Animation.h" />
+    <ClInclude Include="Source\Bat.h" />
     <ClInclude Include="Source\Checkpoints.h" />
     <ClInclude Include="Source\Collider.h" />
     <ClInclude Include="Source\Collisions.h" />
     <ClInclude Include="Source\DungeonScene.h" />
-    <ClInclude Include="Source\Entities.h" />
+    <ClInclude Include="Source\Enemy.h" />
+    <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />
     <ClInclude Include="Source\MainMenu.h" />
     <ClInclude Include="Source\Map.h" />
@@ -127,7 +129,9 @@
     <ClInclude Include="Source\App.h" />
     <ClInclude Include="Source\Module.h" />
     <ClInclude Include="Source\Pathfinding.h" />
+    <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Render.h" />
+    <ClInclude Include="Source\Shuriken.h" />
     <ClInclude Include="Source\Textures.h" />
     <ClInclude Include="Source\FadeToBlack.h" />
     <ClInclude Include="Source\Timer.h" />

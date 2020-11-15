@@ -24,6 +24,9 @@ class EntityManager;
 class Map;
 class Collisions;
 
+//Utility
+class Pathfinding;
+
 class App
 {
 public:
@@ -99,6 +102,9 @@ public:
 	EntityManager* entitymanager = nullptr;
 	Map* map = nullptr;
 	Collisions* collisions = nullptr;
+
+	//Utility
+	Pathfinding* paths = nullptr;
 
 	// Save & Load
 	string configPath;

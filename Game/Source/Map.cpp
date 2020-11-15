@@ -4,6 +4,7 @@
 #include "Collisions.h"
 #include "Checkpoints.h"
 #include "Map.h"
+#include "Pathfinding.h"
 
 #include "Log.h"
 
@@ -109,15 +110,19 @@ void Map::DrawMap()
 {
 	for(int l = 0; l < mapData->lSize; l++)
 	{
+		Layer* layer = &mapData->layers[l];
+		if(!layer->toDraw)
+			continue;
+
 		start = { 0,0 };
 		end = { 0,0 };
-		CameraCull(&mapData->layers[l], start.x, start.y, end.x, end.y);
+		CameraCull(layer, start.x, start.y, end.x, end.y);
 
 		for(int y = start.y; y != end.y; y++)
 		{
 			for(int x = start.x; x != end.x; x++)
 			{
-				uint gid = mapData->layers[l].tiles[x][y];
+				uint gid = layer->tiles[x][y];
 				Tileset* tileset = GetTileset(gid);
 				if(!tileset)
 					continue;
@@ -140,6 +145,25 @@ void Map::DrawMap()
 			}
 		}
 	}
+}
+
+iPoint Map::WorldToTile(fPoint position)
+{
+	int x = (int)position.x;
+	int y = (int)position.y;
+
+	x /= mapData->tileWidth;
+	y /= mapData->tileHeight;
+
+	return { x,y };
+}
+
+fPoint Map::TileToWorld(iPoint tile)
+{
+	float x = tile.x * mapData->tileWidth + mapData->tileWidth / 2;
+	float y = tile.y * mapData->tileHeight + mapData->tileHeight / 2;
+
+	return { x,y };
 }
 
 Tileset* Map::GetTileset(uint gid)
@@ -193,7 +217,7 @@ void Map::LoadTilesets(pugi::xml_node& mNode)
 	}
 	mapData->tSize = tBuffer.size();
 	mapData->tilesets = new Tileset[mapData->tSize];
-	for(int i = 0; i < mapData->tSize; i++)
+	for(uint i = 0; i < mapData->tSize; i++)
 		mapData->tilesets[i] = tBuffer[i];
 }
 
@@ -232,10 +256,16 @@ void Map::LoadLayers(pugi::xml_node& mNode)
 
 		lBuffer.push_back(layer);
 	}
+
 	mapData->lSize = lBuffer.size();
 	mapData->layers = new Layer[mapData->lSize];
 	for(int i = 0; i < mapData->lSize; i++)
+	{
 		mapData->layers[i] = lBuffer[i];
+
+		if (mapData->layers[i].name == "Pathfinding")
+			app->paths->Init(&mapData->layers[i]);
+	}
 }
 
 void Map::LoadColliders(pugi::xml_node& node)

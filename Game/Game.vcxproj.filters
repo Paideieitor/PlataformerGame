@@ -153,9 +153,6 @@
     <ClInclude Include="Source\EntityManager.h">
       <Filter>Game\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Entities.h">
-      <Filter>Game\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Source\App.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -164,6 +161,21 @@
     </ClInclude>
     <ClInclude Include="Source\Pathfinding.h">
       <Filter>Game\Useful</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bat.h">
+      <Filter>Game\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy.h">
+      <Filter>Game\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity.h">
+      <Filter>Game\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player.h">
+      <Filter>Game\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Shuriken.h">
+      <Filter>Game\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

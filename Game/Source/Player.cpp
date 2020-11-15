@@ -4,9 +4,7 @@
 #include "Collisions.h"
 #include "DungeonScene.h"
 #include "Input.h"
-#include "Entities.h"
-
-#include "Log.h"
+#include "Player.h"
 
 #define MAX_JUMPS 1
 
@@ -161,7 +159,7 @@ bool WalkableCollider(ColliderType type)
 }
 bool DangerousCollider(ColliderType type)
 {
-	if (type == ColliderType::ATTACK || type == ColliderType::ENEMY)
+	if(type == ColliderType::ATTACK)// || type == ColliderType::ENEMY)
 		return true;
 	return false;
 }
