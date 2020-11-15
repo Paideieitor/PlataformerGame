@@ -38,6 +38,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	toLoad = false;
 	drawColliders = false;
 	godMode = false;
+	pathDebug = false;
 
 
 	input = new Input();
@@ -206,6 +207,8 @@ void App::FinishUpdate()
 		toSave = true;
 	if(input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		toLoad = true;
+	if (input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN)
+		pathDebug = !pathDebug;
 	if(input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 		drawColliders = !drawColliders;
 	if(input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)

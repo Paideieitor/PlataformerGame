@@ -4,6 +4,7 @@
 #include "Collisions.h"
 #include "Checkpoints.h"
 #include "Map.h"
+#include "EntityManager.h"
 #include "Pathfinding.h"
 
 #include "Log.h"
@@ -97,10 +98,12 @@ WayPoints* Map::LoadMap(char* path)
 	for(pugi::xml_node node = mNode.child("objectgroup"); node != NULL; node = node.next_sibling("objectgroup"))
 	{
 		string name = node.attribute("name").as_string();
-		if (name == "Colliders")
+		if(name == "Colliders")
 			LoadColliders(node);
-		else if (name == "CheckPoints")
+		else if(name == "CheckPoints")
 			output = LoadCheckPoints(node);
+		else if(name == "Enemies")
+			LoadEntites(node);
 	}
 	
 	return output;
@@ -180,6 +183,11 @@ Tileset* Map::GetTileset(uint gid)
 	}
 
 	return nullptr;
+}
+
+vector<EntityData> Map::GetEntityData()
+{
+	return mapData->entites;
 }
 
 void Map::LoadTilesets(pugi::xml_node& mNode)
@@ -309,6 +317,24 @@ WayPoints* Map::LoadCheckPoints(pugi::xml_node& node)
 	LOG("---");
 
 	return wPoints;
+}
+
+void Map::LoadEntites(pugi::xml_node& node)
+{
+	for (pugi::xml_node oNode = node.child("object"); oNode != NULL; oNode = oNode.next_sibling("object"))
+	{
+		EntityType type = EntityType::ENEMY;
+		string entityType = oNode.attribute("name").as_string();
+		if (entityType == "BAT")
+			type = EntityType::BAT;
+
+		float x = oNode.attribute("x").as_float();
+		float y = oNode.attribute("y").as_float();
+		fPoint position = { x,y };
+
+		EntityData entity = {position, type};
+		mapData->entites.push_back(entity);
+	}
 }
 
 void Map::CameraCull(Layer* layer, int& startX, int& startY, int& endX, int& endY)

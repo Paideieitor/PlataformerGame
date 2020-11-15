@@ -1,5 +1,6 @@
 #include "App.h"
 #include "Map.h"
+#include "Render.h"
 #include "Pathfinding.h"
 
 #include <vector>
@@ -37,6 +38,14 @@ fPoint Path::NextPoint(fPoint position, bool& end)
 
 	destination = { (float)path[current].x, (float)path[current].y };
 	return destination;
+}
+
+void Path::DrawPath()
+{
+	if(size != 0)
+		for(uint i = 0; i < size - 1; i++)
+			app->render->SetLineEvent(10, path[i].x, path[i].y, path[i + 1].x, path[i + 1].y, 255, 0, 0);
+
 }
 
 Node::Node()
@@ -164,7 +173,7 @@ Path* Pathfinding::PathTo(fPoint position, fPoint destination)
 						else
 							push = false;
 
-				if (push)
+				if(push)
 				{
 					neighbours[i]->g = g;
 					neighbours[i]->h = h;
@@ -184,7 +193,7 @@ Path* Pathfinding::CreatePath(iPoint currentTile, Node** nodeMap, fPoint start, 
 	vector<iPoint> nodes;
 
 	Node* current = &nodeMap[currentTile.x][currentTile.y];
-	while (current->parent != nullptr)
+	while(current->parent != nullptr)
 	{
 		nodes.push_back(current->tile);
 
@@ -192,7 +201,7 @@ Path* Pathfinding::CreatePath(iPoint currentTile, Node** nodeMap, fPoint start, 
 	}
 	reverse(nodes.begin(), nodes.end());
 
-	for (uint i = 0; i < nodes.size(); i++)
+	for(uint i = 0; i < nodes.size(); i++)
 	{
 		fPoint pos = app->map->TileToWorld(nodes[i]);
 		path.push_back(pos);
@@ -208,9 +217,9 @@ vector<Node*> Pathfinding::GetNeighbours(iPoint tile, Node** nodeMap)
 	for(int y = -1; y <= 1; y++)
 		for(int x = -1; x <= 1; x++)
 		{
-			if (x == 0 && y == 0)
+			if(x == 0 && y == 0)
 				continue;
-			else if ((tile.x + x) >= 0 && (tile.x + x) < width && (tile.y + y) >= 0 && (tile.y + y) < height)
+			else if((tile.x + x) >= 0 && (tile.x + x) < width && (tile.y + y) >= 0 && (tile.y + y) < height)
 				output.push_back(&nodeMap[tile.x + x][tile.y + y]);
 		}
 
@@ -231,7 +240,7 @@ int Pathfinding::GetDistance(iPoint A, iPoint B)
 
 void Pathfinding::CleanUp(Node** nodeMap)
 {
-	for (int x = 0; x != width; x++)
+	for(int x = 0; x != width; x++)
 		delete[] nodeMap[x];
 	delete[] nodeMap;
 }

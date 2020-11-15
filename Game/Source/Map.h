@@ -7,6 +7,13 @@
 
 struct SDL_Texture;
 class WayPoints;
+enum class EntityType;
+
+struct EntityData
+{
+	fPoint position;
+	EntityType type;
+};
 
 struct Tileset
 {
@@ -50,6 +57,8 @@ struct MapData
 	uint tSize;
 	Layer* layers = nullptr;
 	uint lSize;
+
+	vector<EntityData> entites;
 };
 
 class Map : public Module
@@ -74,6 +83,7 @@ public:
 	fPoint TileToWorld(iPoint tile);
 
 	Tileset* GetTileset(uint gid);
+	vector<EntityData> GetEntityData();
 
 private:
 
@@ -81,6 +91,7 @@ private:
 	void LoadLayers(pugi::xml_node&);
 	void LoadColliders(pugi::xml_node&);
 	WayPoints* LoadCheckPoints(pugi::xml_node&);
+	void LoadEntites(pugi::xml_node&);
 
 	void CameraCull(Layer* layer, int& startX, int& startY, int& endX, int& endY);
 

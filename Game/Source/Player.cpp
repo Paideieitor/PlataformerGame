@@ -159,7 +159,7 @@ bool WalkableCollider(ColliderType type)
 }
 bool DangerousCollider(ColliderType type)
 {
-	if(type == ColliderType::ATTACK)// || type == ColliderType::ENEMY)
+	if(type == ColliderType::ATTACK || type == ColliderType::ENEMY)
 		return true;
 	return false;
 }

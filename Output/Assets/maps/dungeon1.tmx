@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.5" orientation="orthogonal" renderorder="right-down" width="55" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="56">
+<map version="1.2" tiledversion="1.2.5" orientation="orthogonal" renderorder="right-down" width="55" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="60">
  <tileset firstgid="1" name="Dungeon" tilewidth="16" tileheight="16" tilecount="45" columns="9">
   <image source="dungeon_tileset.png" width="150" height="80"/>
  </tileset>
@@ -49,6 +49,7 @@
   <object id="50" type="ATTACK" x="416" y="217" width="48" height="7"/>
   <object id="52" type="ATTACK" x="642" y="186" width="12" height="6"/>
   <object id="54" type="ATTACK" x="706" y="186" width="12" height="6"/>
+  <object id="59" type="GROUND" x="0" y="-160" width="288" height="32"/>
  </objectgroup>
  <layer id="3" name="Background" width="55" height="20">
   <properties>
@@ -2264,7 +2265,7 @@
    <tile gid="17"/>
   </data>
  </layer>
- <layer id="7" name="Pathfinding" width="55" height="20">
+ <layer id="7" name="Pathfinding" width="55" height="20" visible="0">
   <properties>
    <property name="toDraw" value="false"/>
   </properties>
@@ -3371,4 +3372,12 @@
    <tile gid="47"/>
   </data>
  </layer>
+ <objectgroup id="8" name="Enemies">
+  <object id="57" name="BAT" x="440" y="136">
+   <point/>
+  </object>
+  <object id="58" name="BAT" x="680" y="120">
+   <point/>
+  </object>
+ </objectgroup>
 </map>

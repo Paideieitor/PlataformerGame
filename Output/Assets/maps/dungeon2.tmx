@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.5" orientation="orthogonal" renderorder="right-down" width="90" height="35" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="60">
+<map version="1.2" tiledversion="1.2.5" orientation="orthogonal" renderorder="right-down" width="90" height="35" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="64">
  <tileset firstgid="1" name="Dungeon" tilewidth="16" tileheight="16" tilecount="45" columns="9">
   <image source="dungeon_tileset.png" width="150" height="80"/>
  </tileset>
@@ -6384,7 +6384,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="7" name="Pathfinding" width="90" height="35">
+ <layer id="7" name="Pathfinding" width="90" height="35" visible="0">
   <properties>
    <property name="toDraw" value="false"/>
   </properties>
@@ -9541,4 +9541,18 @@
    <tile gid="47"/>
   </data>
  </layer>
+ <objectgroup id="8" name="Enemies">
+  <object id="60" name="BAT" x="248" y="104">
+   <point/>
+  </object>
+  <object id="61" name="BAT" x="784" y="40">
+   <point/>
+  </object>
+  <object id="62" name="BAT" x="1088" y="392">
+   <point/>
+  </object>
+  <object id="63" name="BAT" x="1296" y="328">
+   <point/>
+  </object>
+ </objectgroup>
 </map>

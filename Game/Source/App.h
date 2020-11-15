@@ -117,6 +117,7 @@ public:
 	bool startLevel2;
 	bool drawColliders;
 	bool godMode;
+	bool pathDebug;
 
 private:
 

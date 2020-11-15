@@ -15,6 +15,7 @@ public:
 	~Path();
 
 	fPoint NextPoint(fPoint position, bool &end);
+	void DrawPath();
 
 private:
 

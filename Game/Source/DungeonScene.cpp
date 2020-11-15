@@ -193,16 +193,27 @@ void DungeonScene::IterateCheckpoint()
 void DungeonScene::RespawnPlayer()
 {
 	if(player)
-		app->entitymanager->DeleteEntity(player);
+	{
+		for(uint i = 0; i < app->entitymanager->entities.size(); i++)
+			app->entitymanager->entities[i]->toDelete = true;
+		player = nullptr;
+	}
 
 	iPoint position = respawn->checkpoints[respawn->GetCurrent()].position;
 	player = app->entitymanager->CreateEntity(EntityType::PLAYER, { (float)position.x,(float)position.y });
+
+	vector<EntityData> entities = app->map->GetEntityData();
+	for(uint i = 0; i < entities.size(); i++)
+		app->entitymanager->CreateEntity(entities[i].type, entities[i].position);
 }
 
 void DungeonScene::UpdateCheckpoint()
 {
 	if(checkpoint)
+	{
 		app->collisions->DeleteCollider(checkpoint);
+		checkpoint = nullptr;
+	}
 	iPoint cPosition = respawn->checkpoints[respawn->GetCurrent() + 1].position;
 	int cX = cPosition.x - CHECKPOINT_SIZE / 2;
 	int cY = cPosition.y - CHECKPOINT_SIZE / 2;

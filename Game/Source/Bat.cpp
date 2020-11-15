@@ -20,7 +20,7 @@ Bat::Bat(fPoint position, bool flip, Player* parent) : Enemy(EntityType::BAT, po
 	fly->PushBack(16, 0, 16, 16);
 	fly->PushBack(32, 0, 16, 16);
 
-	currentAnimation = fly;
+	currentAnimation = idle;
 }
 
 Bat::~Bat()
@@ -42,14 +42,25 @@ bool Bat::Update(float dt)
 	if(pathTimer >= pathColdown)
 	{
 		pathTimer = 0.0f;
-		if(path)
+		if (path)
+		{
 			delete path;
+			path = nullptr;
+		}
 
-		path = app->paths->PathTo(position, app->dungeonscene->player->position);
+		if(app->dungeonscene->player)
+			if(abs(position.x - app->dungeonscene->player->position.x) < 100 && abs(position.y - app->dungeonscene->player->position.y) < 100)
+			{
+				if(currentAnimation != fly)
+					currentAnimation = fly;
+				path = app->paths->PathTo(position, app->dungeonscene->player->position);
+			}
 	}
 
 	if(path)
 	{
+		if(app->pathDebug)
+			path->DrawPath();
 		bool end;
 		fPoint destination = path->NextPoint(position, end);
 
@@ -93,6 +104,12 @@ bool Bat::Update(float dt)
 	body->SetPosition((int)dPosition.x, (int)dPosition.y);
 
 	app->render->SetTextureEvent(5, texture, dPosition, currentAnimation->GetFrame(dt), flip);
+
+	if(app->pathDebug)
+	{
+		fPoint d = GetDrawPosition({ 200, 200 });
+		app->render->SetRectangleEvent(10, d, { 200,200 }, 255, 0, 0, 255, true, false);
+	}
 
 	return true;
 }
