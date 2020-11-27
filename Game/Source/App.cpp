@@ -55,7 +55,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	map = new Map();
 	collisions = new Collisions();
 
-	paths = new Pathfinding();
+	paths = Pathfinding::GetInstance();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp

@@ -5,6 +5,8 @@
 
 #include <vector>
 
+Pathfinding* Pathfinding::instance = 0;
+
 Path::Path(vector<fPoint> path)
 {
 	current = 0;
@@ -69,6 +71,18 @@ Pathfinding::Pathfinding()
 	Quit();
 }
 
+Pathfinding* Pathfinding::GetInstance()
+{
+	if(!instance)
+		instance = new Pathfinding();
+	return instance;
+}
+
+Pathfinding::~Pathfinding()
+{
+	instance = nullptr;
+}
+
 void Pathfinding::Init(Layer* layer)
 {
 	idMap = layer->tiles;
@@ -94,6 +108,9 @@ Path* Pathfinding::PathTo(fPoint position, fPoint destination)
 
 	iPoint pos = app->map->WorldToTile(position);
 	iPoint dest = app->map->WorldToTile(destination);
+
+	if (pos == dest)
+		return nullptr;
 
 	Node** nodeMap = new Node*[width];
 	for(int i = 0; i < width; ++i)

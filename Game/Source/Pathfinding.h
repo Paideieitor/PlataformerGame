@@ -43,7 +43,8 @@ class Pathfinding
 {
 public:
 
-	Pathfinding();
+	static Pathfinding* GetInstance();
+	~Pathfinding();
 
 	void Init(Layer*);
 	void Quit();
@@ -58,11 +59,18 @@ public:
 
 private:
 
+	Pathfinding();
+	Pathfinding(const Pathfinding&);
+	Pathfinding& operator=(const Pathfinding&);
+
+	static Pathfinding* instance;
+
 	Path* CreatePath(iPoint currentTile, Node** nodeMap, fPoint start, fPoint end);
 	vector<Node*> GetNeighbours(iPoint tile, Node** nodeMap);
 	void CleanUp(Node** nodeMap);
 
 	int GetDistance(iPoint A, iPoint B);
 };
+
 
 #endif //__PATHFINDING_H__
