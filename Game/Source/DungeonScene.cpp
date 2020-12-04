@@ -129,9 +129,47 @@ bool DungeonScene::Save(pugi::xml_node& node)
 		atr = dNode.append_attribute("level");
 	atr.set_value(currentLevel);
 	atr = dNode.attribute("checkpoint");
-	if (!atr)
+	if(!atr)
 		atr = dNode.append_attribute("checkpoint");
 	atr.set_value(respawn->GetCurrent());
+
+	vector<Entity*> enemies;
+	for(uint i = 0; i < app->entitymanager->entities.size(); i++)
+	{
+		Entity* entity = app->entitymanager->entities[i];
+
+		if (entity->type == EntityType::BAT)
+			enemies.push_back(entity);
+	}
+	
+	dNode = node.child("enemies");
+	if(!dNode)
+		dNode = node.append_child("enemies");
+	atr = dNode.attribute("amount");
+	if(!atr)
+		atr = dNode.append_attribute("amount");
+	atr.set_value(enemies.size());
+
+	pugi::xml_node eNode;
+	for(uint i = 0; i < enemies.size(); i++)
+	{
+		eNode = dNode.child("enemy");
+		if(!eNode)
+			eNode = dNode.append_child("enemy");
+		atr = eNode.attribute("x");
+		if(!atr)
+			atr = eNode.append_attribute("x");
+		atr.set_value(enemies[i]->position.x);
+		atr = eNode.attribute("y");
+		if(!atr)
+			atr = eNode.append_attribute("y");
+		atr.set_value(enemies[i]->position.y);
+
+		//atr = eNode.attribute("resting");
+		//if (!atr)
+		//	atr = eNode.append_attribute("resting");
+		//atr.set_value(enemies[i]->resting);
+	}
 
 	return true;
 }

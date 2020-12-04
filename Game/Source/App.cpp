@@ -24,10 +24,15 @@
 App::App(int argc, char* args[]) : argc(argc), args(args)
 {
 	frames = 0;
-	dt = 0.0f;
 	fps = 0;
-	capped = true;
 	frameCap = 60;
+
+	dt = 0.0f;
+
+	capped = true;
+	vsync = false;
+
+	global.Start();
 
 	configPath = "config.xml";
 	savePath = "savegame.xml";
@@ -65,16 +70,16 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(map);
 	AddModule(fade, false);
-	AddModule(logo, false);
+	AddModule(logo, true);
 	AddModule(mainmenu, false);
-	AddModule(dungeonscene, true);
+	AddModule(dungeonscene, false);
 	AddModule(winscene, false);
 	AddModule(collisions);
 	AddModule(entitymanager);
 	// render last to swap buffer
 	AddModule(render);
 
-	fade->current = dungeonscene;
+	fade->current = logo;
 }
 
 // Destructor
@@ -235,8 +240,10 @@ void App::FinishUpdate()
 	if(capped)
 		c = frameCap;
 
+	int avFps = frames / global.ReadSec();
+
 	char title[256];
-	sprintf_s(title, 256, "PlatformGame || FPS: %d / Last Frame Ms: %d / Cap: %d / dt: %f", fps, miliseconds, c, dt);
+	sprintf_s(title, 256, "PlatformGame || FPS: %d / Average FPS: %d Last Frame Ms: %d / Cap: %d / dt: %f", fps, avFps, miliseconds, c, dt);
 	app->win->SetTitle(title);
 
 	if(capped)

@@ -8,6 +8,8 @@
 
 Bat::Bat(fPoint position, bool flip, Player* parent) : Enemy(EntityType::BAT, position, flip, parent)
 {
+	resting = true;
+
 	pathColdown = 1.0f;
 	pathTimer = 0.0f;
 
@@ -71,6 +73,8 @@ bool Bat::Update(float dt)
 		}
 		else
 		{
+			if(resting)
+				resting = false;
 			if(position.x < destination.x)
 			{
 				position.x += speed;

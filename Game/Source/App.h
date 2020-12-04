@@ -133,11 +133,16 @@ private:
 	pugi::xml_node configApp;
 
 	uint frames;
+	uint fps;
+	uint frameCap;
+
 	float dt;
-	int fps;
-	Timer timer;
+
 	bool capped;
-	int frameCap;
+	bool vsync;
+
+	Timer timer;
+	Timer global;
 };
 
 extern App* app;
