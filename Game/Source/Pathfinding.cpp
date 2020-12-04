@@ -101,7 +101,7 @@ void Pathfinding::Quit()
 	height = 0;
 }
 
-Path* Pathfinding::PathTo(fPoint position, fPoint destination)
+Path* Pathfinding::PathTo(fPoint position, fPoint destination, bool(*decoder)(int), bool walkMode)
 {
 	if(!idMap)
 		return nullptr;
@@ -122,9 +122,7 @@ Path* Pathfinding::PathTo(fPoint position, fPoint destination)
 		{
 			int id = idMap[x][y] - fid;
 
-			bool walkable = false;
-			if(id == 0 || id == 2)
-				walkable = true;
+			bool walkable = decoder(id);
 
 			nodeMap[x][y].walkable = walkable;
 			nodeMap[x][y].tile = { x,y };
@@ -169,35 +167,46 @@ Path* Pathfinding::PathTo(fPoint position, fPoint destination)
 		}
 
 		vector<Node*> neighbours = GetNeighbours(current->tile, nodeMap);
-		for(uint i = 0; i < neighbours.size(); i++)
-			if(neighbours[i]->walkable)
+		uint opened = false;
+		for (uint i = 0; i < neighbours.size(); i++)
+			if (neighbours[i]->walkable)
 			{
 				int g = current->g + GetDistance(current->tile, neighbours[i]->tile);
 				int h = GetDistance(neighbours[i]->tile, end->tile);
 
 				bool push = true;
-				for(uint n = 0; n < closed.size(); n++)
-					if(neighbours[i] == closed[n])
-						if(g + h < closed[n]->GetF())
+				for (uint n = 0; n < closed.size(); n++)
+					if (neighbours[i] == closed[n])
+						if (g + h < closed[n]->GetF())
 							continue;
 						else
 							push = false;
 
-				for(uint n = 0; n < open.size(); n++)
-					if(neighbours[i] == open[n])
-						if(g + h < open[n]->GetF())
+				for (uint n = 0; n < open.size(); n++)
+					if (neighbours[i] == open[n])
+						if (g + h < open[n]->GetF())
 							continue;
 						else
 							push = false;
 
-				if(push)
+				if (push)
 				{
 					neighbours[i]->g = g;
 					neighbours[i]->h = h;
 					neighbours[i]->parent = current;
 					open.push_back(neighbours[i]);
+
+					opened = true;
 				}
 			}
+
+		if(!opened && walkMode)
+		{
+			Path* output = CreatePath(current->tile, nodeMap, position, destination);
+
+			CleanUp(nodeMap);
+			return output;
+		}
 	}
 
 	CleanUp(nodeMap);

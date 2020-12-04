@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Shuriken.h"
 #include "Bat.h"
+#include "Guard.h"
 
 EntityManager::EntityManager()
 {
@@ -114,6 +115,9 @@ Entity* EntityManager::CreateEntity(EntityType type, fPoint position, bool flip,
 		break;
 	case EntityType::BAT:
 		entity = new Bat(position, flip, parent);
+		break;
+	case EntityType::GUARD:
+		entity = new Guard(position, flip, parent);
 		break;
 	}
 

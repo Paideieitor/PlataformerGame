@@ -10,7 +10,9 @@
 	<mainmenu />
 	<dungeon>
 		<current level="1" checkpoint="1" />
-		<enemies amount="1" />
+		<enemies amount="1">
+			<enemy x="680" y="120" resting="true" />
+		</enemies>
 	</dungeon>
 	<collisions />
 	<entitymanager />

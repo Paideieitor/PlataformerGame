@@ -155,17 +155,20 @@ bool App::Update()
 {
 	PrepareUpdate();
 
-	if(input->GetWindowEvent(WE_QUIT) == true)
-		return false;
+	if(dt <= 1.0f)
+	{
+		if(input->GetWindowEvent(WE_QUIT) == true)
+			return false;
 
-	if(!PreUpdate())
-		return false;
+		if(!PreUpdate())
+			return false;
 
-	if(!DoUpdate())
-		return false;
+		if(!DoUpdate())
+			return false;
 
-	if(!PostUpdate())
-		return false;
+		if(!PostUpdate())
+			return false;
+	}
 
 	FinishUpdate();
 	return true;

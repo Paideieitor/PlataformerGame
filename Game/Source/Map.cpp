@@ -327,6 +327,8 @@ void Map::LoadEntites(pugi::xml_node& node)
 		string entityType = oNode.attribute("name").as_string();
 		if (entityType == "BAT")
 			type = EntityType::BAT;
+		else if (entityType == "GUARD")
+			type = EntityType::GUARD;
 
 		float x = oNode.attribute("x").as_float();
 		float y = oNode.attribute("y").as_float();

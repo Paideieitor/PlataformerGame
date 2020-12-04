@@ -10,6 +10,8 @@ public:
 	virtual ~Enemy();
 
 	bool Update(float dt);
+
+	bool resting;
 };
 
 #endif //__ENEMY_H__

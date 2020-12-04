@@ -126,6 +126,8 @@ bool Player::Update(float dt)
 			jumps++;
 			timeOnAir = 0;
 			app->audio->PlayFx(app->dungeonscene->jumpSound);
+
+			position.y -= 3.0f;
 		}
 	}
 

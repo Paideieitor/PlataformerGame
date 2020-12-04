@@ -36,8 +36,18 @@ Bat::~Bat()
 	delete fly;
 }
 
+bool BatDecoder(int id)
+{
+	if (id == 1)
+		return false;
+	return true;
+}
+
 bool Bat::Update(float dt)
 {
+	if(currentAnimation != fly && !resting)
+		currentAnimation = fly;
+
 	float speed = 25.0f * dt;
 
 	pathTimer += dt;
@@ -55,7 +65,7 @@ bool Bat::Update(float dt)
 			{
 				if(currentAnimation != fly)
 					currentAnimation = fly;
-				path = app->paths->PathTo(position, app->dungeonscene->player->position);
+				path = app->paths->PathTo(position, app->dungeonscene->player->position, BatDecoder);
 			}
 	}
 

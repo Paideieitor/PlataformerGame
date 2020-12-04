@@ -17,7 +17,8 @@ enum class EntityType
 	PLAYER,
 	SHURIKEN,
 	ENEMY,
-	BAT
+	BAT,
+	GUARD
 };
 
 class Player;

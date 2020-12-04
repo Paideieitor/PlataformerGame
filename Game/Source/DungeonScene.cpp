@@ -8,6 +8,7 @@
 #include "WinScene.h"
 #include "LoseScene.h"
 #include "EntityManager.h"
+#include "Enemy.h"
 #include "Map.h"
 #include "Collisions.h"
 #include "Checkpoints.h"
@@ -133,18 +134,17 @@ bool DungeonScene::Save(pugi::xml_node& node)
 		atr = dNode.append_attribute("checkpoint");
 	atr.set_value(respawn->GetCurrent());
 
-	vector<Entity*> enemies;
+	vector<Enemy*> enemies;
 	for(uint i = 0; i < app->entitymanager->entities.size(); i++)
 	{
 		Entity* entity = app->entitymanager->entities[i];
 
 		if (entity->type == EntityType::BAT)
-			enemies.push_back(entity);
+			enemies.push_back((Enemy*)entity);
 	}
 	
-	dNode = node.child("enemies");
-	if(!dNode)
-		dNode = node.append_child("enemies");
+	node.remove_child("enemies");
+	dNode = node.append_child("enemies");
 	atr = dNode.attribute("amount");
 	if(!atr)
 		atr = dNode.append_attribute("amount");
@@ -153,9 +153,7 @@ bool DungeonScene::Save(pugi::xml_node& node)
 	pugi::xml_node eNode;
 	for(uint i = 0; i < enemies.size(); i++)
 	{
-		eNode = dNode.child("enemy");
-		if(!eNode)
-			eNode = dNode.append_child("enemy");
+		eNode = dNode.append_child("enemy");
 		atr = eNode.attribute("x");
 		if(!atr)
 			atr = eNode.append_attribute("x");
@@ -165,10 +163,10 @@ bool DungeonScene::Save(pugi::xml_node& node)
 			atr = eNode.append_attribute("y");
 		atr.set_value(enemies[i]->position.y);
 
-		//atr = eNode.attribute("resting");
-		//if (!atr)
-		//	atr = eNode.append_attribute("resting");
-		//atr.set_value(enemies[i]->resting);
+		atr = eNode.attribute("resting");
+		if (!atr)
+			atr = eNode.append_attribute("resting");
+		atr.set_value(enemies[i]->resting);
 	}
 
 	return true;

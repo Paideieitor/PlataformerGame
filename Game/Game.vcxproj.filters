@@ -76,6 +76,9 @@
     <ClCompile Include="Source\Bat.cpp">
       <Filter>Game\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Guard.cpp">
+      <Filter>Game\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -175,6 +178,9 @@
       <Filter>Game\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Source\Shuriken.h">
+      <Filter>Game\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Guard.h">
       <Filter>Game\Entities</Filter>
     </ClInclude>
   </ItemGroup>

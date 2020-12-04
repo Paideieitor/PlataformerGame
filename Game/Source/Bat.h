@@ -14,8 +14,6 @@ public:
 
 	bool Update(float dt);
 
-	bool resting;
-
 private:
 
 	float pathColdown;

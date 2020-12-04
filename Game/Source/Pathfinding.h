@@ -22,6 +22,8 @@ private:
 	fPoint* path;
 	int size;
 	int current;
+
+	friend fPoint* GetPathInfo(const Path &path, int& size, int &current);
 };
 
 struct Node
@@ -49,8 +51,8 @@ public:
 	void Init(Layer*);
 	void Quit();
 
-	Path* PathTo(fPoint position, fPoint destination);
-
+	Path* PathTo(fPoint position, fPoint destination, bool(*decoder)(int), bool walkMode = false);
+	
 	uint** idMap = nullptr;
 	uint fid;
 
