@@ -11,6 +11,7 @@ Guard::Guard(fPoint position, bool flip, Player* parent) : Enemy(EntityType::GUA
 	resting = false;
 
 	chasing = false;
+	falling = false;
 
 	fPoint velocity = { 0.0f,0.0f };
 
@@ -53,44 +54,69 @@ bool Guard::Update(float dt)
 {
 	float speed = 25.0f * dt;
 
-	iPoint visionSize = { 100,100 };
+	iPoint visionSize = { 100,200 };
 	fPoint visionPos = { position.x, position.y - visionSize.y / 2 };
-	if (flip)
+	if(flip)
 		visionPos.x = visionPos.x - visionSize.x;
 
-	if (app->dungeonscene->player)
+	if(app->dungeonscene->player)
 	{
-		if(visionPos.x <= app->dungeonscene->player->position.x && visionPos.x + visionSize.x >= app->dungeonscene->player->position.x &&
-			visionPos.y <= app->dungeonscene->player->position.y && visionPos.y + visionSize.y >= app->dungeonscene->player->position.y)
+		if(!falling)
 		{
-			if(!chasing)
+			if(visionPos.x <= app->dungeonscene->player->position.x && visionPos.x + visionSize.x >= app->dungeonscene->player->position.x &&
+				visionPos.y <= app->dungeonscene->player->position.y && visionPos.y + visionSize.y >= app->dungeonscene->player->position.y)
 			{
-				delete path;
-				path = nullptr;
-			}
-			if(!path)
-				path = app->paths->PathTo(position, app->dungeonscene->player->position, ChaseDecoder, true);
+				if(!chasing)
+				{
+					delete path;
+					path = nullptr;
+				}
+				if(!path)
+					path = app->paths->PathTo(position, app->dungeonscene->player->position, ChaseDecoder, true);
 
-			chasing = true;
-		}
-		else
-		{
-			if(!path)
+				chasing = true;
+			}
+			else
 			{
-				float distance = 50.0f;
-				if(flip)
-					distance = distance * -1;
-				path = app->paths->PathTo(position, { position.x - distance, position.y }, GuardDecoder, true);
+				if(chasing)
+				{
+					delete path;
+					path = nullptr;
+					chasing = false;
+				}
+				if(!path)
+				{
+					float distance = 50.0f;
+					if(flip)
+						distance = distance * -1;
+					path = app->paths->PathTo(position, { position.x - distance, position.y }, GuardDecoder, true);
+				}
 			}
 		}
-
 		velocity.x = 0.0f;
-		if (path)
+		if(path)
 		{
 			if (app->pathDebug)
 				path->DrawPath();
 			bool end;
 			fPoint destination = path->NextPoint(position, end);
+
+			if(falling)
+			{
+				Walk(speed * 2, destination.x);
+				if (position.y < destination.y)
+				{
+					velocity.y += 10.0f * dt;
+					if (position.y + velocity.y > destination.y)
+						velocity.y = destination.y - position.y;
+				}
+				else
+				{
+					position.y = destination.y;
+					falling = false;
+					velocity.y = 0.0f;
+				}
+			}
 
 			if(end)
 			{
@@ -117,6 +143,8 @@ bool Guard::Update(float dt)
 					case MoveType::JUMP:
 						break;
 					case MoveType::FALL:
+						Fall(specialDest);
+						falling = true;
 						break;
 					}
 				}
@@ -125,7 +153,7 @@ bool Guard::Update(float dt)
 	}
 
 	position.x += velocity.x;
-	position.y += velocity.y * dt;
+	position.y += velocity.y;
 
 	fPoint dPosition = GetDrawPosition(size);
 	body->SetPosition((int)dPosition.x, (int)dPosition.y);
@@ -148,7 +176,7 @@ fPoint* GetPathInfo(const Path& path, int& size, int& current)
 	return path.path;
 }
 
-void Guard::Walk(float speed, float destination)
+void Guard::Walk(const float& speed, const float& destination)
 {
 	if (position.x < destination)
 	{
@@ -166,19 +194,29 @@ void Guard::Walk(float speed, float destination)
 	}
 }
 
+void Guard::Fall(const fPoint& destination)
+{
+}
+
+void SetCurrent(Path* p, int newCurrent)
+{
+	p->current = newCurrent;
+}
+
 fPoint Guard::GetSpecialDestination(MoveType& type)
 {
 	int size = 0;
 	int current = 0;
 	fPoint* points = GetPathInfo(*path, size, current);
+	current--;
 
 	if(!points)
 		return position;
 
-	if(current + 1 == size)
-		return points[current];
+	if(current + 1 >= size || current < 0)
+		return points[current++];
 
-	if (points[current].y < points[current + 1].y || position.x < points[current].y) //FALL 
+	if (points[current].y < points[current + 1].y || position.y < points[current].y) //FALL 
 	{
 		type = MoveType::FALL;
 		for (uint i = current; i < size; i++)
@@ -186,13 +224,17 @@ fPoint Guard::GetSpecialDestination(MoveType& type)
 			if (i + 1 != size)
 			{
 				if (points[i + 1].y <= points[i].y)
+				{
+					SetCurrent(path, i);
 					return points[i];
+				}
 				continue;
 			}
+			SetCurrent(path, i);
 			return points[i];
 		}
 	}
-	else if (points[current].y > points[current + 1].y || position.x > points[current].y) //JUMP
+	else if (points[current].y > points[current + 1].y || position.y > points[current].y) //JUMP
 	{
 		type = MoveType::JUMP;
 		for (uint i = current; i < size; i++)
@@ -207,5 +249,5 @@ fPoint Guard::GetSpecialDestination(MoveType& type)
 		}
 	}
 
-	return points[current];
+	return points[current++];
 }

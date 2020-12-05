@@ -23,11 +23,13 @@ public:
 
 private:
 
-	void Walk(float speed, float destination);
+	void Walk(const float& speed, const float& destination);
+	void Fall(const fPoint& destination);
 
 	fPoint GetSpecialDestination(MoveType &type);
 
 	bool chasing;
+	bool falling;
 
 	fPoint velocity;
 

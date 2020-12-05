@@ -24,6 +24,7 @@ private:
 	int current;
 
 	friend fPoint* GetPathInfo(const Path &path, int& size, int &current);
+	friend void SetCurrent(Path* path, int newCurrent);
 };
 
 struct Node
