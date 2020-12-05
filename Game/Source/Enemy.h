@@ -13,6 +13,8 @@ public:
 
 	bool resting;
 
+	fPoint dest;
+
 protected:
 
 	float pathColdown;

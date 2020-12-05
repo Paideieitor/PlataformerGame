@@ -116,6 +116,7 @@ bool Guard::Update(float dt)
 				path->DrawPath();
 			bool end;
 			fPoint destination = path->NextPoint(position, end);
+			dest = destination;
 
 			if(falling)
 			{
@@ -163,6 +164,7 @@ bool Guard::Update(float dt)
 						Walk(speed * 2, destination.x);
 						break;
 					case MoveType::JUMP:
+						dest = position;
 						jumping = true;
 						break;
 					case MoveType::FALL:

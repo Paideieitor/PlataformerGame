@@ -4,9 +4,18 @@
 #include "Module.h"
 #include "Point.h"
 
+#include <vector>
+
 struct Collider;
 class WayPoints;
 class Entity;
+
+struct EnemyInfo
+{
+	string type;
+	fPoint position;
+	bool resting = false;
+};
 
 class DungeonScene : public Module
 {
@@ -52,6 +61,8 @@ private:
 	int currentCheckpoint;
 
 	bool keepMusic;
+
+	vector<EnemyInfo>* loadedEnemies = nullptr;
 };
 
 #endif //__DUNGEONSCENE_H__

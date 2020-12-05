@@ -8,6 +8,7 @@
 #include "WinScene.h"
 #include "LoseScene.h"
 #include "EntityManager.h"
+#include "Player.h"
 #include "Enemy.h"
 #include "Map.h"
 #include "Collisions.h"
@@ -134,13 +135,13 @@ bool DungeonScene::Save(pugi::xml_node& node)
 		atr = dNode.append_attribute("checkpoint");
 	atr.set_value(respawn->GetCurrent());
 
-	vector<Enemy*> enemies;
+	vector<Entity*> enemies;
 	for(uint i = 0; i < app->entitymanager->entities.size(); i++)
 	{
 		Entity* entity = app->entitymanager->entities[i];
 
-		if (entity->type == EntityType::BAT)
-			enemies.push_back((Enemy*)entity);
+		if (entity->type == EntityType::BAT || entity->type == EntityType::GUARD || entity->type == EntityType::SHURIKEN)
+			enemies.push_back(entity);
 	}
 	
 	node.remove_child("enemies");
@@ -154,19 +155,43 @@ bool DungeonScene::Save(pugi::xml_node& node)
 	for(uint i = 0; i < enemies.size(); i++)
 	{
 		eNode = dNode.append_child("enemy");
-		atr = eNode.attribute("x");
-		if(!atr)
-			atr = eNode.append_attribute("x");
-		atr.set_value(enemies[i]->position.x);
-		atr = eNode.attribute("y");
-		if(!atr)
-			atr = eNode.append_attribute("y");
-		atr.set_value(enemies[i]->position.y);
 
-		atr = eNode.attribute("resting");
-		if (!atr)
+		atr = eNode.append_attribute("type");
+		if(enemies[i]->type == EntityType::BAT)
+		{
+			Enemy* bat = (Enemy*)enemies[i];
+			atr.set_value("BAT");
+
+			atr = eNode.append_attribute("x");
+			atr.set_value(enemies[i]->position.x);
+
+			atr = eNode.append_attribute("y");
+			atr.set_value(enemies[i]->position.y);
+
 			atr = eNode.append_attribute("resting");
-		atr.set_value(enemies[i]->resting);
+			atr.set_value(bat->resting);
+		}
+		else if(enemies[i]->type == EntityType::GUARD)
+		{
+			Enemy* guard = (Enemy*)enemies[i];
+			atr.set_value("GUARD");
+
+			atr = eNode.append_attribute("x");
+			atr.set_value(guard->dest.x);
+
+			atr = eNode.append_attribute("y");
+			atr.set_value(guard->dest.y);
+		}
+		else if(enemies[i]->type == EntityType::SHURIKEN)
+		{
+			atr.set_value("SHURIKEN");
+
+			atr = eNode.append_attribute("x");
+			atr.set_value(enemies[i]->position.x);
+
+			atr = eNode.append_attribute("y");
+			atr.set_value(enemies[i]->position.y);
+		}
 	}
 
 	return true;
@@ -176,6 +201,27 @@ bool DungeonScene::Load(pugi::xml_node& node)
 {
 	currentLevel = node.child("current").attribute("level").as_int();
 	currentCheckpoint = node.child("current").attribute("checkpoint").as_int();
+
+	node = node.child("enemies");
+	loadedEnemies = new vector<EnemyInfo>;
+	for (pugi::xml_node oNode = node.child("enemy"); oNode != NULL; oNode = oNode.next_sibling("enemy"))
+	{
+		EnemyInfo enemy;
+
+		enemy.type = oNode.attribute("type").as_string();
+
+		float x = oNode.attribute("x").as_float();
+		float y = oNode.attribute("y").as_float();
+		enemy.position = { x,y };
+
+		pugi::xml_attribute atr = oNode.attribute("resting");
+		if (!atr)
+			enemy.resting = false;
+		else
+			enemy.resting = atr.as_bool();
+
+		loadedEnemies->push_back(enemy);
+	}
 
 	app->fade->ChangeScene(app->fade->current, this);
 
@@ -238,9 +284,38 @@ void DungeonScene::RespawnPlayer()
 	iPoint position = respawn->checkpoints[respawn->GetCurrent()].position;
 	player = app->entitymanager->CreateEntity(EntityType::PLAYER, { (float)position.x,(float)position.y });
 
-	vector<EntityData> entities = app->map->GetEntityData();
-	for(uint i = 0; i < entities.size(); i++)
-		app->entitymanager->CreateEntity(entities[i].type, entities[i].position);
+	if (!loadedEnemies)
+	{
+		vector<EntityData> entities = app->map->GetEntityData();
+		for (uint i = 0; i < entities.size(); i++)
+			app->entitymanager->CreateEntity(entities[i].type, entities[i].position);
+	}
+	else
+	{
+		for(uint i = 0; i < loadedEnemies->size(); i++)
+		{
+			if ((*loadedEnemies)[i].type == "SHURIKEN")
+			{
+				Player* pl = (Player*)player;
+				pl->shurikens.push_back(app->entitymanager->CreateEntity(EntityType::SHURIKEN, (*loadedEnemies)[i].position, false, pl));
+			}
+			else
+			{
+				EntityType type = EntityType::ENEMY;
+				if ((*loadedEnemies)[i].type == "BAT")
+					type = EntityType::BAT;
+				else if ((*loadedEnemies)[i].type == "GUARD")
+					type = EntityType::GUARD;
+
+				Enemy* enemy = (Enemy*)app->entitymanager->CreateEntity(type, (*loadedEnemies)[i].position);
+
+				enemy->resting = (*loadedEnemies)[i].resting;
+			}
+		}
+
+		delete loadedEnemies;
+		loadedEnemies = nullptr;
+	}
 }
 
 void DungeonScene::UpdateCheckpoint()
