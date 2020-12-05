@@ -12,6 +12,11 @@ public:
 	bool Update(float dt);
 
 	bool resting;
+
+protected:
+
+	float pathColdown;
+	float pathTimer;
 };
 
 #endif //__ENEMY_H__

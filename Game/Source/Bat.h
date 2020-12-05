@@ -16,8 +16,6 @@ public:
 
 private:
 
-	float pathColdown;
-	float pathTimer;
 	Animation* idle = nullptr;
 	Animation* fly = nullptr;
 

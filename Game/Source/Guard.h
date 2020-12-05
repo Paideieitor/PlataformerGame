@@ -9,7 +9,8 @@ enum class MoveType
 {
 	NONE,
 	JUMP,
-	FALL
+	FALL,
+	ERROR
 };
 
 class Guard : public Enemy
@@ -24,12 +25,14 @@ public:
 private:
 
 	void Walk(const float& speed, const float& destination);
-	void Fall(const fPoint& destination);
 
 	fPoint GetSpecialDestination(MoveType &type);
 
 	bool chasing;
 	bool falling;
+	bool jumping;
+
+	float timeOnAir;
 
 	fPoint velocity;
 

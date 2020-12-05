@@ -6,6 +6,9 @@ Enemy::Enemy(EntityType type, fPoint position, bool flip, Player* parent) : Enti
 {
 	size = { 16,16 };
 
+	pathColdown = 1.0f;
+	pathTimer = 0.0f;
+
 	body = app->collisions->CreateCollider(ColliderType::ENEMY, { (int)position.x,(int)position.y,size.x,size.y });
 }
 

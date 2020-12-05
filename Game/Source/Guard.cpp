@@ -12,6 +12,9 @@ Guard::Guard(fPoint position, bool flip, Player* parent) : Enemy(EntityType::GUA
 
 	chasing = false;
 	falling = false;
+	jumping = false;
+
+	timeOnAir = 0.0f;
 
 	fPoint velocity = { 0.0f,0.0f };
 
@@ -66,13 +69,26 @@ bool Guard::Update(float dt)
 			if(visionPos.x <= app->dungeonscene->player->position.x && visionPos.x + visionSize.x >= app->dungeonscene->player->position.x &&
 				visionPos.y <= app->dungeonscene->player->position.y && visionPos.y + visionSize.y >= app->dungeonscene->player->position.y)
 			{
+				pathTimer += dt;
+				if(pathTimer >= pathColdown)
+				{
+					pathTimer = 0.0f;
+					if(path)
+					{
+						delete path;
+						path = nullptr;
+					}
+
+					if(!path && !jumping)
+						path = app->paths->PathTo(position, app->dungeonscene->player->position, ChaseDecoder, true);
+				}
+
 				if(!chasing)
 				{
 					delete path;
 					path = nullptr;
-				}
-				if(!path)
 					path = app->paths->PathTo(position, app->dungeonscene->player->position, ChaseDecoder, true);
+				}
 
 				chasing = true;
 			}
@@ -106,15 +122,20 @@ bool Guard::Update(float dt)
 				Walk(speed * 2, destination.x);
 				if (position.y < destination.y)
 				{
-					velocity.y += 10.0f * dt;
-					if (position.y + velocity.y > destination.y)
-						velocity.y = destination.y - position.y;
+					velocity.y += timeOnAir * dt;
+					timeOnAir += 5000.0f * dt;
+					if (position.y + (velocity.y * dt) > destination.y)
+					{
+						position.y = destination.y;
+						velocity.y = 0.0f;
+					}
 				}
 				else
 				{
 					position.y = destination.y;
 					falling = false;
 					velocity.y = 0.0f;
+					timeOnAir = 0.0f;
 				}
 			}
 
@@ -132,6 +153,7 @@ bool Guard::Update(float dt)
 				}
 				else
 				{ 
+					jumping = false;
 					MoveType type = MoveType::NONE;
 					fPoint specialDest = GetSpecialDestination(type);
 
@@ -141,10 +163,13 @@ bool Guard::Update(float dt)
 						Walk(speed * 2, destination.x);
 						break;
 					case MoveType::JUMP:
+						jumping = true;
 						break;
 					case MoveType::FALL:
-						Fall(specialDest);
 						falling = true;
+						break;
+					case MoveType::ERROR:
+						flip = !flip;
 						break;
 					}
 				}
@@ -153,7 +178,7 @@ bool Guard::Update(float dt)
 	}
 
 	position.x += velocity.x;
-	position.y += velocity.y;
+	position.y += velocity.y * dt;
 
 	fPoint dPosition = GetDrawPosition(size);
 	body->SetPosition((int)dPosition.x, (int)dPosition.y);
@@ -194,10 +219,6 @@ void Guard::Walk(const float& speed, const float& destination)
 	}
 }
 
-void Guard::Fall(const fPoint& destination)
-{
-}
-
 void SetCurrent(Path* p, int newCurrent)
 {
 	p->current = newCurrent;
@@ -213,17 +234,24 @@ fPoint Guard::GetSpecialDestination(MoveType& type)
 	if(!points)
 		return position;
 
-	if(current + 1 >= size || current < 0)
+	if(current + 1 >= size)
 		return points[current++];
 
-	if (points[current].y < points[current + 1].y || position.y < points[current].y) //FALL 
+	if(current < 0 && points[0].y == points[1].y)
+		return points[0];
+	else if (current < 0 && position.x == points[0].x)
+		current = 0;
+	else if(current < 0)
+		return points[0];
+
+	if(points[current].y < points[current + 1].y || position.y < points[current].y) //FALL 
 	{
 		type = MoveType::FALL;
-		for (uint i = current; i < size; i++)
+		for(uint i = current; i < size; i++)
 		{
-			if (i + 1 != size)
+			if(i + 1 != size)
 			{
-				if (points[i + 1].y <= points[i].y)
+				if(points[i + 1].y <= points[i].y)
 				{
 					SetCurrent(path, i);
 					return points[i];
@@ -234,14 +262,14 @@ fPoint Guard::GetSpecialDestination(MoveType& type)
 			return points[i];
 		}
 	}
-	else if (points[current].y > points[current + 1].y || position.y > points[current].y) //JUMP
+	else if(points[current].y > points[current + 1].y || position.y > points[current].y) //JUMP
 	{
 		type = MoveType::JUMP;
-		for (uint i = current; i < size; i++)
+		for(uint i = current; i < size; i++)
 		{
-			if (i + 1 != size)
+			if(i + 1 != size)
 			{
-				if (points[i + 1].y >= points[i].y)
+				if(points[i + 1].y >= points[i].y)
 					return points[i];
 				continue;
 			}

@@ -10,9 +10,6 @@ Bat::Bat(fPoint position, bool flip, Player* parent) : Enemy(EntityType::BAT, po
 {
 	resting = true;
 
-	pathColdown = 1.0f;
-	pathTimer = 0.0f;
-
 	texture = app->tex->Load("Assets/textures/bat.png");
 
 	idle = new Animation(1);
