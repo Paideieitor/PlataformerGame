@@ -159,20 +159,17 @@ bool DungeonScene::Save(pugi::xml_node& node)
 	}
 	
 	node.remove_child("enemies");
+	dNode.remove_attribute("x");
+	dNode.remove_attribute("y");
 	if (enemies.size() == 0 || notEntities)
 		return true;
 
-	dNode.remove_attribute("x");
-	dNode.remove_attribute("y");
 	if (player)
 	{
-		atr = dNode.attribute("x");
-		if (!atr)
-			atr = dNode.append_attribute("x");
+		atr = dNode.append_attribute("x");
 		atr.set_value(player->position.x);
-		atr = dNode.attribute("y");
-		if (!atr)
-			atr = dNode.append_attribute("y");
+
+		atr = dNode.append_attribute("y");
 		atr.set_value(player->position.y);
 	}
 

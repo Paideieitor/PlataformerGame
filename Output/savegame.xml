@@ -1,1 +1,17 @@
-
+<?xml version="1.0"?>
+<save>
+	<input />
+	<window />
+	<textures />
+	<audio />
+	<map />
+	<fadetoblack />
+	<logo />
+	<mainmenu />
+	<dungeon>
+		<current level="1" checkpoint="0" />
+	</dungeon>
+	<collisions />
+	<entitymanager />
+	<render />
+</save>
