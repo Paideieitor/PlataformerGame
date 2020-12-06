@@ -13,6 +13,8 @@ Input::Input() : Module()
 {
 	name = "input";
 
+	quit = false;
+
 	keyboard = new KeyState[MAX_KEYS];
 	memset(keyboard, KEY_IDLE, sizeof(KeyState) * MAX_KEYS);
 	memset(mouseButtons, KEY_IDLE, sizeof(KeyState) * NUM_MOUSE_BUTTONS);
@@ -76,7 +78,7 @@ bool Input::PreUpdate()
 		switch(event.type)
 		{
 			case SDL_QUIT:
-				windowEvents[WE_QUIT] = true;
+				quit = true;
 			break;
 
 			case SDL_WINDOWEVENT:
@@ -101,12 +103,10 @@ bool Input::PreUpdate()
 
 			case SDL_MOUSEBUTTONDOWN:
 				mouseButtons[event.button.button - 1] = KEY_DOWN;
-				//LOG("Mouse button %d down", event.button.button-1);
 			break;
 
 			case SDL_MOUSEBUTTONUP:
 				mouseButtons[event.button.button - 1] = KEY_UP;
-				//LOG("Mouse button %d up", event.button.button-1);
 			break;
 
 			case SDL_MOUSEMOTION:
@@ -115,10 +115,12 @@ bool Input::PreUpdate()
 				mouseMotionY = event.motion.yrel / scale;
 				mouseX = event.motion.x / scale;
 				mouseY = event.motion.y / scale;
-				//LOG("Mouse motion x %d y %d", mouse_motion_x, mouse_motion_y);
 			break;
 		}
 	}
+
+	if(quit)
+		return false;
 
 	return true;
 }

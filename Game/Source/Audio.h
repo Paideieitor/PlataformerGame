@@ -3,6 +3,8 @@
 
 #include "Module.h"
 
+#include <vector>
+
 #define DEFAULT_MUSIC_FADE_TIME 2.0f
 
 struct _Mix_Music;

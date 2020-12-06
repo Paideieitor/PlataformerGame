@@ -1,4 +1,5 @@
 #include "Input.h"
+#include "Audio.h"
 #include "DungeonScene.h"
 #include "Pathfinding.h"
 #include "Guard.h"
@@ -85,6 +86,7 @@ bool Guard::Update(float dt)
 
 				if(!chasing)
 				{
+					app->audio->PlayFx(app->dungeonscene->guardAlertSound);
 					delete path;
 					path = nullptr;
 					path = app->paths->PathTo(position, app->dungeonscene->player->position, ChaseDecoder, true);
@@ -96,9 +98,11 @@ bool Guard::Update(float dt)
 			{
 				if(chasing)
 				{
+					app->audio->PlayFx(app->dungeonscene->guardStopChaseSound);
 					delete path;
 					path = nullptr;
 					chasing = false;
+					flip = !flip;
 				}
 				if(!path)
 				{
@@ -241,10 +245,13 @@ fPoint Guard::GetSpecialDestination(MoveType& type)
 
 	if(current < 0 && points[0].y == points[1].y)
 		return points[0];
-	else if (current < 0 && position.x == points[0].x)
+	else if(current < 0 && position.x == points[0].x)
 		current = 0;
 	else if(current < 0)
-		return points[0];
+		if(size == 1)
+			current = 0;
+		else
+			return points[0];
 
 	if(points[current].y < points[current + 1].y || position.y < points[current].y) //FALL 
 	{

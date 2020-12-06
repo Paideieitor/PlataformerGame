@@ -45,6 +45,9 @@ bool WinScene::PreUpdate()
 
 bool WinScene::Update(float dt)
 {
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		app->input->quit = true;
+
 	if(app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
 		app->fade->ChangeScene(this, app->mainmenu);

@@ -34,4 +34,9 @@
 
 This project is licensed under an unmodified MIT license, which is an OSI-certified license that allows static linking with closed source software. Check [LICENSE](LICENSE) for further details.
 
+Music from:
+https://www.youtube.com/user/8BitUniverseMusic
+Guard Alert sound:
+Sound #531750 by Phil Strahl from https://freesound.org/people/PhilStrahl/sounds/531750/
+
 For extra licenses read COPYING.txt or readme.txt in every folder at ../Game/Source/Externals

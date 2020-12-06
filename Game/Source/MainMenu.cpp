@@ -47,8 +47,11 @@ bool MainMenu::PreUpdate()
 
 bool MainMenu::Update(float dt)
 {
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		app->input->quit = true;
+
 	if(app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
-		app->fade->ChangeScene(this, app->dungeonscene);
+		app->toLoad = true;
 
 	app->render->SetTextureEvent(2, bern, { 0,0 });
 

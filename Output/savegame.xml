@@ -9,15 +9,7 @@
 	<logo />
 	<mainmenu />
 	<dungeon>
-		<current level="1" checkpoint="1" />
-		<enemies amount="6">
-			<enemy type="BAT" x="680" y="120" resting="true" />
-			<enemy type="GUARD" x="168" y="184" />
-			<enemy type="BAT" x="207.25" y="160.75" resting="false" />
-			<enemy type="SHURIKEN" x="459.299957" y="160" />
-			<enemy type="SHURIKEN" x="440.300537" y="134.300003" />
-			<enemy type="SHURIKEN" x="262.550049" y="163.300003" />
-		</enemies>
+		<current level="1" checkpoint="0" />
 	</dungeon>
 	<collisions />
 	<entitymanager />

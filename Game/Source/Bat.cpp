@@ -1,4 +1,5 @@
 #include "Input.h"
+#include "Audio.h"
 #include "DungeonScene.h"
 #include "Pathfinding.h"
 #include "Bat.h"
@@ -63,6 +64,7 @@ bool Bat::Update(float dt)
 				if(currentAnimation != fly)
 					currentAnimation = fly;
 				path = app->paths->PathTo(position, app->dungeonscene->player->position, BatDecoder);
+				app->audio->PlayFx(app->dungeonscene->batSound);
 			}
 	}
 

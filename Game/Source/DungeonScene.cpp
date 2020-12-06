@@ -45,6 +45,8 @@ bool DungeonScene::Awake(pugi::xml_node& node)
 
 	keepMusic = false;
 
+	notEntities = false;
+
 	levels = node.child("levels").attribute("amount").as_int();
 	currentLevel = 1;
 	currentCheckpoint = 0;
@@ -56,10 +58,14 @@ bool DungeonScene::Start()
 {
 	jumpSound = app->audio->LoadFx("Assets/audio/fx/jump.wav");
 	deathSound = app->audio->LoadFx("Assets/audio/fx/oof.wav");
+	batSound = app->audio->LoadFx("Assets/audio/fx/bat.wav");
+	guardAlertSound = app->audio->LoadFx("Assets/audio/fx/guard_alert.wav");
+	guardStopChaseSound = app->audio->LoadFx("Assets/audio/fx/huh.wav");
 
 	if(!keepMusic)
 		app->audio->PlayMusic("Assets/audio/music/dungeon_song.ogg", 0.0f);
 	keepMusic = false;
+	notEntities = false;
 
 	app->render->camera.x = 0;
 	app->render->camera.y = 0;
@@ -87,6 +93,14 @@ bool DungeonScene::Update(float dt)
 		iterate = false;
 		IterateCheckpoint();
 	}
+
+	if(app->startCurrentLevel)
+	{
+		app->startCurrentLevel = false;
+		ResetCheckpoint();
+		RespawnPlayer();
+	}
+
 	if(app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 		ResetCheckpoint();
 
@@ -112,7 +126,7 @@ bool DungeonScene::PostUpdate()
 		currentLevel = 2;
 		app->fade->ChangeScene(this, this);
 	}
-	if(app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 	{
 		app->toSave = true;
 		app->fade->ChangeScene(this, app->mainmenu);
@@ -145,6 +159,9 @@ bool DungeonScene::Save(pugi::xml_node& node)
 	}
 	
 	node.remove_child("enemies");
+	if (enemies.size() == 0 || notEntities)
+		return true;
+
 	dNode = node.append_child("enemies");
 	atr = dNode.attribute("amount");
 	if(!atr)
@@ -203,26 +220,28 @@ bool DungeonScene::Load(pugi::xml_node& node)
 	currentCheckpoint = node.child("current").attribute("checkpoint").as_int();
 
 	node = node.child("enemies");
-	loadedEnemies = new vector<EnemyInfo>;
-	for (pugi::xml_node oNode = node.child("enemy"); oNode != NULL; oNode = oNode.next_sibling("enemy"))
+	if(node)
 	{
-		EnemyInfo enemy;
+		loadedEnemies = new vector<EnemyInfo>;
+		for (pugi::xml_node oNode = node.child("enemy"); oNode != NULL; oNode = oNode.next_sibling("enemy"))
+		{
+			EnemyInfo enemy;
 
-		enemy.type = oNode.attribute("type").as_string();
+			enemy.type = oNode.attribute("type").as_string();
 
-		float x = oNode.attribute("x").as_float();
-		float y = oNode.attribute("y").as_float();
-		enemy.position = { x,y };
+			float x = oNode.attribute("x").as_float();
+			float y = oNode.attribute("y").as_float();
+			enemy.position = { x,y };
 
-		pugi::xml_attribute atr = oNode.attribute("resting");
-		if (!atr)
-			enemy.resting = false;
-		else
-			enemy.resting = atr.as_bool();
+			pugi::xml_attribute atr = oNode.attribute("resting");
+			if (!atr)
+				enemy.resting = false;
+			else
+				enemy.resting = atr.as_bool();
 
-		loadedEnemies->push_back(enemy);
+			loadedEnemies->push_back(enemy);
+		}
 	}
-
 	app->fade->ChangeScene(app->fade->current, this);
 
 	return true;
@@ -233,6 +252,9 @@ bool DungeonScene::CleanUp()
 	app->audio->DeleteFx();
 	jumpSound = NULL;
 	deathSound = NULL;
+	batSound = NULL;
+	guardAlertSound = NULL;
+	guardStopChaseSound = NULL;
 
 	delete respawn;
 
@@ -262,6 +284,8 @@ void DungeonScene::IterateCheckpoint()
 			respawn->Reset();
 			app->fade->ChangeScene(this, app->winscene);
 			currentLevel = 1;
+			notEntities = true;
+			app->toSave = true;
 		}
 		else
 		{

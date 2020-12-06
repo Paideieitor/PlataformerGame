@@ -5,7 +5,7 @@
 		<organization>UPC</organization>
 	</app>
 	<audio>
-		<volume music="0" fx="25" />
+		<volume music="15" fx="25" />
 	</audio>
 	<render>
 		<vsync value="false" />

@@ -52,6 +52,9 @@ bool LogoScene::PreUpdate()
 
 bool LogoScene::Update(float dt)
 {
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		app->input->quit = true;
+
 	if(!stop)
 	{
 		if(aTimer == 0)

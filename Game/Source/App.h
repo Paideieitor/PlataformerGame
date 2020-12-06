@@ -115,6 +115,7 @@ public:
 	//Debug
 	bool startLevel1;
 	bool startLevel2;
+	bool startCurrentLevel;
 	bool drawColliders;
 	bool godMode;
 	bool pathDebug;

@@ -56,6 +56,8 @@ public:
 	void GetMousePosition(int &x, int &y);
 	void GetMouseMotion(int& x, int& y);
 
+	bool quit;
+
 private:
 
 	bool windowEvents[WE_COUNT];

@@ -39,6 +39,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 
 	startLevel1 = false;
 	startLevel2 = false;
+	startCurrentLevel = false;
 	toSave = false;
 	toLoad = false;
 	drawColliders = false;
@@ -211,6 +212,10 @@ void App::FinishUpdate()
 		startLevel1 = true;
 	if(input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		startLevel2 = true;
+	if (input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
+		startCurrentLevel = true;
+	if (input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
+		capped = !capped;
 	if(input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		toSave = true;
 	if(input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
@@ -221,8 +226,6 @@ void App::FinishUpdate()
 		drawColliders = !drawColliders;
 	if(input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 		godMode = !godMode;
-	if(input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
-		capped = !capped;
 
 	if(toSave)
 	{
@@ -276,11 +279,12 @@ bool App::SaveGame()
 		if(moduleNode == NULL)
 			moduleNode = saveDoc.child("save").append_child(pModule->name.c_str());
 
-		if(!pModule->Save(moduleNode))
-		{
-			LOG("Saving Error in %s. Saving aborted", pModule->name.c_str());
-			return false;
-		}
+		if(pModule->active)
+			if(!pModule->Save(moduleNode))
+			{
+				LOG("Saving Error in %s. Saving aborted", pModule->name.c_str());
+				return false;
+			}
 	}
 	saveDoc.save_file(savePath.c_str());
 
@@ -327,7 +331,8 @@ bool App::PreUpdate()
 
 		if(!pModule->PreUpdate())
 		{
-			LOG("PreUpdate Error in %s", pModule->name.c_str());
+			if(!input->quit)
+				LOG("PreUpdate Error in %s", pModule->name.c_str());
 			return false;
 		}
 	}

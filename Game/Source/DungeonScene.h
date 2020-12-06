@@ -43,6 +43,9 @@ public:
 
 	uint jumpSound;
 	uint deathSound;
+	uint batSound;
+	uint guardAlertSound;
+	uint guardStopChaseSound;
 
 	Entity* player = nullptr;
 
@@ -63,6 +66,7 @@ private:
 	bool keepMusic;
 
 	vector<EnemyInfo>* loadedEnemies = nullptr;
+	bool notEntities;
 };
 
 #endif //__DUNGEONSCENE_H__
