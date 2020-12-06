@@ -66,6 +66,7 @@ private:
 	bool keepMusic;
 
 	vector<EnemyInfo>* loadedEnemies = nullptr;
+	fPoint* loadPosition = nullptr;
 	bool notEntities;
 };
 

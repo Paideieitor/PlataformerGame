@@ -27,6 +27,12 @@ Guard::Guard(fPoint position, bool flip, Player* parent) : Enemy(EntityType::GUA
 	walk->PushBack(32, 0, 16, 16);
 	walk->PushBack(16, 0, 16, 16);
 
+	chase = new Animation(4, true, 0.1f);
+	chase->PushBack(0, 16, 16, 16);
+	chase->PushBack(16, 16, 16, 16);
+	chase->PushBack(32, 16, 16, 16);
+	chase->PushBack(16, 16, 16, 16);
+
 	currentAnimation = walk;
 }
 
@@ -38,6 +44,7 @@ Guard::~Guard()
 		delete path;
 
 	delete walk;
+	delete chase;
 }
 
 bool GuardDecoder(int id)
@@ -62,6 +69,17 @@ bool Guard::Update(float dt)
 	fPoint visionPos = { position.x, position.y - visionSize.y / 2 };
 	if(flip)
 		visionPos.x = visionPos.x - visionSize.x;
+
+	if(chasing)
+	{
+		if(currentAnimation != chase)
+			currentAnimation = chase;
+	}
+	else
+	{
+		if(currentAnimation != walk)
+			currentAnimation = walk;
+	}
 
 	if(app->dungeonscene->player)
 	{

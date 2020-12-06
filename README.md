@@ -1,34 +1,43 @@
-# Ninja jumps (provisional name)
+# Ninja jumps and throws shurikens, he kinda climbs too
 ## by Full de Mango
 
 ## Description
 
- Pretty good game, shouldn't be to hard to beat. Be a ninja and jump around.
+ Pretty good game, shouldn't be to hard to beat. The title is pretty self-explanatory just be a ninja, jump around and throw shurikens.
 
 ## Key Features
 
- - Double jump
+ - Shuriken attack (they kill enemies and get stuck on walls)
+ - Can jump on shurikens stuck to the walls
+ - 2 shurikens colliding results in bought getting destroyed
+ - 2 types of enemies:
+	- Bats: flying creatures that chase you when near
+	- Guards: shout when they see you and will chase you, they won't hesitate droping from a ledge to catch you and will wait for you if they can't catch you
  - Game loading from an xml file
  - 2 Levels divided in checkpoints
- - Save and load function
+ - Save and load function (EVERYTHING IS SAVED)*almost*
+ - All movement is normalized
 
 ## Controls
 
-	Movement			Usefull								Debug
+	Movement				Usefull							Debug
 		W(jump)				R(respawn in last checkpoint)				F1(start level 1)
-	A(move left)	D(move right)		Space(return to main menu(from game scene))		F2(start level 2)
-						Enter(skip logo scene and exit menus)			F5(save game [save current checkpoint and level])
+	A(move left)	D(move right)		Escape(exit / return to main menu)			F2(start level 2)
+	Shift(throw shuriken [1sec coldown])	Enter(skip logo scene and exit menus)			F3(restart current level)
+													F5(save game [save current checkpoint and level])
 													F6(load game [load current checkpoint and level])
+													F8(pathfinding debug info)
 													F9(draw colliders)
 													F10(god mode)
+													F11(cap/uncap FPS)
 													Right arrow(advance to next checkpoint)
 													Left arrow(reset checkpoint to the start of the level)
 													
 ## Developers
 
- - {Quintana Griera, Miquel} - [GitHub account](https://github.com/Leukino)
- - {Rami Rodríguez, David}   - [GitHub account](https://github.com/Paideieitor)
- - {Robles Muñoz, Albert}    - [GitHub account](https://github.com/Albertito029)
+ - Quintana Griera, Miquel - [Leukino](https://github.com/Leukino)
+ - Rami Rodríguez, David   - [Paideieitor](https://github.com/Paideieitor)
+ - Robles Muñoz, Albert    - [Albertito029](https://github.com/Albertito029)
 
 ## License
 

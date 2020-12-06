@@ -214,8 +214,6 @@ void App::FinishUpdate()
 		startLevel2 = true;
 	if (input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 		startCurrentLevel = true;
-	if (input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
-		capped = !capped;
 	if(input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		toSave = true;
 	if(input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
@@ -226,6 +224,8 @@ void App::FinishUpdate()
 		drawColliders = !drawColliders;
 	if(input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 		godMode = !godMode;
+	if (input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
+		capped = !capped;
 
 	if(toSave)
 	{
@@ -304,8 +304,10 @@ bool App::LoadGame()
 		pModule = *m;
 
 		pugi::xml_node mNode = saveDoc.child("save").child(pModule->name.c_str());
-		if(mNode == NULL)
-			return false;
+		if (mNode == NULL)
+		{
+			app->SaveGame();
+		}
 
 		if(!pModule->Load(mNode))
 		{

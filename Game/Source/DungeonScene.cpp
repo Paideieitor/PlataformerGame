@@ -162,6 +162,20 @@ bool DungeonScene::Save(pugi::xml_node& node)
 	if (enemies.size() == 0 || notEntities)
 		return true;
 
+	dNode.remove_attribute("x");
+	dNode.remove_attribute("y");
+	if (player)
+	{
+		atr = dNode.attribute("x");
+		if (!atr)
+			atr = dNode.append_attribute("x");
+		atr.set_value(player->position.x);
+		atr = dNode.attribute("y");
+		if (!atr)
+			atr = dNode.append_attribute("y");
+		atr.set_value(player->position.y);
+	}
+
 	dNode = node.append_child("enemies");
 	atr = dNode.attribute("amount");
 	if(!atr)
@@ -216,30 +230,52 @@ bool DungeonScene::Save(pugi::xml_node& node)
 
 bool DungeonScene::Load(pugi::xml_node& node)
 {
-	currentLevel = node.child("current").attribute("level").as_int();
-	currentCheckpoint = node.child("current").attribute("checkpoint").as_int();
-
-	node = node.child("enemies");
-	if(node)
+	bool empty = false;
+	if(node.child("current").attribute("level"))
+		currentLevel = node.child("current").attribute("level").as_int();
+	else
 	{
-		loadedEnemies = new vector<EnemyInfo>;
-		for (pugi::xml_node oNode = node.child("enemy"); oNode != NULL; oNode = oNode.next_sibling("enemy"))
+		currentLevel = 1;
+		empty = true;
+	}
+	if(node.child("current").attribute("checkpoint"))
+		currentCheckpoint = node.child("current").attribute("checkpoint").as_int();
+	else
+	{
+		currentCheckpoint = 0;
+		empty = true;
+	}
+	if (!empty)
+	{
+		if (node.child("current").attribute("x") && node.child("current").attribute("y"))
 		{
-			EnemyInfo enemy;
+			loadPosition = new fPoint();
+			loadPosition->x = node.child("current").attribute("x").as_float();
+			loadPosition->y = node.child("current").attribute("y").as_float();
+		}
 
-			enemy.type = oNode.attribute("type").as_string();
+		node = node.child("enemies");
+		if (node)
+		{
+			loadedEnemies = new vector<EnemyInfo>;
+			for (pugi::xml_node oNode = node.child("enemy"); oNode != NULL; oNode = oNode.next_sibling("enemy"))
+			{
+				EnemyInfo enemy;
 
-			float x = oNode.attribute("x").as_float();
-			float y = oNode.attribute("y").as_float();
-			enemy.position = { x,y };
+				enemy.type = oNode.attribute("type").as_string();
 
-			pugi::xml_attribute atr = oNode.attribute("resting");
-			if (!atr)
-				enemy.resting = false;
-			else
-				enemy.resting = atr.as_bool();
+				float x = oNode.attribute("x").as_float();
+				float y = oNode.attribute("y").as_float();
+				enemy.position = { x,y };
 
-			loadedEnemies->push_back(enemy);
+				pugi::xml_attribute atr = oNode.attribute("resting");
+				if (!atr)
+					enemy.resting = false;
+				else
+					enemy.resting = atr.as_bool();
+
+				loadedEnemies->push_back(enemy);
+			}
 		}
 	}
 	app->fade->ChangeScene(app->fade->current, this);
@@ -304,9 +340,19 @@ void DungeonScene::RespawnPlayer()
 			app->entitymanager->entities[i]->toDelete = true;
 		player = nullptr;
 	}
+	
+	if(!loadPosition)
+	{
+		iPoint position = respawn->checkpoints[respawn->GetCurrent()].position;
+		player = app->entitymanager->CreateEntity(EntityType::PLAYER, { (float)position.x,(float)position.y });
+	}
+	else
+	{
+		player = app->entitymanager->CreateEntity(EntityType::PLAYER, { loadPosition->x,loadPosition->y });
+		delete loadPosition;
+		loadPosition = nullptr;
+	}
 
-	iPoint position = respawn->checkpoints[respawn->GetCurrent()].position;
-	player = app->entitymanager->CreateEntity(EntityType::PLAYER, { (float)position.x,(float)position.y });
 
 	if (!loadedEnemies)
 	{

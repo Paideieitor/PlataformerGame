@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.5" orientation="orthogonal" renderorder="right-down" width="90" height="35" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="67">
+<map version="1.2" tiledversion="1.2.5" orientation="orthogonal" renderorder="right-down" width="90" height="35" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="68">
  <tileset firstgid="1" name="Dungeon" tilewidth="16" tileheight="16" tilecount="45" columns="9">
   <image source="dungeon_tileset.png" width="150" height="80"/>
  </tileset>
@@ -59,7 +59,7 @@
   <object id="38" type="GROUND" x="1040" y="480" width="48" height="16"/>
   <object id="39" type="GROUND" x="1152" y="448" width="32" height="16"/>
   <object id="40" type="ATTACK" x="304" y="185" width="32" height="7"/>
-  <object id="42" type="ATTACK" x="448" y="121" width="32" height="7"/>
+  <object id="42" type="ATTACK" x="464" y="121" width="16" height="7"/>
   <object id="44" type="ATTACK" x="608" y="32" width="16" height="7"/>
   <object id="45" type="ATTACK" x="768" y="137" width="16" height="7"/>
   <object id="47" type="ATTACK" x="866" y="106" width="14" height="6"/>
@@ -3890,7 +3890,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="33"/>
+   <tile/>
    <tile gid="33"/>
    <tile gid="6"/>
    <tile/>
@@ -6384,7 +6384,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="7" name="Pathfinding" width="90" height="35">
+ <layer id="7" name="Pathfinding" width="90" height="35" visible="0">
   <properties>
    <property name="toDraw" value="false"/>
   </properties>

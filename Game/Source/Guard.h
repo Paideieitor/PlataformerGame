@@ -37,6 +37,7 @@ private:
 	fPoint velocity;
 
 	Animation* walk = nullptr;
+	Animation* chase = nullptr;
 
 	Path* path = nullptr;
 };
