@@ -15,6 +15,7 @@ struct EnemyInfo
 	string type;
 	fPoint position;
 	bool resting = false;
+	bool flip = false;
 };
 
 class DungeonScene : public Module

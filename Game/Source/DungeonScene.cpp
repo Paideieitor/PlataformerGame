@@ -220,6 +220,9 @@ bool DungeonScene::Save(pugi::xml_node& node)
 			atr = eNode.append_attribute("y");
 			atr.set_value(enemies[i]->position.y);
 		}
+
+		atr = eNode.append_attribute("flip");
+		atr.set_value(enemies[i]->flip);
 	}
 
 	return true;
@@ -270,6 +273,8 @@ bool DungeonScene::Load(pugi::xml_node& node)
 					enemy.resting = false;
 				else
 					enemy.resting = atr.as_bool();
+
+				enemy.flip = oNode.attribute("flip").as_bool();
 
 				loadedEnemies->push_back(enemy);
 			}
@@ -345,7 +350,7 @@ void DungeonScene::RespawnPlayer()
 	}
 	else
 	{
-		player = app->entitymanager->CreateEntity(EntityType::PLAYER, { loadPosition->x,loadPosition->y });
+		player = app->entitymanager->CreateEntity(EntityType::PLAYER, { loadPosition->x,loadPosition->y - 2.0f });
 		delete loadPosition;
 		loadPosition = nullptr;
 	}
@@ -364,7 +369,7 @@ void DungeonScene::RespawnPlayer()
 			if ((*loadedEnemies)[i].type == "SHURIKEN")
 			{
 				Player* pl = (Player*)player;
-				pl->shurikens.push_back(app->entitymanager->CreateEntity(EntityType::SHURIKEN, (*loadedEnemies)[i].position, false, pl));
+				pl->shurikens.push_back(app->entitymanager->CreateEntity(EntityType::SHURIKEN, (*loadedEnemies)[i].position, (*loadedEnemies)[i].flip, pl));
 			}
 			else
 			{
@@ -374,7 +379,7 @@ void DungeonScene::RespawnPlayer()
 				else if ((*loadedEnemies)[i].type == "GUARD")
 					type = EntityType::GUARD;
 
-				Enemy* enemy = (Enemy*)app->entitymanager->CreateEntity(type, (*loadedEnemies)[i].position);
+				Enemy* enemy = (Enemy*)app->entitymanager->CreateEntity(type, (*loadedEnemies)[i].position, (*loadedEnemies)[i].flip);
 
 				enemy->resting = (*loadedEnemies)[i].resting;
 			}

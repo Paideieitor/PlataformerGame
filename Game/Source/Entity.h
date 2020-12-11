@@ -37,6 +37,7 @@ public:
 
 	bool toDelete;
 	bool toRemove;
+	bool flip;
 
 	EntityType type;
 
@@ -48,8 +49,6 @@ public:
 	Player* parent = nullptr;
 
 protected:
-
-	bool flip;
 
 	fPoint GetDrawPosition(iPoint size);
 	SDL_Texture* texture = nullptr;
