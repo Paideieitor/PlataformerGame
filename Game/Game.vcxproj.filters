@@ -79,6 +79,12 @@
     <ClCompile Include="Source\Guard.cpp">
       <Filter>Game\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Element.cpp">
+      <Filter>Game\UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Button.cpp">
+      <Filter>Game\UI Elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -183,6 +189,12 @@
     <ClInclude Include="Source\Guard.h">
       <Filter>Game\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Element.h">
+      <Filter>Game\UI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Button.h">
+      <Filter>Game\UI Elements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -214,6 +226,9 @@
     </Filter>
     <Filter Include="Game\Modules\Image &amp; Sound">
       <UniqueIdentifier>{da1ecbe5-107f-4dd7-9892-c6560ae4aa22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\UI Elements">
+      <UniqueIdentifier>{83b33b27-cd1f-48c8-9d33-3fb05e0876ba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

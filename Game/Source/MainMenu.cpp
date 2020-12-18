@@ -7,6 +7,8 @@
 #include "DungeonScene.h"
 #include "MainMenu.h"
 
+#include "Button.h"
+
 #include "Defs.h"
 #include "Log.h"
 
@@ -47,6 +49,10 @@ bool MainMenu::PreUpdate()
 
 bool MainMenu::Update(float dt)
 {
+	Button* b = new Button("aaaa", { 0,0 }, { 100, 100 }, nullptr);
+	b->Update(0);
+	delete b;
+
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		app->input->quit = true;
 

@@ -91,8 +91,10 @@
   <ItemGroup>
     <ClCompile Include="Source\Animation.cpp" />
     <ClCompile Include="Source\Bat.cpp" />
+    <ClCompile Include="Source\Button.cpp" />
     <ClCompile Include="Source\Collisions.cpp" />
     <ClCompile Include="Source\DungeonScene.cpp" />
+    <ClCompile Include="Source\Element.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\EntityManager.cpp" />
@@ -115,10 +117,12 @@
     <ClCompile Include="Source\WinScene.cpp" />
     <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\Bat.h" />
+    <ClInclude Include="Source\Button.h" />
     <ClInclude Include="Source\Checkpoints.h" />
     <ClInclude Include="Source\Collider.h" />
     <ClInclude Include="Source\Collisions.h" />
     <ClInclude Include="Source\DungeonScene.h" />
+    <ClInclude Include="Source\Element.h" />
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />
