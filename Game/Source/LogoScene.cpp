@@ -30,8 +30,8 @@ bool LogoScene::Awake(pugi::xml_node& node)
 
 bool LogoScene::Start()
 {
-	logo = app->tex->Load("Assets/textures/logo.png");
-	logoSound = app->audio->LoadFx("Assets/audio/fx/mango_shout.wav");
+	logo = app->tex->Load("Assets/Textures/logo.png");
+	logoSound = app->audio->LoadFx("Assets/Audio/Fx/mango_shout.wav");
 
 	aTimer = 0;
 	timer = 0;

@@ -34,8 +34,8 @@ bool MainMenu::Start()
 	app->render->camera.x = 0;
 	app->render->camera.y = 0;
 
-	bern = app->tex->Load("Assets/textures/bern.png");
-	app->audio->PlayMusic("Assets/audio/music/menu_song.ogg", 0.0f);
+	bern = app->tex->Load("Assets/Textures/bern.png");
+	app->audio->PlayMusic("Assets/Audio/Music/menu_song.ogg", 0.0f);
 
 	app->render->SetBackgroundColor({ 255,255,255,255 });
 

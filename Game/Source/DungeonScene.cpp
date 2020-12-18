@@ -56,14 +56,14 @@ bool DungeonScene::Awake(pugi::xml_node& node)
 
 bool DungeonScene::Start()
 {
-	jumpSound = app->audio->LoadFx("Assets/audio/fx/jump.wav");
-	deathSound = app->audio->LoadFx("Assets/audio/fx/oof.wav");
-	batSound = app->audio->LoadFx("Assets/audio/fx/bat.wav");
-	guardAlertSound = app->audio->LoadFx("Assets/audio/fx/guard_alert.wav");
-	guardStopChaseSound = app->audio->LoadFx("Assets/audio/fx/huh.wav");
+	jumpSound = app->audio->LoadFx("Assets/Audio/Fx/jump.wav");
+	deathSound = app->audio->LoadFx("Assets/Audio/Fx/oof.wav");
+	batSound = app->audio->LoadFx("Assets/Audio/Fx/bat.wav");
+	guardAlertSound = app->audio->LoadFx("Assets/Audio/Fx/guard_alert.wav");
+	guardStopChaseSound = app->audio->LoadFx("Assets/Audio/Fx/huh.wav");
 
 	if(!keepMusic)
-		app->audio->PlayMusic("Assets/audio/music/dungeon_song.ogg", 0.0f);
+		app->audio->PlayMusic("Assets/Audio/Music/dungeon_song.ogg", 0.0f);
 	keepMusic = false;
 	notEntities = false;
 
