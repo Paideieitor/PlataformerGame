@@ -1,5 +1,8 @@
 #include "Element.h"
 
+#include "Module.h"
+#include "Entity.h"
+
 Observer::Observer(Module* module) : module(module), type(Observer::MODULE)
 {
 	if(!module)
@@ -22,21 +25,23 @@ Observer::~Observer()
 {
 }
 
-void* Observer::GetObserver()
+void Observer::Callback(Element* element)
 {
 	switch(type)
 	{
 	case MODULE:
-		return module;
+		module->UIEvent(element);
+		break;
 	case ENTITY:
-		return entity;
+		entity->UIEvent(element);
+		break;
 	case ELEMENT:
-		return entity;
+		this->element->UIEvent(element);
+		break;
 	}
-	return nullptr;
 }
 
-Element::Element(const char* name, Type type, fPoint position, iPoint size, Observer* observer)
+Element::Element(const char* name, ElemType type, fPoint position, iPoint size, Observer* observer)
 	: name(name), type(type), position(position), size(size), observer(observer)
 {
 }
@@ -47,6 +52,10 @@ Element::~Element()
 		delete observer;
 }
 
+void Element::UIEvent(Element* element)
+{
+}
+
 void Element::SetPosition(fPoint newPosition) { position = newPosition; }
 
 fPoint Element::GetPosition() { return position; }
@@ -55,6 +64,8 @@ void Element::SetSize(iPoint newSize) { size = newSize; }
 
 iPoint Element::GetSize() { return size; }
 
-Element::Type Element::GetType() { return type; }
+ElemType Element::GetType() { return type; }
+
+Element* Element::GetElement() { return (Element*)this; }
 
 fPoint Element::GetDrawPosition() { return { position.x - size.x / 2, position.y - size.y / 2 }; }

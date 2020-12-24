@@ -3,6 +3,8 @@
 
 #include "Module.h"
 
+class Button;
+
 struct SDL_Texture;
 
 class MainMenu : public Module
@@ -22,6 +24,8 @@ public:
 	bool CleanUp();
 
 private:
+
+	Button* button = nullptr;
 
 	SDL_Texture* bern = nullptr;
 };

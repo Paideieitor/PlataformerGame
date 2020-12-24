@@ -11,6 +11,7 @@
 using namespace std;
 
 class App;
+class Element;
 
 class Module
 {
@@ -77,6 +78,8 @@ public:
 	{
 		return true;
 	}
+
+	virtual void UIEvent(Element*) {}
 
 public:
 

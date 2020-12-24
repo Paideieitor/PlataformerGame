@@ -12,6 +12,7 @@
 #include "EntityManager.h"
 #include "Map.h"
 #include "Collisions.h"
+#include "UIManager.h"
 #include "Pathfinding.h"
 
 #include "Defs.h"
@@ -60,6 +61,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	entitymanager = new EntityManager();
 	map = new Map();
 	collisions = new Collisions();
+	ui = new UIManager();
 
 	paths = Pathfinding::GetInstance();
 
@@ -75,6 +77,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(mainmenu, false);
 	AddModule(dungeonscene, false);
 	AddModule(winscene, false);
+	AddModule(ui);
 	AddModule(collisions);
 	AddModule(entitymanager);
 	// render last to swap buffer

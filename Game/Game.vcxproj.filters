@@ -85,6 +85,9 @@
     <ClCompile Include="Source\Button.cpp">
       <Filter>Game\UI Elements</Filter>
     </ClCompile>
+    <ClCompile Include="Source\UIManager.cpp">
+      <Filter>Game\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -193,6 +196,12 @@
       <Filter>Game\UI Elements</Filter>
     </ClInclude>
     <ClInclude Include="Source\Button.h">
+      <Filter>Game\UI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UIManager.h">
+      <Filter>Game\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ElemType.h">
       <Filter>Game\UI Elements</Filter>
     </ClInclude>
   </ItemGroup>

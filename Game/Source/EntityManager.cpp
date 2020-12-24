@@ -91,7 +91,6 @@ bool EntityManager::CleanUp()
 	}
 	toDelete.erase(toDelete.begin(), toDelete.end());
 
-
 	return true;
 }
 

@@ -7,6 +7,7 @@
 #include "DungeonScene.h"
 #include "MainMenu.h"
 
+#include "UIManager.h"
 #include "Button.h"
 
 #include "Defs.h"
@@ -39,6 +40,8 @@ bool MainMenu::Start()
 
 	app->render->SetBackgroundColor({ 255,255,255,255 });
 
+	button = (Button*)app->ui->CreateElement(ElemType::BUTTON, "aaaa", { 0,0 }, this);
+
 	return true;
 }
 
@@ -49,10 +52,6 @@ bool MainMenu::PreUpdate()
 
 bool MainMenu::Update(float dt)
 {
-	Button* b = new Button("aaaa", { 0,0 }, { 100, 100 }, nullptr);
-	b->Update(0);
-	delete b;
-
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		app->input->quit = true;
 
@@ -72,6 +71,8 @@ bool MainMenu::PostUpdate()
 bool MainMenu::CleanUp()
 {
 	app->tex->UnLoad(bern);
+
+	app->ui->DeleteElement(button);
 
 	return true;
 }

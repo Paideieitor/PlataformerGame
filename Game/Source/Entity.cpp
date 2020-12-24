@@ -27,6 +27,10 @@ void Entity::Collision(Collider* c1, Collider* c2)
 
 }
 
+void Entity::UIEvent(Element* element)
+{
+}
+
 fPoint Entity::GetDrawPosition(iPoint size)
 {
 	fPoint output = position;

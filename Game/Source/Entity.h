@@ -10,6 +10,8 @@
 
 struct Collider;
 class Animation;
+class Player;
+class Element;
 
 enum class EntityType
 {
@@ -20,8 +22,6 @@ enum class EntityType
 	BAT,
 	GUARD
 };
-
-class Player;
 
 class Entity
 {
@@ -34,6 +34,8 @@ public:
 	virtual bool Update(float dt);
 
 	virtual void Collision(Collider* c1, Collider* c2);
+
+	virtual void UIEvent(Element*);
 
 	bool toDelete;
 	bool toRemove;

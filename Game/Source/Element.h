@@ -7,7 +7,11 @@ class Module;
 class Entity;
 class Element;
 
-struct Observer
+class Animation;
+
+enum class ElemType;
+
+class Observer
 {
 public:
 
@@ -17,7 +21,7 @@ public:
 
 	~Observer();
 
-	void* GetObserver();
+	void Callback(Element*);
 	
 private:
 
@@ -40,15 +44,6 @@ class Element
 {
 public:
 
-	enum Type
-	{
-		NONE = 0,
-		BUTTON,
-		SLIDER,
-		INPUT_BOX,
-		TEXT
-	};
-
 	enum State
 	{
 		NORMAL,
@@ -57,17 +52,23 @@ public:
 		DISABLED
 	};
 
-	Element(const char* name, Type type, fPoint position, iPoint size, Observer* observer);
+	Element(const char* name, ElemType type, fPoint position, iPoint size, Observer* observer);
 
 	virtual ~Element();
 
-	virtual bool Update(float dt) = 0;
+	virtual bool Update(float dt, bool clickable) = 0;
+
+	virtual void UIEvent(Element*);
 
 	void SetPosition(fPoint);
 	fPoint GetPosition();
 	void SetSize(iPoint);
 	iPoint GetSize();
-	Type GetType();
+	ElemType GetType();
+
+	Element* GetElement();
+
+	bool toDelete = false;
 
 protected:
 
@@ -78,9 +79,15 @@ protected:
 	fPoint position = { 0.0f,0.0f };
 	iPoint size = { 0,0 };
 
-	Type type = NONE;
+	ElemType type = (ElemType)0;
 	State state = NORMAL;
 	Observer* observer = nullptr;
+
+	Animation* currentAnimation = nullptr;
+	Animation* normal = nullptr;
+	Animation* focused = nullptr;
+	Animation* pressed = nullptr;
+	Animation* disabled = nullptr;
 };
 
 #endif //__ELEMENT_H__

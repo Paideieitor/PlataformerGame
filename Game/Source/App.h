@@ -23,6 +23,7 @@ class WinScene;
 class EntityManager;
 class Map;
 class Collisions;
+class UIManager;
 
 //Utility
 class Pathfinding;
@@ -102,6 +103,7 @@ public:
 	EntityManager* entitymanager = nullptr;
 	Map* map = nullptr;
 	Collisions* collisions = nullptr;
+	UIManager* ui = nullptr;
 
 	//Utility
 	Pathfinding* paths = nullptr;

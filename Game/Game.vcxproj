@@ -113,6 +113,7 @@
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\FadeToBlack.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
+    <ClCompile Include="Source\UIManager.cpp" />
     <ClCompile Include="Source\Window.cpp" />
     <ClCompile Include="Source\WinScene.cpp" />
     <ClInclude Include="Source\Animation.h" />
@@ -123,6 +124,7 @@
     <ClInclude Include="Source\Collisions.h" />
     <ClInclude Include="Source\DungeonScene.h" />
     <ClInclude Include="Source\Element.h" />
+    <ClInclude Include="Source\ElemType.h" />
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />
@@ -141,6 +143,7 @@
     <ClInclude Include="Source\Textures.h" />
     <ClInclude Include="Source\FadeToBlack.h" />
     <ClInclude Include="Source\Timer.h" />
+    <ClInclude Include="Source\UIManager.h" />
     <ClInclude Include="Source\Window.h" />
     <ClInclude Include="Source\Defs.h" />
     <ClInclude Include="Source\List.h" />
