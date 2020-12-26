@@ -4,6 +4,8 @@
 #include "Element.h"
 #include "ElemType.h"
 
+class Timer;
+
 class Button : public Element
 {
 public:
@@ -15,6 +17,7 @@ public:
 
 private:
 
+	Timer* pressedColdown = nullptr;
 };
 
 #endif //__BUTTON_H__

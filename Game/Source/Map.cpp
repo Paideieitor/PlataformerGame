@@ -11,7 +11,7 @@
 
 #include <vector>
 
-#define TILESETS_PATH "Assets/maps/"
+#define TILESETS_PATH "Assets/Maps/"
 
 Map::Map()
 {

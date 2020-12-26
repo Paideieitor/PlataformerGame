@@ -121,6 +121,7 @@ public:
 	bool drawColliders;
 	bool godMode;
 	bool pathDebug;
+	bool uiDebug;
 
 private:
 

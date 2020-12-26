@@ -40,7 +40,7 @@ bool MainMenu::Start()
 
 	app->render->SetBackgroundColor({ 255,255,255,255 });
 
-	button = (Button*)app->ui->CreateElement(ElemType::BUTTON, "aaaa", { 0,0 }, this);
+	button = (Button*)app->ui->CreateElement(ElemType::BUTTON, "aaaa", { 200,200 }, this);
 
 	return true;
 }

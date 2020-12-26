@@ -1,6 +1,7 @@
 #include "App.h"
 #include "Input.h"
 #include "Render.h"
+#include "Textures.h"
 #include "UIManager.h"
 
 #include "Button.h"
@@ -12,6 +13,8 @@ UIManager::UIManager()
 
 UIManager::~UIManager()
 {
+	if(uiTexture)
+		app->tex->UnLoad(uiTexture);
 }
 
 bool UIManager::Awake(pugi::xml_node&)
@@ -21,6 +24,8 @@ bool UIManager::Awake(pugi::xml_node&)
 
 bool UIManager::Start()
 {
+	uiTexture = app->tex->Load("Assets/Textures/ui.png");
+
 	return true;
 }
 
@@ -40,7 +45,7 @@ bool UIManager::Update(float dt)
 
 	for(int i = elements.size() - 1; i >= 0; i--)
 	{
-		fPoint position = elements[i]->GetPosition();
+		fPoint position = elements[i]->GetDrawPosition();
 		iPoint size = elements[i]->GetSize();
 		if (position.x < camera.x + mousePosition.x && camera.x + mousePosition.x < position.x + size.x &&
 			position.y < camera.y + mousePosition.y && camera.y + mousePosition.y < position.y + size.y)

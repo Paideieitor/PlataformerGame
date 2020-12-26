@@ -9,12 +9,7 @@
 	<logo />
 	<mainmenu />
 	<dungeon>
-		<current level="1" checkpoint="0" x="96" y="202" />
-		<enemies amount="3">
-			<enemy type="BAT" x="680" y="120" resting="true" flip="false" />
-			<enemy type="GUARD" x="248" y="120" flip="true" />
-			<enemy type="BAT" x="432" y="136" resting="true" flip="false" />
-		</enemies>
+		<current level="1" checkpoint="0" />
 	</dungeon>
 	<collisions />
 	<entitymanager />

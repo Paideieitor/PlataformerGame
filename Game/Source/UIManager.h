@@ -13,6 +13,8 @@ class Module;
 class Entity;
 class Observer;
 
+struct SDL_Texture;
+
 class UIManager : public Module
 {
 public:
@@ -37,6 +39,8 @@ public:
 	Element* CreateElement(ElemType type, const char* name, fPoint position, Entity* observer);
 
 	void DeleteElement(Element* element);
+
+	SDL_Texture* uiTexture = nullptr;
 
 private:
 

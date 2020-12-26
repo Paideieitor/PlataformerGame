@@ -46,7 +46,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	drawColliders = false;
 	godMode = false;
 	pathDebug = false;
-
+	uiDebug = false;
 
 	input = new Input();
 	win = new Window();
@@ -221,6 +221,8 @@ void App::FinishUpdate()
 		toSave = true;
 	if(input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		toLoad = true;
+	if (input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
+		uiDebug = !uiDebug;
 	if (input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN)
 		pathDebug = !pathDebug;
 	if(input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)

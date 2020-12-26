@@ -1,5 +1,9 @@
 #include "Element.h"
 
+#include "App.h"
+#include "Textures.h"
+#include "UIManager.h"
+
 #include "Module.h"
 #include "Entity.h"
 
@@ -42,7 +46,7 @@ void Observer::Callback(Element* element)
 }
 
 Element::Element(const char* name, ElemType type, fPoint position, iPoint size, Observer* observer)
-	: name(name), type(type), position(position), size(size), observer(observer)
+	: name(name), type(type), position(position), size(size), observer(observer), texture(app->ui->uiTexture)
 {
 }
 

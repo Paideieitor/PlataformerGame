@@ -9,6 +9,8 @@ class Element;
 
 class Animation;
 
+struct SDL_Texture;
+
 enum class ElemType;
 
 class Observer
@@ -62,6 +64,7 @@ public:
 
 	void SetPosition(fPoint);
 	fPoint GetPosition();
+	fPoint GetDrawPosition();
 	void SetSize(iPoint);
 	iPoint GetSize();
 	ElemType GetType();
@@ -71,8 +74,6 @@ public:
 	bool toDelete = false;
 
 protected:
-
-	fPoint GetDrawPosition();
 
 	const char* name;
 
@@ -88,6 +89,8 @@ protected:
 	Animation* focused = nullptr;
 	Animation* pressed = nullptr;
 	Animation* disabled = nullptr;
+
+	SDL_Texture* texture = nullptr;
 };
 
 #endif //__ELEMENT_H__
