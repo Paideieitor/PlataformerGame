@@ -307,6 +307,10 @@ bool DungeonScene::CleanUp()
 	return true;
 }
 
+void DungeonScene::UIEvent(Element* element)
+{
+}
+
 void DungeonScene::IterateCheckpoint()
 {
 	if(respawn->Iterate())

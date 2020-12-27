@@ -15,4 +15,5 @@
 	<entitymanager />
 	<render />
 	<ui />
+	<fonts />
 </save>

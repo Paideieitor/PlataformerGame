@@ -40,7 +40,11 @@ bool MainMenu::Start()
 
 	app->render->SetBackgroundColor({ 255,255,255,255 });
 
-	button = (Button*)app->ui->CreateElement(ElemType::BUTTON, "aaaa", { 200,200 }, this);
+	change = false;
+
+	playButton = (Button*)app->ui->CreateElement(ElemType::BUTTON, "Play", { 192,108 }, this);
+	optionsButton = (Button*)app->ui->CreateElement(ElemType::BUTTON, "Options", { 192,140 }, this);
+	quitButton = (Button*)app->ui->CreateElement(ElemType::BUTTON, "Quit", { 192,172 }, this);
 
 	return true;
 }
@@ -52,11 +56,15 @@ bool MainMenu::PreUpdate()
 
 bool MainMenu::Update(float dt)
 {
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		app->input->quit = true;
 
 	if(app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
-		app->toLoad = true;
+	{
+		if(!change)
+			app->toLoad = true;
+		change = true;
+	}
 
 	app->render->SetTextureEvent(2, bern, { 0,0 });
 
@@ -72,7 +80,22 @@ bool MainMenu::CleanUp()
 {
 	app->tex->UnLoad(bern);
 
-	app->ui->DeleteElement(button);
+	app->ui->DeleteElement(playButton);
+	app->ui->DeleteElement(optionsButton);
+	app->ui->DeleteElement(quitButton);
 
 	return true;
+}
+
+void MainMenu::UIEvent(Element* element)
+{
+	if(element == (Element*)playButton)
+	{
+		if(!change)
+			app->toLoad = true;
+		change = true;
+	}
+	else if(element == (Element*)quitButton)
+		app->input->quit = true;
+
 }

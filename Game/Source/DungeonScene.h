@@ -6,9 +6,10 @@
 
 #include <vector>
 
-struct Collider;
 class WayPoints;
 class Entity;
+
+struct Collider;
 
 struct EnemyInfo
 {
@@ -36,6 +37,8 @@ public:
 	bool Load(pugi::xml_node&);
 
 	bool CleanUp();
+
+	void UIEvent(Element*);
 
 	void IterateCheckpoint();
 	void RespawnPlayer();

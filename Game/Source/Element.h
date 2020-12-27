@@ -64,7 +64,7 @@ public:
 
 	void SetPosition(fPoint);
 	fPoint GetPosition();
-	fPoint GetDrawPosition();
+	fPoint GetDrawPosition(iPoint* size = nullptr);
 	void SetSize(iPoint);
 	iPoint GetSize();
 	ElemType GetType();
@@ -79,6 +79,7 @@ protected:
 
 	fPoint position = { 0.0f,0.0f };
 	iPoint size = { 0,0 };
+	iPoint labelSize = { 0,0 };
 
 	ElemType type = (ElemType)0;
 	State state = NORMAL;
@@ -91,6 +92,7 @@ protected:
 	Animation* disabled = nullptr;
 
 	SDL_Texture* texture = nullptr;
+	SDL_Texture* label = nullptr;
 };
 
 #endif //__ELEMENT_H__

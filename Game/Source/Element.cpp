@@ -72,4 +72,10 @@ ElemType Element::GetType() { return type; }
 
 Element* Element::GetElement() { return (Element*)this; }
 
-fPoint Element::GetDrawPosition() { return { position.x - size.x / 2, position.y - size.y / 2 }; }
+fPoint Element::GetDrawPosition(iPoint* size)
+{ 
+	if(!size)
+		return { position.x - this->size.x / 2, position.y - this->size.y / 2 };
+	else
+		return { position.x - size->x / 2, position.y - size->y / 2 };
+}

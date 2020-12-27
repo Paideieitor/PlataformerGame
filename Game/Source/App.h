@@ -24,6 +24,7 @@ class EntityManager;
 class Map;
 class Collisions;
 class UIManager;
+class Fonts;
 
 //Utility
 class Pathfinding;
@@ -104,6 +105,7 @@ public:
 	Map* map = nullptr;
 	Collisions* collisions = nullptr;
 	UIManager* ui = nullptr;
+	Fonts* fonts = nullptr;
 
 	//Utility
 	Pathfinding* paths = nullptr;

@@ -3,6 +3,8 @@
 
 #include "Module.h"
 
+class Button;
+
 struct SDL_Texture;
 
 class WinScene : public Module
@@ -21,7 +23,12 @@ public:
 
 	bool CleanUp();
 
+	void UIEvent(Element*);
+
 private:
+
+	Button* mainMenuButton = nullptr;
+	Button* quitButton = nullptr;
 
 	SDL_Texture* win = nullptr;
 };

@@ -3,14 +3,19 @@
 #include "App.h"
 #include "Input.h"
 #include "Render.h"
+#include "Textures.h"
+#include "UIManager.h"
 
 #include "Animation.h"
 #include "Timer.h"
 
-#define BUTTON_PRESS_COLDOWN 0.5f
+#define BUTTON_PRESS_COLDOWN 0.2f
 
-Button::Button(const char* name, fPoint position, iPoint size, Observer* observer) : Element(name, ElemType::BUTTON, position, { 105,28 }, observer)
+Button::Button(const char* name, fPoint position, iPoint size, Observer* observer)
+	: Element(name, ElemType::BUTTON, position, { 105,28 }, observer), clicked(false)
 {
+	label = app->tex->Load(app->ui->buttonFont, name, labelSize);
+
 	normal = new Animation(1);
 	normal->PushBack(0, 0, 105, 28);
 	focused = new Animation(1);
@@ -25,6 +30,8 @@ Button::Button(const char* name, fPoint position, iPoint size, Observer* observe
 
 Button::~Button()
 {
+	app->tex->UnLoad(label);
+
 	delete normal;
 	delete focused;
 	delete pressed;
@@ -33,21 +40,31 @@ Button::~Button()
 
 bool Button::Update(float dt, bool clickable)
 {
-	if (state != PRESSED && state != DISABLED)
+	if(state != PRESSED && state != DISABLED)
 	{
 		state = NORMAL;
-		if (clickable)
+		if(clickable)
 		{
 			state = FOCUSED;
-			if (app->input->GetMouseButtonDown(1) == KEY_DOWN)
+			if(app->input->GetMouseButtonDown(1) == KEY_DOWN)
 			{
 				state = PRESSED;
-				observer->Callback(this);
+				clicked = true;
 			}
 		}
 	}
+	if(clicked)
+	{
+		if(!clickable)
+			clicked = false;
+		else if(app->input->GetMouseButtonDown(1) == KEY_UP)
+		{
+			observer->Callback(this);
+			clicked = false;
+		}
+	}
 
-	switch (state)
+	switch(state)
 	{
 	case Element::NORMAL:
 		currentAnimation = normal;
@@ -57,12 +74,12 @@ bool Button::Update(float dt, bool clickable)
 		break;
 	case Element::PRESSED:
 		currentAnimation = pressed;
-		if (!pressedColdown)
+		if(!pressedColdown && !clicked)
 		{
 			pressedColdown = new Timer();
 			pressedColdown->Start();
 		}
-		if (pressedColdown->ReadSec() >= BUTTON_PRESS_COLDOWN)
+		if(pressedColdown && pressedColdown->ReadSec() >= BUTTON_PRESS_COLDOWN)
 		{
 			delete pressedColdown;
 			pressedColdown = nullptr;
@@ -75,6 +92,7 @@ bool Button::Update(float dt, bool clickable)
 	}
 
 	app->render->SetTextureEvent(20, texture, GetDrawPosition(), currentAnimation->GetFrame(dt), false, false);
+	app->render->SetTextureEvent(20, label, GetDrawPosition(&labelSize), { 0,0,labelSize.x, labelSize.y }, false, false);
 	if(app->uiDebug)
 		app->render->SetRectangleEvent(20, GetDrawPosition(), size, 255, 100, 100, 50, false);
 

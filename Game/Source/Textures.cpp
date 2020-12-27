@@ -1,5 +1,6 @@
 #include "App.h"
 #include "Render.h"
+#include "Fonts.h"
 #include "Textures.h"
 
 #include "Defs.h"
@@ -64,6 +65,27 @@ SDL_Texture* const Textures::Load(const char* path)
 	}
 
 	return texture;
+}
+
+SDL_Texture* const Textures::Load(Font* font, const char* text, iPoint& size)
+{
+	SDL_Texture* output = nullptr;
+
+	SDL_Surface* surface = TTF_RenderText_Solid(font->font, text, {0,0,0});
+
+	if(surface == NULL)
+	{
+		LOG("Could not load surface with path: %s. IMG_Load: %s", TTF_GetError());
+	}
+	else
+	{
+		output = LoadSurface(surface);
+		SDL_FreeSurface(surface);
+	}
+
+	SDL_QueryTexture(output, NULL, NULL, &size.x, &size.y);
+
+	return output;
 }
 
 // Unload texture

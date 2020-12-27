@@ -3,8 +3,11 @@
 
 #include "Module.h"
 
+#include "Point.h"
+
 struct SDL_Texture;
 struct SDL_Surface;
+struct Font;
 
 class Textures : public Module
 {
@@ -19,6 +22,7 @@ public:
 
 	// Load Texture
 	SDL_Texture* const Load(const char* path);
+	SDL_Texture* const Load(Font* font, const char* text, iPoint& size);
 	SDL_Texture* const LoadSurface(SDL_Surface* surface);
 	bool UnLoad(SDL_Texture* texture);
 	void GetSize(const SDL_Texture* texture, uint& width, uint& height) const;

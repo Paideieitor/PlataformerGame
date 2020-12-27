@@ -17,6 +17,7 @@ public:
 
 private:
 
+	bool clicked;
 	Timer* pressedColdown = nullptr;
 };
 

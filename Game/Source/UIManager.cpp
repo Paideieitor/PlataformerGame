@@ -2,6 +2,8 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
+#include "FadeToBlack.h"
+#include "Fonts.h"
 #include "UIManager.h"
 
 #include "Button.h"
@@ -26,6 +28,8 @@ bool UIManager::Start()
 {
 	uiTexture = app->tex->Load("Assets/Textures/ui.png");
 
+	buttonFont = app->fonts->LoadFont("Assets/Fonts/Overpass/regular.ttf", 16);
+
 	return true;
 }
 
@@ -43,17 +47,18 @@ bool UIManager::Update(float dt)
 	app->input->GetMousePosition(mousePosition.x, mousePosition.y);
 	Element* clickableElem = nullptr;
 
-	for(int i = elements.size() - 1; i >= 0; i--)
-	{
-		fPoint position = elements[i]->GetDrawPosition();
-		iPoint size = elements[i]->GetSize();
-		if (position.x < camera.x + mousePosition.x && camera.x + mousePosition.x < position.x + size.x &&
-			position.y < camera.y + mousePosition.y && camera.y + mousePosition.y < position.y + size.y)
+	if(!app->fade->active)
+		for(int i = elements.size() - 1; i >= 0; i--)
 		{
-			clickableElem = elements[i];
-			break;
+			fPoint position = elements[i]->GetDrawPosition();
+			iPoint size = elements[i]->GetSize();
+			if (position.x < camera.x + mousePosition.x && camera.x + mousePosition.x < position.x + size.x &&
+				position.y < camera.y + mousePosition.y && camera.y + mousePosition.y < position.y + size.y)
+			{
+				clickableElem = elements[i];
+				break;
+			}
 		}
-	}
 
 	while(true)
 	{

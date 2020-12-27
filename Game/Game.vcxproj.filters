@@ -88,6 +88,9 @@
     <ClCompile Include="Source\UIManager.cpp">
       <Filter>Game\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Fonts.cpp">
+      <Filter>Game\Modules\Image &amp; Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -203,6 +206,9 @@
     </ClInclude>
     <ClInclude Include="Source\ElemType.h">
       <Filter>Game\UI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Fonts.h">
+      <Filter>Game\Modules\Image &amp; Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

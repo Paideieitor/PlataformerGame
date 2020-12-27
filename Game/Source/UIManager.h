@@ -14,6 +14,7 @@ class Entity;
 class Observer;
 
 struct SDL_Texture;
+struct Font;
 
 class UIManager : public Module
 {
@@ -41,6 +42,7 @@ public:
 	void DeleteElement(Element* element);
 
 	SDL_Texture* uiTexture = nullptr;
+	Font* buttonFont = nullptr;
 
 private:
 

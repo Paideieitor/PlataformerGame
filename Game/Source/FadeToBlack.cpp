@@ -53,7 +53,7 @@ bool FadeToBlack::Update(float dt)
 		}
 	}
 
-	app->render->SetRectangleEvent(10, {0,0}, {app->render->camera.w, app->render->camera.h}, 0, 0, 0, timer * 255, false);
+	app->render->SetRectangleEvent(1000, {0,0}, {app->render->camera.w, app->render->camera.h}, 0, 0, 0, timer * 255, false);
 
 	return true;
 }

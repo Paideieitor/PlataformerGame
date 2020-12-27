@@ -23,9 +23,15 @@ public:
 
 	bool CleanUp();
 
+	void UIEvent(Element*);
+
 private:
 
-	Button* button = nullptr;
+	bool change;
+
+	Button* playButton = nullptr;
+	Button* optionsButton = nullptr;
+	Button* quitButton = nullptr;
 
 	SDL_Texture* bern = nullptr;
 };

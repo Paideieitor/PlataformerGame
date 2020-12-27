@@ -13,6 +13,7 @@
 #include "Map.h"
 #include "Collisions.h"
 #include "UIManager.h"
+#include "Fonts.h"
 #include "Pathfinding.h"
 
 #include "Defs.h"
@@ -62,6 +63,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	map = new Map();
 	collisions = new Collisions();
 	ui = new UIManager();
+	fonts = new Fonts();
 
 	paths = Pathfinding::GetInstance();
 
@@ -77,6 +79,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(mainmenu, false);
 	AddModule(dungeonscene, false);
 	AddModule(winscene, false);
+	AddModule(fonts);
 	AddModule(ui);
 	AddModule(collisions);
 	AddModule(entitymanager);
