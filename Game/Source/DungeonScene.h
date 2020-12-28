@@ -38,7 +38,7 @@ public:
 
 	bool CleanUp();
 
-	void UIEvent(Element*);
+	void UIEvent(Element*, ElementData&);
 
 	void IterateCheckpoint();
 	void RespawnPlayer();

@@ -11,8 +11,8 @@
 
 #define BUTTON_PRESS_COLDOWN 0.2f
 
-Button::Button(const char* name, fPoint position, iPoint size, Observer* observer)
-	: Element(name, ElemType::BUTTON, position, { 105,28 }, observer), clicked(false)
+Button::Button(const char* name, fPoint position, iPoint size, Observer* observer, int renderLayer)
+	: Element(name, ElemType::BUTTON, position, { 105,28 }, observer, renderLayer), clicked(false)
 {
 	label = app->tex->Load(app->ui->buttonFont, name, labelSize);
 
@@ -59,7 +59,7 @@ bool Button::Update(float dt, bool clickable)
 			clicked = false;
 		else if(app->input->GetMouseButtonDown(1) == KEY_UP)
 		{
-			observer->Callback(this);
+			observer->Callback(this, ElementData());
 			clicked = false;
 		}
 	}
@@ -88,14 +88,25 @@ bool Button::Update(float dt, bool clickable)
 		break;
 	case Element::DISABLED:
 		currentAnimation = disabled;
+		if(pressedColdown)
+		{
+			delete pressedColdown;
+			pressedColdown = nullptr;
+		}
 		break;
 	}
 
-	app->render->SetTextureEvent(20, texture, GetDrawPosition(), currentAnimation->GetFrame(dt), false, false);
-	app->render->SetTextureEvent(20, label, GetDrawPosition(&labelSize), { 0,0,labelSize.x, labelSize.y }, false, false);
+	app->render->SetTextureEvent(layer, texture, GetDrawPosition(), currentAnimation->GetFrame(dt), false, false);
+	app->render->SetTextureEvent(layer, label, GetDrawPosition(&labelSize), { 0,0,labelSize.x, labelSize.y }, false, false);
 	if(app->uiDebug)
 		app->render->SetRectangleEvent(20, GetDrawPosition(), size, 255, 100, 100, 50, false);
 
 
 	return true;
+}
+
+void Button::Rename(char* newName)
+{
+	app->tex->UnLoad(label);
+	label = app->tex->Load(app->ui->buttonFont, newName, labelSize);
 }

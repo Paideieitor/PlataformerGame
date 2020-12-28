@@ -110,3 +110,14 @@ uint Window::GetScale() const
 {
 	return scale;
 }
+
+void Window::SetScreen(bool fullscreen, bool windowed)
+{
+	Uint32 flags = 0;
+	if(fullscreen)
+		flags |= SDL_WINDOW_FULLSCREEN;
+	if(windowed)
+		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+
+	SDL_SetWindowFullscreen(window, flags);
+}

@@ -13,6 +13,8 @@ class Animation;
 class Player;
 class Element;
 
+struct ElementData;
+
 enum class EntityType
 {
 	ENTITY,
@@ -35,7 +37,7 @@ public:
 
 	virtual void Collision(Collider* c1, Collider* c2);
 
-	virtual void UIEvent(Element*);
+	virtual void UIEvent(Element*, ElementData&);
 
 	bool toDelete;
 	bool toRemove;

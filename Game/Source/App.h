@@ -25,6 +25,8 @@ class Map;
 class Collisions;
 class UIManager;
 class Fonts;
+class Options;
+class Pause;
 
 //Utility
 class Pathfinding;
@@ -106,6 +108,8 @@ public:
 	Collisions* collisions = nullptr;
 	UIManager* ui = nullptr;
 	Fonts* fonts = nullptr;
+	Options* options = nullptr;
+	Pause* pause = nullptr;
 
 	//Utility
 	Pathfinding* paths = nullptr;

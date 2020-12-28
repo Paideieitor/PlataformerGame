@@ -92,6 +92,7 @@
     <ClCompile Include="Source\Animation.cpp" />
     <ClCompile Include="Source\Bat.cpp" />
     <ClCompile Include="Source\Button.cpp" />
+    <ClCompile Include="Source\CicleButton.cpp" />
     <ClCompile Include="Source\Collisions.cpp" />
     <ClCompile Include="Source\DungeonScene.cpp" />
     <ClCompile Include="Source\Element.cpp" />
@@ -106,7 +107,9 @@
     <ClCompile Include="Source\Input.cpp" />
     <ClCompile Include="Source\MainMenu.cpp" />
     <ClCompile Include="Source\Map.cpp" />
+    <ClCompile Include="Source\Options.cpp" />
     <ClCompile Include="Source\Pathfinding.cpp" />
+    <ClCompile Include="Source\Pause.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\LogoScene.cpp" />
     <ClCompile Include="Source\Render.cpp" />
@@ -121,6 +124,7 @@
     <ClInclude Include="Source\Bat.h" />
     <ClInclude Include="Source\Button.h" />
     <ClInclude Include="Source\Checkpoints.h" />
+    <ClInclude Include="Source\CicleButton.h" />
     <ClInclude Include="Source\Collider.h" />
     <ClInclude Include="Source\Collisions.h" />
     <ClInclude Include="Source\DungeonScene.h" />
@@ -138,7 +142,9 @@
     <ClInclude Include="Source\Input.h" />
     <ClInclude Include="Source\App.h" />
     <ClInclude Include="Source\Module.h" />
+    <ClInclude Include="Source\Options.h" />
     <ClInclude Include="Source\Pathfinding.h" />
+    <ClInclude Include="Source\Pause.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Render.h" />
     <ClInclude Include="Source\Shuriken.h" />

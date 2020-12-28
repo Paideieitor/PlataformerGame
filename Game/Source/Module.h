@@ -13,6 +13,8 @@ using namespace std;
 class App;
 class Element;
 
+struct ElementData;
+
 class Module
 {
 public:
@@ -79,7 +81,7 @@ public:
 		return true;
 	}
 
-	virtual void UIEvent(Element*) {}
+	virtual void UIEvent(Element*, ElementData&) {}
 
 public:
 

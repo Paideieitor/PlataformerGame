@@ -4,7 +4,6 @@
 #include "Render.h"
 #include "Input.h"
 #include "FadeToBlack.h"
-#include "MainMenu.h"
 #include "WinScene.h"
 #include "LoseScene.h"
 #include "EntityManager.h"
@@ -13,6 +12,8 @@
 #include "Map.h"
 #include "Collisions.h"
 #include "Checkpoints.h"
+#include "Options.h"
+#include "Pause.h"
 #include "DungeonScene.h"
 
 #include "Defs.h"
@@ -88,25 +89,27 @@ bool DungeonScene::PreUpdate()
 
 bool DungeonScene::Update(float dt)
 {
-	if(iterate || app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+	if(dt != 0)
 	{
-		iterate = false;
-		IterateCheckpoint();
+		if(iterate || app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+		{
+			iterate = false;
+			IterateCheckpoint();
+		}
+
+		if(app->startCurrentLevel)
+		{
+			app->startCurrentLevel = false;
+			ResetCheckpoint();
+			RespawnPlayer();
+		}
+
+		if(app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+			ResetCheckpoint();
+
+		if(app->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+			RespawnPlayer();
 	}
-
-	if(app->startCurrentLevel)
-	{
-		app->startCurrentLevel = false;
-		ResetCheckpoint();
-		RespawnPlayer();
-	}
-
-	if(app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
-		ResetCheckpoint();
-
-	if(app->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
-		RespawnPlayer();
-
 	app->map->DrawMap();
 
 	return true;
@@ -126,10 +129,12 @@ bool DungeonScene::PostUpdate()
 		currentLevel = 2;
 		app->fade->ChangeScene(this, this);
 	}
-	if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	if(!app->options->active && app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 	{
-		app->toSave = true;
-		app->fade->ChangeScene(this, app->mainmenu);
+		if(!app->pause->active)
+			app->pause->Activate();
+		else
+			app->pause->Deactivate();
 	}
 
 	return true;
@@ -307,7 +312,7 @@ bool DungeonScene::CleanUp()
 	return true;
 }
 
-void DungeonScene::UIEvent(Element* element)
+void DungeonScene::UIEvent(Element* element, ElementData&)
 {
 }
 

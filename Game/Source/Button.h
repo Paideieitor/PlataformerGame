@@ -10,10 +10,12 @@ class Button : public Element
 {
 public:
 
-	Button(const char* name, fPoint position, iPoint size, Observer* observer);
+	Button(const char* name, fPoint position, iPoint size, Observer* observer, int renderLayer);
 	~Button();
 
 	bool Update(float dt, bool clickable);
+
+	void Rename(char* newName);
 
 private:
 

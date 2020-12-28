@@ -25,6 +25,8 @@ public:
 	// Retrieve window scale
 	uint GetScale() const;
 
+	void SetScreen(bool fullscreen, bool windowed);
+
 public:
 	// The window we'll be rendering to
 	SDL_Window* window = nullptr;

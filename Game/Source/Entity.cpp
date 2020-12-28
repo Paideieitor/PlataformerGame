@@ -27,7 +27,7 @@ void Entity::Collision(Collider* c1, Collider* c2)
 
 }
 
-void Entity::UIEvent(Element* element)
+void Entity::UIEvent(Element* element, ElementData&)
 {
 }
 

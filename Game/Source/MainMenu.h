@@ -23,7 +23,7 @@ public:
 
 	bool CleanUp();
 
-	void UIEvent(Element*);
+	void UIEvent(Element*, ElementData&);
 
 private:
 

@@ -5,6 +5,7 @@ enum class ElemType
 {
 	NONE = 0,
 	BUTTON,
+	CICLE_BUTTON,
 	SLIDER,
 	INPUT_BOX,
 	TEXT

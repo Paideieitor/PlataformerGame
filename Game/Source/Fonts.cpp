@@ -8,7 +8,6 @@ Font::Font(char* buffer, TTF_Font* font)
 
 Font::~Font()
 {
-	delete buffer;
 	TTF_CloseFont(font);
 }
 
@@ -53,7 +52,7 @@ bool Fonts::CleanUp()
 
 Font* Fonts::LoadFont(const char* path, int size)
 {
-	char* buffer;
+	char* buffer = nullptr;
 	TTF_Font* font = TTF_OpenFont(path, size);
 
 	if (!font)

@@ -14,6 +14,9 @@
 #include "Collisions.h"
 #include "UIManager.h"
 #include "Fonts.h"
+#include "Options.h"
+#include "Pause.h"
+
 #include "Pathfinding.h"
 
 #include "Defs.h"
@@ -64,6 +67,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	collisions = new Collisions();
 	ui = new UIManager();
 	fonts = new Fonts();
+	options = new Options();
+	pause = new Pause();
 
 	paths = Pathfinding::GetInstance();
 
@@ -74,13 +79,15 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(map);
+	AddModule(fonts);
+	AddModule(ui);
 	AddModule(fade, false);
 	AddModule(logo, true);
 	AddModule(mainmenu, false);
 	AddModule(dungeonscene, false);
 	AddModule(winscene, false);
-	AddModule(fonts);
-	AddModule(ui);
+	AddModule(options, false);
+	AddModule(pause, false);
 	AddModule(collisions);
 	AddModule(entitymanager);
 	// render last to swap buffer
@@ -362,7 +369,13 @@ bool App::DoUpdate()
 		if(pModule->active == false)
 			continue;
 
-		if(!pModule->Update(dt))
+		bool output = false;
+		if(!pause->active)
+			output = pModule->Update(dt);
+		else
+			output = pModule->Update(0.0f);
+
+		if(!output)
 		{
 			LOG("Update Error in %s", pModule->name.c_str());
 			return false;

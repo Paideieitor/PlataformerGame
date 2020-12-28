@@ -29,24 +29,24 @@ Observer::~Observer()
 {
 }
 
-void Observer::Callback(Element* element)
+void Observer::Callback(Element* element, ElementData data)
 {
 	switch(type)
 	{
 	case MODULE:
-		module->UIEvent(element);
+		module->UIEvent(element, data);
 		break;
 	case ENTITY:
-		entity->UIEvent(element);
+		entity->UIEvent(element, data);
 		break;
 	case ELEMENT:
-		this->element->UIEvent(element);
+		this->element->UIEvent(element, data);
 		break;
 	}
 }
 
-Element::Element(const char* name, ElemType type, fPoint position, iPoint size, Observer* observer)
-	: name(name), type(type), position(position), size(size), observer(observer), texture(app->ui->uiTexture)
+Element::Element(const char* name, ElemType type, fPoint position, iPoint size, Observer* observer, int renderLayer)
+	: name(name), type(type), position(position), size(size), observer(observer), texture(app->ui->uiTexture), layer(renderLayer)
 {
 }
 
@@ -56,8 +56,26 @@ Element::~Element()
 		delete observer;
 }
 
-void Element::UIEvent(Element* element)
+void Element::UIEvent(Element* element, ElementData&)
 {
+}
+
+void Element::Activate()
+{
+	if(!active)
+	{
+		state = State::NORMAL;
+		active = true;
+	}
+}
+
+void Element::Deactivate()
+{
+	if(active)
+	{
+		state = State::DISABLED;
+		active = false;
+	}
 }
 
 void Element::SetPosition(fPoint newPosition) { position = newPosition; }

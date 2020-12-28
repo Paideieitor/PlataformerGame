@@ -13,6 +13,13 @@ struct SDL_Texture;
 
 enum class ElemType;
 
+struct ElementData
+{
+	char* name = nullptr;
+	int current = 0;
+	bool state = false;
+};
+
 class Observer
 {
 public:
@@ -23,7 +30,7 @@ public:
 
 	~Observer();
 
-	void Callback(Element*);
+	void Callback(Element*, ElementData);
 	
 private:
 
@@ -54,13 +61,16 @@ public:
 		DISABLED
 	};
 
-	Element(const char* name, ElemType type, fPoint position, iPoint size, Observer* observer);
+	Element(const char* name, ElemType type, fPoint position, iPoint size, Observer* observer, int renderLayer);
 
 	virtual ~Element();
 
 	virtual bool Update(float dt, bool clickable) = 0;
 
-	virtual void UIEvent(Element*);
+	virtual void UIEvent(Element*, ElementData&);
+
+	void Activate();
+	void Deactivate();
 
 	void SetPosition(fPoint);
 	fPoint GetPosition();
@@ -76,10 +86,13 @@ public:
 protected:
 
 	const char* name;
+	bool active = true;
 
 	fPoint position = { 0.0f,0.0f };
 	iPoint size = { 0,0 };
 	iPoint labelSize = { 0,0 };
+
+	int layer = 0;
 
 	ElemType type = (ElemType)0;
 	State state = NORMAL;

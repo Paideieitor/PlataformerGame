@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "FadeToBlack.h"
 #include "DungeonScene.h"
+#include "Options.h"
 #include "MainMenu.h"
 
 #include "UIManager.h"
@@ -56,14 +57,17 @@ bool MainMenu::PreUpdate()
 
 bool MainMenu::Update(float dt)
 {
-	if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		app->input->quit = true;
-
-	if(app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+	if(!app->options->active)
 	{
-		if(!change)
-			app->toLoad = true;
-		change = true;
+		if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+			app->input->quit = true;
+
+		if(app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		{
+			if(!change)
+				app->toLoad = true;
+			change = true;
+		}
 	}
 
 	app->render->SetTextureEvent(2, bern, { 0,0 });
@@ -80,6 +84,8 @@ bool MainMenu::CleanUp()
 {
 	app->tex->UnLoad(bern);
 
+	if (!active)
+		return true;
 	app->ui->DeleteElement(playButton);
 	app->ui->DeleteElement(optionsButton);
 	app->ui->DeleteElement(quitButton);
@@ -87,7 +93,7 @@ bool MainMenu::CleanUp()
 	return true;
 }
 
-void MainMenu::UIEvent(Element* element)
+void MainMenu::UIEvent(Element* element, ElementData&)
 {
 	if(element == (Element*)playButton)
 	{
@@ -97,5 +103,6 @@ void MainMenu::UIEvent(Element* element)
 	}
 	else if(element == (Element*)quitButton)
 		app->input->quit = true;
-
+	else if(element == (Element*)optionsButton)
+		app->options->Activate();
 }

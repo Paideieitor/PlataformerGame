@@ -91,6 +91,15 @@
     <ClCompile Include="Source\Fonts.cpp">
       <Filter>Game\Modules\Image &amp; Sound</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Options.cpp">
+      <Filter>Game\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Pause.cpp">
+      <Filter>Game\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CicleButton.cpp">
+      <Filter>Game\UI Elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -210,6 +219,15 @@
     <ClInclude Include="Source\Fonts.h">
       <Filter>Game\Modules\Image &amp; Sound</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Options.h">
+      <Filter>Game\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Pause.h">
+      <Filter>Game\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CicleButton.h">
+      <Filter>Game\UI Elements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -244,6 +262,9 @@
     </Filter>
     <Filter Include="Game\UI Elements">
       <UniqueIdentifier>{83b33b27-cd1f-48c8-9d33-3fb05e0876ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Menus">
+      <UniqueIdentifier>{37c1d942-e269-40bf-8c1d-dcbcede79e31}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

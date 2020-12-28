@@ -1,5 +1,7 @@
 #include "App.h"
 #include "Render.h"
+#include "Options.h"
+#include "Pause.h"
 #include "FadeToBlack.h"
 
 FadeToBlack::FadeToBlack()
@@ -33,6 +35,8 @@ bool FadeToBlack::Update(float dt)
 			sceneOut->CleanUp();
 			sceneOut->active = false; 
 			sceneOut = nullptr;
+			app->options->Deactivate();
+			app->pause->Deactivate();
 
 			sceneIn->Start();
 			sceneIn->active = true;

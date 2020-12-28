@@ -71,13 +71,15 @@ bool WinScene::CleanUp()
 {
 	app->tex->UnLoad(win);
 
+	if(!active)
+		return true;
 	app->ui->DeleteElement(mainMenuButton);
 	app->ui->DeleteElement(quitButton);
 
 	return true;
 }
 
-void WinScene::UIEvent(Element* element)
+void WinScene::UIEvent(Element* element, ElementData&)
 {
 	if(element == (Element*)mainMenuButton)
 		app->fade->ChangeScene(this, app->mainmenu);

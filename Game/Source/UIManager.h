@@ -16,6 +16,14 @@ class Observer;
 struct SDL_Texture;
 struct Font;
 
+struct UIData
+{
+	int renderLayer = 20;
+	char** list = nullptr;
+	int size = 0;
+	int selected = 0;
+};
+
 class UIManager : public Module
 {
 public:
@@ -35,9 +43,12 @@ public:
 
 	bool CleanUp();
 
-	Element* CreateElement(ElemType type, const char* name, fPoint position, Element* observer);
-	Element* CreateElement(ElemType type, const char* name, fPoint position, Module* observer);
-	Element* CreateElement(ElemType type, const char* name, fPoint position, Entity* observer);
+	Element* CreateElement(ElemType type, const char* name, fPoint position, Element* observer, UIData data = UIData());
+	Element* CreateElement(ElemType type, const char* name, fPoint position, Module* observer, UIData data = UIData());
+	Element* CreateElement(ElemType type, const char* name, fPoint position, Entity* observer, UIData data = UIData());
+
+	void ActivateAll();
+	void DeactivateAll();
 
 	void DeleteElement(Element* element);
 
@@ -46,7 +57,7 @@ public:
 
 private:
 
-	Element* AddElement(ElemType type, const char* name, fPoint position, Observer* observer);
+	Element* AddElement(ElemType type, const char* name, fPoint position, Observer* observer, UIData data);
 
 	vector<Element*> elements;
 	vector<Element*> buffer;

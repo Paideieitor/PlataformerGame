@@ -7,6 +7,7 @@
 #include "UIManager.h"
 
 #include "Button.h"
+#include "CicleButton.h"
 
 UIManager::UIManager()
 {
@@ -52,8 +53,8 @@ bool UIManager::Update(float dt)
 		{
 			fPoint position = elements[i]->GetDrawPosition();
 			iPoint size = elements[i]->GetSize();
-			if (position.x < camera.x + mousePosition.x && camera.x + mousePosition.x < position.x + size.x &&
-				position.y < camera.y + mousePosition.y && camera.y + mousePosition.y < position.y + size.y)
+			if (position.x < mousePosition.x && mousePosition.x < position.x + size.x &&
+				position.y < mousePosition.y && mousePosition.y < position.y + size.y)
 			{
 				clickableElem = elements[i];
 				break;
@@ -126,10 +127,10 @@ bool UIManager::CleanUp()
 	return true;
 }
 
-Element* UIManager::CreateElement(ElemType type, const char* name, fPoint position, Element* observer)
+Element* UIManager::CreateElement(ElemType type, const char* name, fPoint position, Element* observer, UIData data)
 {
 	Observer* obs = new Observer(observer);
-	Element* output = AddElement(type, name, position, obs);
+	Element* output = AddElement(type, name, position, obs, data);
 
 	if(output)
 		return output;
@@ -138,10 +139,10 @@ Element* UIManager::CreateElement(ElemType type, const char* name, fPoint positi
 	return nullptr;
 }
 
-Element* UIManager::CreateElement(ElemType type, const char* name, fPoint position, Module* observer)
+Element* UIManager::CreateElement(ElemType type, const char* name, fPoint position, Module* observer, UIData data)
 {
 	Observer* obs = new Observer(observer);
-	Element* output = AddElement(type, name, position, obs);
+	Element* output = AddElement(type, name, position, obs, data);
 
 	if(output)
 		return output;
@@ -150,10 +151,10 @@ Element* UIManager::CreateElement(ElemType type, const char* name, fPoint positi
 	return nullptr;
 }
 
-Element* UIManager::CreateElement(ElemType type, const char* name, fPoint position, Entity* observer)
+Element* UIManager::CreateElement(ElemType type, const char* name, fPoint position, Entity* observer, UIData data)
 {
 	Observer* obs = new Observer(observer);
-	Element* output = AddElement(type, name, position, obs);
+	Element* output = AddElement(type, name, position, obs, data);
 
 	if (output)
 		return output;
@@ -162,20 +163,35 @@ Element* UIManager::CreateElement(ElemType type, const char* name, fPoint positi
 	return nullptr;
 }
 
+void UIManager::ActivateAll()
+{
+	for(uint i = 0; i < elements.size(); i++)
+		elements[i]->Activate();
+}
+
+void UIManager::DeactivateAll()
+{
+	for(uint i = 0; i < elements.size(); i++)
+		elements[i]->Deactivate();
+}
+
 void UIManager::DeleteElement(Element* element)
 {
 	element->toDelete = true;
 	element = nullptr;
 }
 
-Element* UIManager::AddElement(ElemType type, const char* name, fPoint position, Observer* observer)
+Element* UIManager::AddElement(ElemType type, const char* name, fPoint position, Observer* observer, UIData data)
 {
 	Element* output = nullptr;
 
 	switch(type)
 	{
 	case ElemType::BUTTON:
-		output = new Button(name, position, { 100, 40 }, observer);
+		output = new Button(name, position, { 100, 40 }, observer, data.renderLayer);
+		break;
+	case ElemType::CICLE_BUTTON:
+		output = new CicleButton(name, data.list, data.size, data.selected, position, observer, data.renderLayer);
 		break;
 	case ElemType::SLIDER:
 		break;
