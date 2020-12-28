@@ -127,6 +127,7 @@ bool App::Awake()
 
 	title = configApp.child("title").child_value();
 	win->SetTitle(title.c_str());
+	capped = configApp.child("fps").attribute("capped").as_bool();
 
 	for(vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{

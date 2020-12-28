@@ -129,6 +129,8 @@ public:
 	bool pathDebug;
 	bool uiDebug;
 
+	bool capped;
+
 private:
 
 	int argc;
@@ -148,7 +150,6 @@ private:
 
 	float dt;
 
-	bool capped;
 	bool vsync;
 
 	Timer timer;

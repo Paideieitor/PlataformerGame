@@ -56,6 +56,11 @@ void Pause::UIEvent(Element* element, ElementData&)
 		app->options->Activate();
 		waiting = true;
 	}
+	else if(element == (Element*)quitButton)
+	{
+		app->toSave = true;
+		app->input->quit = true;
+	}
 }
 
 void Pause::Activate()
@@ -66,9 +71,10 @@ void Pause::Activate()
 
 		app->ui->DeactivateAll();
 
-		optionsButton = (Button*)app->ui->CreateElement(ElemType::BUTTON, "Options", { 192,76 }, this, { 60 });
-		mainMenuButton = (Button*)app->ui->CreateElement(ElemType::BUTTON, "Save and Exit", { 192,108 }, this, { 60 });
-		backButton = (Button*)app->ui->CreateElement(ElemType::BUTTON, "Back", { 192,140 }, this, { 60 });
+		backButton = (Button*)app->ui->CreateElement(ElemType::BUTTON, "Resume", { 192,76 }, this, { 60 });
+		optionsButton = (Button*)app->ui->CreateElement(ElemType::BUTTON, "Settings", { 192,108 }, this, { 60 });
+		mainMenuButton = (Button*)app->ui->CreateElement(ElemType::BUTTON, "Back to Title", { 192,140 }, this, { 60 });
+		quitButton = (Button*)app->ui->CreateElement(ElemType::BUTTON, "Save and Quit", { 192,172 }, this, { 60 });
 	}
 }
 
@@ -81,6 +87,7 @@ void Pause::Deactivate()
 		app->ui->DeleteElement(mainMenuButton);
 		app->ui->DeleteElement(optionsButton);
 		app->ui->DeleteElement(backButton);
+		app->ui->DeleteElement(quitButton);
 
 		app->ui->ActivateAll();
 	}

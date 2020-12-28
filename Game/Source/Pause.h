@@ -25,6 +25,7 @@ private:
 	Button* mainMenuButton = nullptr;
 	Button* optionsButton = nullptr;
 	Button* backButton = nullptr;
+	Button* quitButton = nullptr;
 
 	bool waiting = false;
 };

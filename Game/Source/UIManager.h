@@ -22,6 +22,7 @@ struct UIData
 	char** list = nullptr;
 	int size = 0;
 	int selected = 0;
+	bool checked = false;
 };
 
 class UIManager : public Module

@@ -17,7 +17,7 @@ struct ElementData
 {
 	char* name = nullptr;
 	int current = 0;
-	bool state = false;
+	bool checked = false;
 };
 
 class Observer

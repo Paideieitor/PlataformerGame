@@ -3,6 +3,7 @@
 	<app>
 		<title>Full de Mango Game</title>
 		<organization>UPC</organization>
+		<fps capped="true" />
 	</app>
 	<audio>
 		<volume music="15" fx="25" />

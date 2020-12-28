@@ -29,6 +29,7 @@ private:
 
 	bool change;
 
+	Button* gameButton = nullptr;
 	Button* playButton = nullptr;
 	Button* optionsButton = nullptr;
 	Button* quitButton = nullptr;

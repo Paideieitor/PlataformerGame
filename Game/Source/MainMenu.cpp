@@ -43,9 +43,15 @@ bool MainMenu::Start()
 
 	change = false;
 
-	playButton = (Button*)app->ui->CreateElement(ElemType::BUTTON, "Play", { 192,108 }, this);
-	optionsButton = (Button*)app->ui->CreateElement(ElemType::BUTTON, "Options", { 192,140 }, this);
+	gameButton = (Button*)app->ui->CreateElement(ElemType::BUTTON, "New Game", { 192,76 }, this);
+	playButton = (Button*)app->ui->CreateElement(ElemType::BUTTON, "Continue", { 192,108 }, this);
+	optionsButton = (Button*)app->ui->CreateElement(ElemType::BUTTON, "Settings", { 192,140 }, this);
 	quitButton = (Button*)app->ui->CreateElement(ElemType::BUTTON, "Quit", { 192,172 }, this);
+
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file(app->savePath.c_str());
+	if(!doc.child("save").child("dungeon").child("current") || !doc.child("save").child("dungeon").child("enemies"))
+		playButton->Deactivate();
 
 	return true;
 }
@@ -86,6 +92,7 @@ bool MainMenu::CleanUp()
 
 	if (!active)
 		return true;
+	app->ui->DeleteElement(gameButton);
 	app->ui->DeleteElement(playButton);
 	app->ui->DeleteElement(optionsButton);
 	app->ui->DeleteElement(quitButton);
@@ -105,4 +112,17 @@ void MainMenu::UIEvent(Element* element, ElementData&)
 		app->input->quit = true;
 	else if(element == (Element*)optionsButton)
 		app->options->Activate();
+	if (element == (Element*)gameButton)
+	{
+		if (!change)
+		{
+			pugi::xml_document doc;
+			pugi::xml_parse_result result = doc.load_file(app->savePath.c_str());
+			doc.remove_child("save");
+			doc.save_file(app->savePath.c_str());
+
+			app->toLoad = true;
+		}
+		change = true;
+	}
 }

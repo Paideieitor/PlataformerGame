@@ -5,6 +5,7 @@
 
 class Button;
 class CicleButton;
+class CheckBox;
 
 class Options : public Module
 {
@@ -27,6 +28,9 @@ private:
 
 	CicleButton* window = nullptr;
 	int currentWindowOption = 0;
+	CheckBox* borderless = nullptr;
+	bool border = false;
+	CheckBox* capFPS = nullptr;
 	Button* backButton = nullptr;
 };
 

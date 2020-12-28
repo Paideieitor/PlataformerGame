@@ -26,6 +26,7 @@ public:
 	uint GetScale() const;
 
 	void SetScreen(bool fullscreen, bool windowed);
+	void SetScreen(bool borderless);
 
 public:
 	// The window we'll be rendering to
