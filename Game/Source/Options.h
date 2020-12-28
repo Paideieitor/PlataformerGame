@@ -6,6 +6,7 @@
 class Button;
 class CicleButton;
 class CheckBox;
+class SliderBar;
 
 class Options : public Module
 {
@@ -31,6 +32,8 @@ private:
 	CheckBox* borderless = nullptr;
 	bool border = false;
 	CheckBox* capFPS = nullptr;
+	SliderBar* fxVolume = nullptr;
+	SliderBar* musicVolume = nullptr;
 	Button* backButton = nullptr;
 };
 

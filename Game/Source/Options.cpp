@@ -1,5 +1,6 @@
 #include "App.h"
 #include "Input.h"
+#include "Audio.h"
 #include "Window.h"
 #include "Render.h"
 #include "Options.h"
@@ -8,6 +9,7 @@
 #include "Button.h"
 #include "CicleButton.h"
 #include "CheckBox.h"
+#include "SliderBar.h"
 
 Options::Options()
 {
@@ -90,6 +92,10 @@ void Options::UIEvent(Element* element, ElementData& data)
 		app->capped = data.checked;
 		node.child("app").child("fps").attribute("capped").set_value(app->capped);
 	}
+	else if(element == (Element*)fxVolume)
+		app->audio->SetFxVolume(data.current);
+	else if(element == (Element*)musicVolume)
+		app->audio->SetMusicVolume(data.current);
 
 	doc->save_file(app->configPath.c_str());
 }
@@ -111,10 +117,13 @@ void Options::Activate()
 		list[2] = "Fullscreen";
 		if (currentWindowOption < 0 || currentWindowOption >= size)
 			currentWindowOption = 0;
-		window = (CicleButton*)app->ui->CreateElement(ElemType::CICLE_BUTTON, "Window", { 192,50 }, this, { 80, list, size, currentWindowOption });
+		window = (CicleButton*)app->ui->CreateElement(ElemType::CICLE_BUTTON, "Window", { 192,70 }, this, { 80, list, size, currentWindowOption });
 
-		borderless = (CheckBox*)app->ui->CreateElement(ElemType::CHECK_BOX, "Borderless", { 192,108 }, this, { 80, nullptr, 0, 0, border });
-		capFPS = (CheckBox*)app->ui->CreateElement(ElemType::CHECK_BOX, "Cap FPS", { 300,108 }, this, { 80, nullptr, 0, 0, app->capped });
+		borderless = (CheckBox*)app->ui->CreateElement(ElemType::CHECK_BOX, "Borderless", { 192,128 }, this, { 80, nullptr, 0, 0, border });
+		capFPS = (CheckBox*)app->ui->CreateElement(ElemType::CHECK_BOX, "Cap FPS", { 300,128 }, this, { 80, nullptr, 0, 0, app->capped });
+
+		fxVolume = (SliderBar*)app->ui->CreateElement(ElemType::SLIDER, "Fx", { 200,20 }, this, { 80, nullptr, app->audio->GetFxVolume() });
+		musicVolume = (SliderBar*)app->ui->CreateElement(ElemType::SLIDER, "Music", { 200,50 }, this, { 80, nullptr, app->audio->GetMusicVolume() });
 	}
 }
 
@@ -128,6 +137,8 @@ void Options::Deactivate()
 		app->ui->DeleteElement(window);
 		app->ui->DeleteElement(borderless);
 		app->ui->DeleteElement(capFPS);
+		app->ui->DeleteElement(fxVolume);
+		app->ui->DeleteElement(musicVolume);
 
 		app->ui->ActivateAll();
 	}

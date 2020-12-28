@@ -103,6 +103,9 @@
     <ClCompile Include="Source\CheckBox.cpp">
       <Filter>Game\UI Elements</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SliderBar.cpp">
+      <Filter>Game\UI Elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -232,6 +235,9 @@
       <Filter>Game\UI Elements</Filter>
     </ClInclude>
     <ClInclude Include="Source\CheckBox.h">
+      <Filter>Game\UI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SliderBar.h">
       <Filter>Game\UI Elements</Filter>
     </ClInclude>
   </ItemGroup>

@@ -21,6 +21,10 @@ private:
 
 	bool clicked;
 	Timer* pressedColdown = nullptr;
+
+	bool slider = false;
+
+	friend class SliderBar;
 };
 
 #endif //__BUTTON_H__

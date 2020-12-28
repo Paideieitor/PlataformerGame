@@ -57,7 +57,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowIncludes>false</ShowIncludes>
       <AdditionalIncludeDirectories>$(ProjectDir)\Source\External\PugiXml\src;$(ProjectDir)\Source\External\SDL\include;$(ProjectDir)\Source\External\SDL_image\include;$(ProjectDir)\Source\External\SDL_mixer\include;$(ProjectDir)\Source\External\SDL_ttf\include</AdditionalIncludeDirectories>
     </ClCompile>
@@ -77,7 +77,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <UseFullPaths>false</UseFullPaths>
       <ShowIncludes>false</ShowIncludes>
-      <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)\Source\External\PugiXml\src;$(ProjectDir)\Source\External\SDL\include;$(ProjectDir)\Source\External\SDL_image\include;$(ProjectDir)\Source\External\SDL_mixer\include;$(ProjectDir)\Source\External\SDL_ttf\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -115,6 +115,7 @@
     <ClCompile Include="Source\LogoScene.cpp" />
     <ClCompile Include="Source\Render.cpp" />
     <ClCompile Include="Source\Shuriken.cpp" />
+    <ClCompile Include="Source\SliderBar.cpp" />
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\FadeToBlack.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Render.h" />
     <ClInclude Include="Source\Shuriken.h" />
+    <ClInclude Include="Source\SliderBar.h" />
     <ClInclude Include="Source\Textures.h" />
     <ClInclude Include="Source\FadeToBlack.h" />
     <ClInclude Include="Source\Timer.h" />

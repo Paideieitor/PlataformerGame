@@ -9,6 +9,7 @@
 #include "Button.h"
 #include "CicleButton.h"
 #include "CheckBox.h"
+#include "SliderBar.h"
 
 UIManager::UIManager()
 {
@@ -198,6 +199,7 @@ Element* UIManager::AddElement(ElemType type, const char* name, fPoint position,
 		output = new CheckBox(name, position, data.checked, observer, data.renderLayer);
 		break;
 	case ElemType::SLIDER:
+		output = new SliderBar(name, data.size, position, observer, data.renderLayer);
 		break;
 	case ElemType::INPUT_BOX:
 		break;

@@ -55,12 +55,14 @@ bool Button::Update(float dt, bool clickable)
 	}
 	if(clicked)
 	{
-		if(!clickable)
+		if(!clickable && !slider)
 			clicked = false;
 		else if(app->input->GetMouseButtonDown(1) == KEY_UP)
 		{
 			observer->Callback(this, ElementData());
 			clicked = false;
+			if (slider)
+				state = NORMAL;
 		}
 	}
 
@@ -74,7 +76,7 @@ bool Button::Update(float dt, bool clickable)
 		break;
 	case Element::PRESSED:
 		currentAnimation = pressed;
-		if(!pressedColdown && !clicked)
+		if(!pressedColdown && !clicked && !slider)
 		{
 			pressedColdown = new Timer();
 			pressedColdown->Start();
@@ -97,9 +99,10 @@ bool Button::Update(float dt, bool clickable)
 	}
 
 	app->render->SetTextureEvent(layer, texture, GetDrawPosition(), currentAnimation->GetFrame(dt), false, false);
-	app->render->SetTextureEvent(layer, label, GetDrawPosition(&labelSize), { 0,0,labelSize.x, labelSize.y }, false, false);
+	if(!slider)
+		app->render->SetTextureEvent(layer, label, GetDrawPosition(&labelSize), { 0,0,labelSize.x, labelSize.y }, false, false);
 	if(app->uiDebug)
-		app->render->SetRectangleEvent(20, GetDrawPosition(), size, 255, 100, 100, 50, false);
+		app->render->SetRectangleEvent(1000, GetDrawPosition(), size, 255, 100, 100, 50, false);
 
 
 	return true;
