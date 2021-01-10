@@ -13,6 +13,7 @@
 	<dungeon>
 		<current level="1" checkpoint="0" />
 	</dungeon>
+	<winscene />
 	<options />
 	<pause />
 	<collisions />

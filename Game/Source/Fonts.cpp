@@ -39,7 +39,7 @@ bool Fonts::Update(float dt)
 
 bool Fonts::CleanUp()
 {
-	while (fonts.size() != 0)
+	while(fonts.size() != 0)
 	{
 		delete* fonts.begin();
 		fonts.erase(fonts.begin());
@@ -55,7 +55,7 @@ Font* Fonts::LoadFont(const char* path, int size)
 	char* buffer = nullptr;
 	TTF_Font* font = TTF_OpenFont(path, size);
 
-	if (!font)
+	if(!font)
 	{
 		cout << "Loading font -> Bad Thing, Error in " << path << " -> " << SDL_GetError() << endl;
 		return nullptr;

@@ -5,7 +5,7 @@ class Timer
 {
 public:
 
-	Timer();
+	Timer(int offset = 0);
 	~Timer();
 
 	void Start();
@@ -13,7 +13,13 @@ public:
 	int Read();
 	float ReadSec();
 
+	void Pause();
+	void Play();
+
+private:
+
 	int start;
+	int pausedAt;
 };
 
 #endif

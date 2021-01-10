@@ -16,6 +16,7 @@
 #include "Pause.h"
 #include "DungeonScene.h"
 
+#include "Timer.h"
 #include "Defs.h"
 #include "Log.h"
 
@@ -31,7 +32,10 @@ DungeonScene::DungeonScene() : Module()
 
 DungeonScene::~DungeonScene()
 {
+	delete[] savedTimers;
 
+	if (timerText)
+		app->tex->UnLoad(timerText);
 }
 
 bool DungeonScene::Awake(pugi::xml_node& node)
@@ -51,6 +55,9 @@ bool DungeonScene::Awake(pugi::xml_node& node)
 	levels = node.child("levels").attribute("amount").as_int();
 	currentLevel = 1;
 	currentCheckpoint = 0;
+
+	savedTimers = new uint[levels];
+	memset(savedTimers, 0, sizeof(uint) * levels);
 
 	return true;
 }
@@ -79,6 +86,8 @@ bool DungeonScene::Start()
 
 	app->render->SetBackgroundColor({ 31,31,31,255 });
 
+	gameTimer = new Timer(savedTimers[currentLevel - 1]);
+
 	return true;
 }
 
@@ -89,8 +98,16 @@ bool DungeonScene::PreUpdate()
 
 bool DungeonScene::Update(float dt)
 {
+	if(timerText)
+		app->tex->UnLoad(timerText);
+	char* timer = GetMinAndSecFromSec(gameTimer->ReadSec());
+	timerText = app->tex->Load(app->textFont, timer, timerTextSize);
+	delete timer;
+	app->render->SetTextureEvent(1000, timerText, { 0,0 }, { 0,0,timerTextSize.x, timerTextSize.y }, false, false);
+
 	if(dt != 0)
 	{
+		gameTimer->Play();
 		if(iterate || app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 		{
 			iterate = false;
@@ -110,6 +127,9 @@ bool DungeonScene::Update(float dt)
 		if(app->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 			RespawnPlayer();
 	}
+	else
+		gameTimer->Pause();
+
 	app->map->DrawMap();
 
 	return true;
@@ -164,6 +184,7 @@ bool DungeonScene::Save(pugi::xml_node& node)
 	}
 	
 	node.remove_child("enemies");
+	node.remove_child("timers");
 	dNode.remove_attribute("x");
 	dNode.remove_attribute("y");
 	if (enemies.size() == 0 || notEntities)
@@ -176,6 +197,22 @@ bool DungeonScene::Save(pugi::xml_node& node)
 
 		atr = dNode.append_attribute("y");
 		atr.set_value(player->position.y);
+	}
+
+	dNode = node.append_child("timers");
+	atr = dNode.attribute("size");
+	if (!atr)
+		atr = dNode.append_attribute("size");
+	atr.set_value(levels);
+	for (uint i = 0; i < levels; i++)
+	{
+		pugi::xml_node tNode = dNode.append_child("timer");
+		atr = tNode.append_attribute("start");
+
+		if(i == currentLevel - 1)
+			atr.set_value(gameTimer->Read());
+		else
+			atr.set_value(savedTimers[i]);
 	}
 
 	dNode = node.append_child("enemies");
@@ -259,11 +296,22 @@ bool DungeonScene::Load(pugi::xml_node& node)
 			loadPosition->y = node.child("current").attribute("y").as_float();
 		}
 
-		node = node.child("enemies");
-		if (node)
+		pugi::xml_node tNode = node.child("timers");
+		if (tNode)
+		{
+			int i = 0;
+			for (pugi::xml_node oNode = tNode.child("timer"); oNode != NULL; oNode = oNode.next_sibling("timer"))
+			{
+				savedTimers[i] = oNode.attribute("start").as_uint();
+				i++;
+			}
+		}
+
+		pugi::xml_node eNode = node.child("enemies");
+		if (eNode)
 		{
 			loadedEnemies = new vector<EnemyInfo>;
-			for (pugi::xml_node oNode = node.child("enemy"); oNode != NULL; oNode = oNode.next_sibling("enemy"))
+			for (pugi::xml_node oNode = eNode.child("enemy"); oNode != NULL; oNode = oNode.next_sibling("enemy"))
 			{
 				EnemyInfo enemy;
 
@@ -300,6 +348,7 @@ bool DungeonScene::CleanUp()
 	guardStopChaseSound = NULL;
 
 	delete respawn;
+	delete gameTimer;
 
 	app->entitymanager->CleanUp();
 	app->collisions->CleanUp();
@@ -308,6 +357,7 @@ bool DungeonScene::CleanUp()
 	respawn = nullptr;
 	player = nullptr;
 	checkpoint = nullptr;
+	gameTimer = nullptr;
 
 	return true;
 }
@@ -324,9 +374,14 @@ void DungeonScene::IterateCheckpoint()
 	}
 	else
 	{
+		if(currentLevel <= levels)
+			savedTimers[currentLevel - 1] = gameTimer->Read();
+
 		currentLevel++;
 		if(currentLevel > levels)
 		{
+			app->winscene->SendTimerResults(savedTimers, levels);
+			memset(savedTimers, 0, sizeof(uint) * levels);
 			currentCheckpoint = 0;
 			respawn->Reset();
 			app->fade->ChangeScene(this, app->winscene);

@@ -17,6 +17,10 @@
  - 2 Levels divided in checkpoints
  - Save and load function (EVERYTHING IS SAVED)*almost*
  - All movement is normalized
+ - Entity system
+ - UI with buttons, scrollbars, checkboxes and rotating button
+ - Timer for each level
+ - Time based highest score system 
 
 ## Controls
 
@@ -26,6 +30,7 @@
 	Shift(throw shuriken [1sec coldown])	Enter(skip logo scene and exit menus)			F3(restart current level)
 													F5(save game [save current checkpoint and level])
 													F6(load game [load current checkpoint and level])
+													F7(ui debug info)
 													F8(pathfinding debug info)
 													F9(draw colliders)
 													F10(god mode)

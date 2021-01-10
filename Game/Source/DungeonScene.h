@@ -8,8 +8,10 @@
 
 class WayPoints;
 class Entity;
+class Timer;
 
 struct Collider;
+struct SDL_Texture;
 
 struct EnemyInfo
 {
@@ -53,6 +55,8 @@ public:
 
 	Entity* player = nullptr;
 
+	Timer* gameTimer = nullptr;
+
 private:
 
 	WayPoints* respawn = nullptr;
@@ -71,7 +75,11 @@ private:
 
 	vector<EnemyInfo>* loadedEnemies = nullptr;
 	fPoint* loadPosition = nullptr;
+	uint* savedTimers;
 	bool notEntities;
+
+	SDL_Texture* timerText = nullptr;
+	iPoint timerTextSize;
 };
 
 #endif //__DUNGEONSCENE_H__

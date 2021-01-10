@@ -50,8 +50,11 @@ bool MainMenu::Start()
 
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(app->savePath.c_str());
-	if(!doc.child("save").child("dungeon").child("current") || !doc.child("save").child("dungeon").child("enemies"))
+	if (!doc.child("save").child("dungeon").child("current") || !doc.child("save").child("dungeon").child("enemies"))
+	{
 		playButton->Deactivate();
+		playButton->dontActivate = true;
+	}
 
 	return true;
 }

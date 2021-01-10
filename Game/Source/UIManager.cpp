@@ -168,7 +168,8 @@ Element* UIManager::CreateElement(ElemType type, const char* name, fPoint positi
 void UIManager::ActivateAll()
 {
 	for(uint i = 0; i < elements.size(); i++)
-		elements[i]->Activate();
+		if(!elements[i]->dontActivate)
+			elements[i]->Activate();
 }
 
 void UIManager::DeactivateAll()

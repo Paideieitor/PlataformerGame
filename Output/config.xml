@@ -6,7 +6,7 @@
 		<fps capped="true" />
 	</app>
 	<audio>
-		<volume music="15" fx="25" />
+		<volume music="1" fx="25" />
 	</audio>
 	<render>
 		<vsync value="false" />
@@ -22,4 +22,6 @@
 		<levels amount="2" />
 	</dungeon>
 	<options window="0" />
+	<winscene highestScore="0" size="0">
+	</winscene>
 </config>

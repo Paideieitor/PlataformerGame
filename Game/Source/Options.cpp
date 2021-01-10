@@ -26,7 +26,7 @@ bool Options::Awake(pugi::xml_node& node)
 
 	pugi::xml_node cNode;
 	pugi::xml_document* doc = app->GetConfig(cNode);
-	border = cNode.child("window").attribute("borderless").as_bool();
+	border = cNode.child("window").child("borderless").attribute("value").as_bool();
 
 	return true;
 }
@@ -77,15 +77,13 @@ void Options::UIEvent(Element* element, ElementData& data)
 		app->win->SetScreen(fullscreen, windowed);
 		node.child("window").child("fullscreen").attribute("value").set_value(fullscreen);
 		node.child("window").child("fullscreen_window").attribute("value").set_value(windowed);
-
-
 	}
 	else if (element == (Element*)borderless)
 	{
 		border = data.checked;
 
 		app->win->SetScreen(border);
-		node.child("window").attribute("borderless").set_value(border);
+		node.child("window").child("borderless").attribute("value").set_value(border);
 	}
 	else if(element == (Element*)capFPS)
 	{

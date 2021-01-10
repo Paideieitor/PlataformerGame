@@ -162,6 +162,8 @@ bool App::Start()
 		}
 	}
 
+	textFont = fonts->LoadFont("Assets/Fonts/Overpass/regular.ttf", 16);
+
 	return true;
 }
 

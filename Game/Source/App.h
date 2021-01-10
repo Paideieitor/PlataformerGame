@@ -31,6 +31,8 @@ class Pause;
 //Utility
 class Pathfinding;
 
+struct Font;
+
 class App
 {
 public:
@@ -113,6 +115,7 @@ public:
 
 	//Utility
 	Pathfinding* paths = nullptr;
+	Font* textFont = nullptr;
 
 	// Save & Load
 	string configPath;

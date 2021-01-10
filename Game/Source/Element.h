@@ -82,6 +82,7 @@ public:
 	Element* GetElement();
 
 	bool toDelete = false;
+	bool dontActivate = false;
 
 protected:
 
