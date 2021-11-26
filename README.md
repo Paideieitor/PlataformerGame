@@ -38,11 +38,9 @@
 													Right arrow(advance to next checkpoint)
 													Left arrow(reset checkpoint to the start of the level)
 													
-## Developers
+## Developer
 
- - Quintana Griera, Miquel - [Leukino](https://github.com/Leukino)
  - Rami Rodríguez, David   - [Paideieitor](https://github.com/Paideieitor)
- - Robles Muñoz, Albert    - [Albertito029](https://github.com/Albertito029)
 
 ## License
 
